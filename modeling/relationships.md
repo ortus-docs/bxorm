@@ -30,7 +30,7 @@ property name="Contact"
 A one to many relationship couples a single row on the left side (the "one") to multiple rows on the right side (the "many"):
 
 ```js
-component entityName="User" persistent="true"{
+class entityName="User" persistent="true"{
     property name="posts"
         fieldtype="one-to-many"
         class="Post";
@@ -51,7 +51,7 @@ property name="posts"
 A many to one relationship couples multiple rows on the left side (the "many") to a single row on the right side( the "one"):
 
 ```js
-component entityName="Post" persistent="true"{
+class entityName="Post" persistent="true"{
     property name="Authors"
         fieldtype="many-to-one"
         class="User";
@@ -65,7 +65,7 @@ Thus, a single Post can have only one Author... but an author (or a User, really
 A many to many relationship allows each entity to relate to multiple rows on the opposite side. A good example might be a blog which allows multiple authors for a single blog post. Each blog post can then have multiple authors, and each author has (likely) written multiple blog posts:
 
 ```js
-component entityName="User" persistent="true"{
+class entityName="User" persistent="true"{
     property name="posts"
         fieldtype="many-to-many"
         class="Post"

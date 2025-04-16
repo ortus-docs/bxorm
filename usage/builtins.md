@@ -2,31 +2,30 @@
 
 bx-orm implements a number of built-in-functions (BIFs) for loading and manipulating entities as well as managing the ORM session:
 
-* [Built-In Functions](builtins.md#built-in-functions)
-  * [EntityDelete](builtins.md#entitydelete)
-  * [EntityLoad](builtins.md#entityload)
-  * [EntityLoadByExample](builtins.md#entityloadbyexample)
-  * [EntityLoadByPK](builtins.md#entityloadbypk)
-  * [EntityMerge](builtins.md#entitymerge)
-  * [EntityNameArray](builtins.md#entitynamearray)
-  * [EntityNameList](builtins.md#entitynamelist)
-  * [EntityNew](builtins.md#entitynew)
-  * [EntityReload](builtins.md#entityreload)
-  * [EntitySave](builtins.md#entitysave)
-  * [EntityToQuery](builtins.md#entitytoquery)
-  * [IsValidDatasource](builtins.md#isvaliddatasource)
-  * [ORMClearSession](builtins.md#ormclearsession)
-  * [ORMCloseAllSessions](builtins.md#ormcloseallsessions)
-  * [ORMCloseSession](builtins.md#ormclosesession)
-  * [ORMEvictCollection](builtins.md#ormevictcollection)
-  * [ORMEvictEntity](builtins.md#ormevictentity)
-  * [ORMEvictQueries](builtins.md#ormevictqueries)
-  * [ORMExecuteQuery](builtins.md#ormexecutequery)
-  * [ORMFlush](builtins.md#ormflush)
-  * [ORMGetSession](builtins.md#ormgetsession)
-  * [ORMGetSessionFactory](builtins.md#ormgetsessionfactory)
-  * [ORMQueryExecute](builtins.md#ormqueryexecute)
-  * [ORMReload](builtins.md#ormreload)
+* [EntityDelete](builtins.md#entitydelete)
+* [EntityLoad](builtins.md#entityload)
+* [EntityLoadByExample](builtins.md#entityloadbyexample)
+* [EntityLoadByPK](builtins.md#entityloadbypk)
+* [EntityMerge](builtins.md#entitymerge)
+* [EntityNameArray](builtins.md#entitynamearray)
+* [EntityNameList](builtins.md#entitynamelist)
+* [EntityNew](builtins.md#entitynew)
+* [EntityReload](builtins.md#entityreload)
+* [EntitySave](builtins.md#entitysave)
+* [EntityToQuery](builtins.md#entitytoquery)
+* [IsValidDatasource](builtins.md#isvaliddatasource)
+* [ORMClearSession](builtins.md#ormclearsession)
+* [ORMCloseAllSessions](builtins.md#ormcloseallsessions)
+* [ORMCloseSession](builtins.md#ormclosesession)
+* [ORMEvictCollection](builtins.md#ormevictcollection)
+* [ORMEvictEntity](builtins.md#ormevictentity)
+* [ORMEvictQueries](builtins.md#ormevictqueries)
+* [ORMExecuteQuery](builtins.md#ormexecutequery)
+* [ORMFlush](builtins.md#ormflush)
+* [ORMGetSession](builtins.md#ormgetsession)
+* [ORMGetSessionFactory](builtins.md#ormgetsessionfactory)
+* [ORMQueryExecute](builtins.md#ormqueryexecute)
+* [ORMReload](builtins.md#ormreload)
 
 ## EntityDelete
 
@@ -49,11 +48,11 @@ ormFlush();
 
 ## EntityLoad
 
-**Returns: `Array`|`Component`|`null`**
+**Returns: `Array`|`Class`|`null`**
 
 ## EntityLoadByExample
 
-**Returns: `Array`|`Component`|`null`**
+**Returns: `Array`|`Class`|`null`**
 
 ## EntityLoadByPK
 
@@ -63,7 +62,7 @@ ormFlush();
 var theUser = entityLoadByPk( "User", url.userID );
 ```
 
-**Returns: `Component`|`null`**
+**Returns: `Class`|`null`**
 
 ## EntityMerge
 
@@ -87,7 +86,7 @@ var merged = entityMerge( detachedAutoEntity );
 expect( merged.getModel() ).toBe( "Fusion" );
 ```
 
-**Returns: `Component`**
+**Returns: `Class`**
 
 ## EntityNameArray
 
@@ -145,9 +144,9 @@ var myCar = entityNew( "Auto", {
 } );
 ```
 
-This will throw an error: `component [Auto] has no function with name [setPROPTHATDOESNTEXIST]`
+This will throw an error: `class [Auto] has no function with name [setPROPTHATDOESNTEXIST]`
 
-**Returns: `Component`**
+**Returns: `Class`**
 
 ## EntityReload
 

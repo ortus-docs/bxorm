@@ -9,7 +9,7 @@ description: Easily configure Hibernate with BL
 The ORM can be configured by a struct of settings set in `this.ormSettings` in your main `Application.bx`:
 
 ```js
-component{
+class{
     this.ORMenabled = true;
     this.ormSettings = {
         // << Here Be ORM Configuration! 🤪 >>

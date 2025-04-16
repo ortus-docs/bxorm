@@ -159,7 +159,7 @@ Here's the full list of available annotations for a persistent class:
             <td><code>cacheUse</code></td>
             <td><code>string</code></td>
             <td></td>
-            <td>Specify the caching strategy to be used for caching this component's data in the secondary cache:
+            <td>Specify the caching strategy to be used for caching this entity's data in the secondary cache:
                 <code>read-only</code></td>
         </tr>
         <tr>

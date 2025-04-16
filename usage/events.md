@@ -50,9 +50,9 @@ Currently, the available event names are:
 Here's an example of an EventHandler configured for all events:
 
 ```js
-component {
+class {
 
-	public component function init(){
+	public class function init(){
 		return this;
 	}
 
@@ -108,10 +108,10 @@ component {
 
 ## Entity Event Handler
 
-You can also listen to events on a specific entity at the entity level by adding methods to the entity (component) itself:
+You can also listen to events on a specific entity at the entity level by adding methods to the entity (class) itself:
 
 ```js
-component persistent="true"{
+class persistent="true"{
 	function preInsert( entity ){
 		setDateCreated( now() );
 	}
