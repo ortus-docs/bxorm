@@ -22,7 +22,7 @@ property name="id"
 
 ### Assigned Generator
 
-The Assigned generator is the default identifier generator type, and simply allows the application (your CFML) to assign identifier values prior to insertion. You can think of this as `generator=none`.
+The Assigned generator is the default identifier generator type, and simply allows the application (your BL) to assign identifier values prior to insertion. You can think of this as `generator=none`.
 
 > lets the application assign an identifier to the object before save() is called. This is the default strategy if no element is specified. - [_Hibernate 3.3 mapping reference docs_](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-id-generator)
 

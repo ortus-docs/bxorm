@@ -69,15 +69,15 @@ We highly recommend adding a cache configuration for each cacheable entity. This
 WARN: HHH90001006: Missing cache[default-update-timestamps-region] was created on-the-fly. The created cache will use a provider-specific default configuration: make sure you defined one. You can disable this warning by setting 'hibernate.cache.ehcache.missing_cache_strategy' to 'create'
 ```
 
-Here's a quick example. Say we have an `Autos.cfc` persistent component with caching enabled:
+Here's a quick example. Say we have an `Autos.bx` persistent class with caching enabled:
 
 ```js
-component persistent="true" cacheUse="true"{
+class persistent="true" cacheUse="true"{
     // persistent properties...
 }
 ```
 
-For this entity, we'll want to create a `<cache></cache>` entry with a `name` attribute that matches the entity name OR our `cacheName` component annotation:
+For this entity, we'll want to create a `<cache></cache>` entry with a `name` attribute that matches the entity name OR our `cacheName` class annotation:
 
 ```xml
 <cache

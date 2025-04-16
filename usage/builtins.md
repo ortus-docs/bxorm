@@ -1,6 +1,6 @@
 # Built-In Functions
 
-bx-orm implements a number of CFML functions for loading and manipulating entities as well as managing the ORM session:
+bx-orm implements a number of built-in-functions (BIFs) for loading and manipulating entities as well as managing the ORM session:
 
 * [Built-In Functions](builtins.md#built-in-functions)
   * [EntityDelete](builtins.md#entitydelete)
@@ -93,7 +93,7 @@ expect( merged.getModel() ).toBe( "Fusion" );
 
 ## EntityNameArray
 
-`EntityNameArray()` returns an array of all mapped entity names for the CFML application:
+`EntityNameArray()` returns an array of all mapped entity names for the boxlang application:
 
 ```js
 var entityTypes = entityNameArray();
@@ -105,7 +105,7 @@ EntityNameArray accepts no arguments.
 
 ## EntityNameList
 
-True to its name, EntityNameList returns a string list of all mapped entity names for the CFML application:
+True to its name, EntityNameList returns a string list of all mapped entity names for the boxlang application:
 
 ```js
 var entityTypes = entityNameList();

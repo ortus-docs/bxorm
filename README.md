@@ -1,16 +1,17 @@
 ---
 description: >-
-  The Ortus ORM Extension is a native Lucee Extension that allows your CFML
+  The BoxLang ORM module allows your BoxLang
   application to integrate with the powerful Hibernate ORM
 ---
 
 # Introduction
 
-## Ortus ORM Extension
+## BoxLang ORM
 
 <figure><img src=".gitbook/assets/ORMExtension.png" alt=""><figcaption></figcaption></figure>
 
-The [Ortus ORM Extension](https://www.ortussolutions.com/products/orm-extension) is a **native** Lucee Extension that allows your CFML application to integrate with the powerful [Hibernate ORM](https://hibernate.org/orm/). With Hibernate, you can interact with your database records in an object oriented fashion, using components to denote each record and simple getters and setters for each field value:
+The [BoxLang ORM module](https://www.ortussolutions.com/products/orm-extension) allows your BoxLang
+  application to integrate with the powerful [Hibernate ORM](https://hibernate.org/orm/). With Hibernate, you can interact with your database records in an object oriented fashion, using components to denote each record and simple getters and setters for each field value:
 
 ```js
 component entityName="Auto" persistent="true" {
@@ -25,7 +26,7 @@ component entityName="Auto" persistent="true" {
 }
 ```
 
-The Ortus ORM extension also enables transactional persistence, where an error during a save will roll back the entire transaction to prevent leaving the database in a broken state:
+BoxLang ORM also enables transactional persistence, where an error during a save will roll back the entire transaction to prevent leaving the database in a broken state:
 
 ```js
 transaction{
@@ -47,42 +48,24 @@ transaction{
 }
 ```
 
-### Requirements
-
-* Lucee 5.3.9.73 and above
-* Java 8, 11 or 17
-
 ### Hibernate Version Support
 
 #### Extension v6.2+
 
-The Ortus ORM Extension bundles Hibernate `5.6.15.FINAL` since extension version 6.2.0.
-
-* [https://hibernate.org/orm/releases/5.6/](https://hibernate.org/orm/releases/5.6/)
-* [https://docs.jboss.org/hibernate/orm/5.6/userguide/html\_single/Hibernate\_User\_Guide.html](https://docs.jboss.org/hibernate/orm/5.6/userguide/html\_single/Hibernate\_User\_Guide.html)
-* [https://docs.jboss.org/hibernate/orm/5.6/javadocs/](https://docs.jboss.org/hibernate/orm/5.6/javadocs/)
-
-#### Extension v6.1-
-
-Previous versions of the Ortus ORM Extension bundle Hibernate `5.4.29.FINAL`:
-
-* [https://hibernate.org/orm/releases/5.4/](https://hibernate.org/orm/releases/5.4/)
-* [https://docs.jboss.org/hibernate/orm/5.4/userguide/html\_single/Hibernate\_User\_Guide.html](https://docs.jboss.org/hibernate/orm/5.4/userguide/html\_single/Hibernate\_User\_Guide.html)
-* [https://docs.jboss.org/hibernate/orm/5.4/javadocs/](https://docs.jboss.org/hibernate/orm/5.4/javadocs/)
+The Ortus ORM Extension bundles Hibernate `5.6.15.FINAL`.
 
 ### Open Source Product
 
-The Ortus ORM extension is an open source Lucee server extension with no license purchase necessary. If you are looking to further the development of this extension, consider [sponsoring a feature or opening a support contract](./#support).
+The Ortus ORM extension is an open source BoxLang module with no license purchase necessary. If you are looking to further the development of this extension, consider [sponsoring a feature or opening a support contract](./#support).
 
 ### Features In A Nutshell
 
-* Add Object Relational Mapping to any CFML app with Hibernate ORM
-* Use native CFML methods to update and persist entities to the database (`entityNew()`, `entitySave()`, `ormFlush()`, etc.)
+* Add Object Relational Mapping to any boxlang app with Hibernate ORM
+* Use native built-in-functions (BIFs) to update and persist entities to the database (`entityNew()`, `entitySave()`, `ormFlush()`, etc.)
 * Supports 80+ database dialects, from `SQLServer2005` to `MySQL8` and `PostgreSQL`
-* 60% faster startup than the Lucee Hibernate extension
 * Generate your mapping XML once and never again with the `autoGenMap=false` ORM configuration setting
 * React to entity changes with pre and post event listeners such as `onPreInsert()`, `onPreUpdate()` and `onPreDelete()`
-* Over 20 native CFML functions:
+* Over 20 native BIFs:
   * `EntityDelete()`
   * `EntityLoad()`
   * `EntityLoadByExample()`
@@ -104,8 +87,6 @@ The Ortus ORM extension is an open source Lucee server extension with no license
   * `ORMGetSession()`
   * `ORMGetSessionFactory()`
   * `ORMReload()`
-
-See the [extension changelog](https://github.com/Ortus-Solutions/extension-hibernate/blob/master/CHANGELOG.md) for a full list of enhancements and bug fixes.
 
 ### Support
 

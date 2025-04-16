@@ -4,7 +4,7 @@ description: Easily run actions on entity insertion, update, and more with event
 
 # Events
 
-Hibernate ORM allows reacting to various events in the session lifecycle such as `onPreInsert`, `onPostUpdate`, `onFlush`, etc. You can enable event handling in CFML by setting `eventHandling` to `true` in your `this.ormSettings` struct:
+Hibernate ORM allows reacting to various events in the session lifecycle such as `onPreInsert`, `onPostUpdate`, `onFlush`, etc. You can enable event handling in bx-orm by setting `eventHandling` to `true` in your `this.ormSettings` struct:
 
 ```js
 this.ormSettings = {
@@ -24,11 +24,11 @@ To use a global event handler, you must set a path to the global event handler u
 ```js
 this.ormSettings = {
     eventHandling: true,
-    eventHandler : "path/to/global/EventHandler.cfc"
+    eventHandler : "path/to/global/EventHandler.bx"
 };
 ```
 
-The `EventHandler.cfc` must then contain function definitions matching the ORM events you wish to listen for.
+The `EventHandler.bx` must then contain function definitions matching the ORM events you wish to listen for.
 
 Currently, the available event names are:
 

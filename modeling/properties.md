@@ -1,17 +1,17 @@
 # Properties
 
-Entity properties are how we map table columns to CFML object values. You can specify an entity property by setting `persistent="true"` on any `property` inside a persistent CFML component:
+Entity properties are how we map table columns to boxlang object values. You can specify an entity property by setting `persistent="true"` on any `property` inside a persistent boxlang class:
 
 ```js
-component persistent="true"{
+class persistent="true"{
     property name="name" type="string" persistent="true";
 }
 ```
 
-By default, all properties inside a `persistent=true` component are assumed to be persistent as well. Thus, we can skip the `persistent=true` annotation for brevity:
+By default, all properties inside a `persistent=true` class are assumed to be persistent as well. Thus, we can skip the `persistent=true` annotation for brevity:
 
 ```js
-component persistent="true"{
+class persistent="true"{
     property name="name" type="string";
 }
 ```
@@ -22,7 +22,7 @@ component persistent="true"{
 |---------------|-----------|-------------------------------------------------------------------------------------------|
 | `persistent`  | `boolean` | Define this property as a persistent property. If `false`, this property will be completely ignored in Hibernate / the ORM extension. |
 | `name`        | `string`  | Property name                                                                             |
-| `default`     | `string`  | Default value for the property. This only reaches the CFML engine, and *does not affect creation of the entity table.* |
+| `default`     | `string`  | Default value for the property. This only reaches the boxlang engine, and *does not affect creation of the entity table.* |
 | `column`      | `string`  | Table column where the property value is stored.                                          |
 | `dbDefault`   | `string`  | Set the default value for the property.                                                   |
 
@@ -43,7 +43,7 @@ There are several "type" concepts and annotations you may need to use to keep th
 
 | Attribute     | Examples                      | Description                                                                                |
 |---------------|-------------------------------|-------------------------------------------------------------------------------------------|
-| `type`        | `date`,`numeric`              | CFML data type                                                                            |
+| `type`        | `date`,`numeric`              | Boxlang data type                                                                         |
 | `fieldtype`   | `column`,`id`, `one-to-many`  | Denote a special type of field, like an identifier or relationship field.                 |
 | `ormType`     | `big_decimal`,`timestamp`     | Data type for the database value.                                                         |
 | `sqlType`     | `nvarchar`                    | A vendor-specific SQL type used for table creation only. This can normally be ignored.    |

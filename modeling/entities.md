@@ -4,10 +4,10 @@ description: Learn the basics of modeling ORM entities
 
 # Entities
 
-A persistent entity is a CFML component that is marked as a database entity via the `persistent` annotation upon the component definition:
+A persistent entity is a boxlang class that is marked as a database entity via the `persistent` annotation upon the class definition:
 
 ```js
-component persistent="true"{
+class persistent="true"{
 
 }
 ```
@@ -15,7 +15,7 @@ component persistent="true"{
 By default, the entity name will be the CFC file name - minus the file extension, of course. We can modify the entity name via the `entityname` annotation:
 
 ```js
-component persistent="true" entityname="Author" {
+class persistent="true" entityname="Author" {
 
 }
 ```
@@ -23,12 +23,12 @@ component persistent="true" entityname="Author" {
 And the table name via the `table` annotation:
 
 ```js
-component persistent="true" entityname="Author" table="authors" {
+class persistent="true" entityname="Author" table="authors" {
 
 }
 ```
 
-Here's the full list of available annotations for a persistent component:
+Here's the full list of available annotations for a persistent class:
 
 <table data-full-width="true">
     <thead>
@@ -44,7 +44,7 @@ Here's the full list of available annotations for a persistent component:
             <td><code>persistent</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>Mark this component as an ORM entity</td>
+            <td>Mark this class as an ORM entity</td>
         </tr>
         <tr>
             <td><code>entityname</code></td>
