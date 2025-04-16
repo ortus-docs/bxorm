@@ -63,8 +63,6 @@ ormFlush();
 var theUser = entityLoadByPk( "User", url.userID );
 ```
 
-A third argument, `unique`, is documented _but not implemented_ in either the Lucee Hibernate extension or the Ortus ORM Extension.
-
 **Returns: `Component`|`null`**
 
 ## EntityMerge
@@ -252,7 +250,7 @@ Most of the time this will be unnecessary.
 
 Alias for `ORMExecuteQuery()`.
 
-Added in `v6.4.0` (unreleased, version number subject to change.) - [5600833](https://github.com/Ortus-Solutions/extension-hibernate/commit/5600833a78f432dc07618895b65b0f3da46474b1)
+Added in `v6.4.0` (unreleased, version number subject to change.) - [5600833](https://github.com/ortus-boxlang/bx-orm/commit/5600833a78f432dc07618895b65b0f3da46474b1)
 
 **Returns: `Array`|`Struct`|`any`**
 

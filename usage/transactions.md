@@ -1,5 +1,5 @@
 ---
-description: Learn transaction management with the ORM Extension
+description: Learn transaction management with bx-orm
 ---
 
 # Transactions

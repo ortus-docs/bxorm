@@ -1,5 +1,5 @@
 ---
-description: More info on this documentation gitbook for the Ortus ORM Extension
+description: More info on this documentation gitbook for bx-orm
 ---
 
 # About This Book
@@ -12,10 +12,6 @@ You can freely contribute to it and submit pull requests. The contents of this b
 
 * The majority of code examples in this book are done in `cfscript`.
 * The majority of code generation and running of examples are done via **CommandBox**: The ColdFusion (CFML) CLI, Package Manager, REPL - [https://www.ortussolutions.com/products/commandbox](https://www.ortussolutions.com/products/commandbox)​
-
-## External Licensing
-
-Both Lucee Server and Hibernate ORM are licensed under the LGPL v2.1.
 
 ## Notice of Liability <a href="#notice-of-liability" id="notice-of-liability"></a>
 

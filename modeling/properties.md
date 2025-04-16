@@ -20,7 +20,7 @@ class persistent="true"{
 
 | Attribute     | Type      | Description                                                                                |
 |---------------|-----------|-------------------------------------------------------------------------------------------|
-| `persistent`  | `boolean` | Define this property as a persistent property. If `false`, this property will be completely ignored in Hibernate / the ORM extension. |
+| `persistent`  | `boolean` | Define this property as a persistent property. If `false`, this property will be completely ignored from an orm standpoint. |
 | `name`        | `string`  | Property name                                                                             |
 | `default`     | `string`  | Default value for the property. This only reaches the boxlang engine, and *does not affect creation of the entity table.* |
 | `column`      | `string`  | Table column where the property value is stored.                                          |

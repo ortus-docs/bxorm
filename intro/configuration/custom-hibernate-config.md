@@ -1,6 +1,6 @@
 # Custom Hibernate Config
 
-For full Hibernate configuration support, you can point the ORM extension to an XML file containing any configuration properties you wish to configure:
+For full Hibernate configuration support, you can create an XML file containing any configuration properties you wish to configure:
 
 ```js
 this.ormSettings = {

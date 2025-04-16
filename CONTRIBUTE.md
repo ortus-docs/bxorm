@@ -1,7 +1,7 @@
 # Contribute
 
-There are many ways you can contribute to the ORM extension:
+There are many ways you can contribute to bx-orm:
 
-* [Send a PR](https://github.com/Ortus-Solutions/extension-hibernate)
-* [Log an issue](https://ortussolutions.atlassian.net/jira/software/c/projects/OOE/issues)
-* [Sponsor a Feature](https://www.ortussolutions.com/products/orm-extension)
+* [Send a PR](https://github.com/ortus-boxlang/bx-orm)
+* [Log an issue](https://ortussolutions.atlassian.net/browse/BLMODULES)
+* [Sponsor a Feature](https://boxlang.io/plans)

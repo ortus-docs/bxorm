@@ -52,11 +52,11 @@ transaction{
 
 #### Extension v6.2+
 
-The Ortus ORM Extension bundles Hibernate `5.6.15.FINAL`.
+bx-orm bundles Hibernate `5.6.15.FINAL`.
 
 ### Open Source Product
 
-The Ortus ORM extension is an open source BoxLang module with no license purchase necessary. If you are looking to further the development of this extension, consider [sponsoring a feature or opening a support contract](./#support).
+bx-orm is an open source BoxLang module with no license purchase necessary. If you are looking to further the development of this extension, consider [sponsoring a feature or opening a support contract](./#support).
 
 ### Features In A Nutshell
 
@@ -90,8 +90,8 @@ The Ortus ORM extension is an open source BoxLang module with no license purchas
 
 ### Support
 
-Our expertise with Hibernate ORM and Lucee Server allows us to give back to the community, as well as offer premium support to enterprises looking for a level up in their Hibernate implementations. If you need performance optimization, session management or caching integrations, please [contact us for support](https://ortussolutions.atlassian.net/servicedesk/customer/portal/9).
+By launching [BoxLang](https://boxlang.io/) we are able to give back to the community, as well as offer premium support to enterprises looking for a level up in their Hibernate implementations. If you need performance optimization, session management or caching integrations, please [contact us for support](https://ortussolutions.atlassian.net/servicedesk/customer/portal/9).
 
-* Source Code: [https://github.com/Ortus-Solutions/extension-hibernate](https://github.com/Ortus-Solutions/extension-hibernate)
+* Source Code: [github.com/ortus-boxlang/bx-orm](https://github.com/ortus-boxlang/bx-orm)
 * Support Plans: [https://www.ortussolutions.com/services/support](https://www.ortussolutions.com/services/support)
-* Bug Tracker: [https://ortussolutions.atlassian.net/browse/OOE](https://ortussolutions.atlassian.net/browse/OOE)
+* Bug Tracker: [https://ortussolutions.atlassian.net/browse/BLMODULES](https://ortussolutions.atlassian.net/browse/BLMODULES)
