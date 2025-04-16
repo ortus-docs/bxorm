@@ -1,32 +1,32 @@
 # Built-In Functions
 
-The Ortus ORM Extension offers a number of CFML functions for loading and manipulating entities as well as managing the ORM session:
+bx-orm implements a number of CFML functions for loading and manipulating entities as well as managing the ORM session:
 
-* [Built-In Functions](#built-in-functions)
-  * [EntityDelete](#entitydelete)
-  * [EntityLoad](#entityload)
-  * [EntityLoadByExample](#entityloadbyexample)
-  * [EntityLoadByPK](#entityloadbypk)
-  * [EntityMerge](#entitymerge)
-  * [EntityNameArray](#entitynamearray)
-  * [EntityNameList](#entitynamelist)
-  * [EntityNew](#entitynew)
-  * [EntityReload](#entityreload)
-  * [EntitySave](#entitysave)
-  * [EntityToQuery](#entitytoquery)
-  * [IsValidDatasource](#isvaliddatasource)
-  * [ORMClearSession](#ormclearsession)
-  * [ORMCloseAllSessions](#ormcloseallsessions)
-  * [ORMCloseSession](#ormclosesession)
-  * [ORMEvictCollection](#ormevictcollection)
-  * [ORMEvictEntity](#ormevictentity)
-  * [ORMEvictQueries](#ormevictqueries)
-  * [ORMExecuteQuery](#ormexecutequery)
-  * [ORMFlush](#ormflush)
-  * [ORMGetSession](#ormgetsession)
-  * [ORMGetSessionFactory](#ormgetsessionfactory)
-  * [ORMQueryExecute](#ormqueryexecute)
-  * [ORMReload](#ormreload)
+* [Built-In Functions](builtins.md#built-in-functions)
+  * [EntityDelete](builtins.md#entitydelete)
+  * [EntityLoad](builtins.md#entityload)
+  * [EntityLoadByExample](builtins.md#entityloadbyexample)
+  * [EntityLoadByPK](builtins.md#entityloadbypk)
+  * [EntityMerge](builtins.md#entitymerge)
+  * [EntityNameArray](builtins.md#entitynamearray)
+  * [EntityNameList](builtins.md#entitynamelist)
+  * [EntityNew](builtins.md#entitynew)
+  * [EntityReload](builtins.md#entityreload)
+  * [EntitySave](builtins.md#entitysave)
+  * [EntityToQuery](builtins.md#entitytoquery)
+  * [IsValidDatasource](builtins.md#isvaliddatasource)
+  * [ORMClearSession](builtins.md#ormclearsession)
+  * [ORMCloseAllSessions](builtins.md#ormcloseallsessions)
+  * [ORMCloseSession](builtins.md#ormclosesession)
+  * [ORMEvictCollection](builtins.md#ormevictcollection)
+  * [ORMEvictEntity](builtins.md#ormevictentity)
+  * [ORMEvictQueries](builtins.md#ormevictqueries)
+  * [ORMExecuteQuery](builtins.md#ormexecutequery)
+  * [ORMFlush](builtins.md#ormflush)
+  * [ORMGetSession](builtins.md#ormgetsession)
+  * [ORMGetSessionFactory](builtins.md#ormgetsessionfactory)
+  * [ORMQueryExecute](builtins.md#ormqueryexecute)
+  * [ORMReload](builtins.md#ormreload)
 
 ## EntityDelete
 
@@ -63,7 +63,7 @@ ormFlush();
 var theUser = entityLoadByPk( "User", url.userID );
 ```
 
-A third argument, `unique`, is documented *but not implemented* in either the Lucee Hibernate extension or the Ortus ORM Extension.
+A third argument, `unique`, is documented _but not implemented_ in either the Lucee Hibernate extension or the Ortus ORM Extension.
 
 **Returns: `Component`|`null`**
 
@@ -250,7 +250,7 @@ Most of the time this will be unnecessary.
 
 ## ORMQueryExecute
 
-Alias for `ORMExecuteQuery()`. 
+Alias for `ORMExecuteQuery()`.
 
 Added in `v6.4.0` (unreleased, version number subject to change.) - [5600833](https://github.com/Ortus-Solutions/extension-hibernate/commit/5600833a78f432dc07618895b65b0f3da46474b1)
 
