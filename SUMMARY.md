@@ -2,9 +2,7 @@
 
 * [Introduction](README.md)
   * [Release History](intro/release-history.md)
-    * [What's New With 6.x](readme/release-history/whats-new-with-6.x.md)
-    * [What's New With 5.x](readme/release-history/whats-new-with-5.x.md)
-  * [About This Book](introduction/about-this-book.md)
+  * [About This Book](intro/about-this-book.md)
 
 ## Getting Started
 
