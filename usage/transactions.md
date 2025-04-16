@@ -33,5 +33,5 @@ This section is missing documentation - would you care to [add it yourself](tran
 Savepoints are not _currently_ supported on ORM transactions.
 
 {% hint style="info" %}
-Looking for ORM savepoint support? [Contact our Support team to consider sponsoring this feature](https://www.ortussolutions.com/products/orm-extension#support).
+Looking for ORM savepoint support? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).
 {% endhint %}

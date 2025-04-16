@@ -5,7 +5,7 @@
     ],
     "pluginsConfig": {
         "edit-link": {
-            "base": "https://github.com/ortus-docs/orm-extension/tree/master",
+            "base": "https://github.com/ortus-docs/bxorm/tree/master",
             "label": "Edit This Page"
         },
         "github": {

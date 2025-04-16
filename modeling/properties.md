@@ -157,5 +157,5 @@ property name="totalPosts"
 ## Unsupported Attributes
 
 {% hint style="info" %}
-Looking for better support of a specific persistent attribute? [Contact our Support team to consider sponsoring this feature](https://www.ortussolutions.com/products/orm-extension#support).
+Looking for better support of a specific persistent attribute? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).
 {% endhint %}
