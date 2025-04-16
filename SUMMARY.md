@@ -31,6 +31,6 @@
 
 ## External Links
 
-* [API Docs for v1.0.8-snapshot](https://s3.amazonaws.com/apidocs.ortussolutions.com/boxlang-modules/bx-orm/1.0.8-snapshot/index.html)
+* [bx-orm API docs](https://s3.amazonaws.com/apidocs.ortussolutions.com/boxlang-modules/bx-orm)
 * [Source Code](https://github.com/ortus-boxlang/bx-orm)
 * [Issue Tracker](https://ortussolutions.atlassian.net/browse/BLMODULES)

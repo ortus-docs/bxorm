@@ -85,7 +85,7 @@ property name="userID"
 
 There are several lesser-known identifier generator types, including:
 
-* `foreign` - use a foreign CFC's generator configuration
+* `foreign` - use a specific property from a foreign entity
 * `seqhilo`
 * `sequence`
 * `select` - select the next value from the column denoted in `selectKey`

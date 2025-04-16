@@ -124,7 +124,7 @@ These property annotations are used when setting `fieldtype="collection"` and `c
 | `constrained`         | `boolean`           | Only valid for `one-to-one` relationships. [See Hibernate 3.3 Mapping Documentation](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-onetoone) |
 | `optimisticLock`      | `boolean`           | Enable optimistic locking on this association. One of `all`, `dirty`, `version`, `none`. |
 | `mappedby`            | `string`            | Specify the property on the association that maps to this entity. |
-| `cfc`                 | `string`            | Specify the CFC location of the foreign entity. |
+| `class`               | `string`            | Specify the location of the foreign entity. |
 | `joinColumn`          | `string`            | Join the foreign entity on this column in this entity. |
 | `where`               | `string`            | Arbitrary SQL where clause for the relation. |
 | `singularname`        || *Not currently supported* |

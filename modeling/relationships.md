@@ -13,7 +13,7 @@ A one to one relationship couples a single row on the left side to a single row 
 ```js
 property name="Contact"
     fieldtype="one-to-one"
-    cfc="Contact";
+    class="Contact";
 ```
 
 One to one relationships can be seen as simply extending the entity with additional information. Since there is no possibility of multiple records per entity instance, it may be worthwhile to set `lazy=false` to fetch the related entity along with any entity load:
@@ -21,7 +21,7 @@ One to one relationships can be seen as simply extending the entity with additio
 ```js
 property name="Contact"
     fieldtype="one-to-one"
-    cfc="Contact"
+    class="Contact"
     lazy="false";
 ```
 
@@ -33,7 +33,7 @@ A one to many relationship couples a single row on the left side (the "one") to 
 component entityName="User" persistent="true"{
     property name="posts"
         fieldtype="one-to-many"
-        cfc="Post";
+        class="Post";
 }
 ```
 
@@ -42,7 +42,7 @@ You'll normally want to set `lazy="true"` to (for example) avoid fetching every 
 ```js
 property name="posts"
     fieldtype="one-to-many"
-    cfc="Post"
+    class="Post"
     lazy="true";
 ```
 
@@ -54,7 +54,7 @@ A many to one relationship couples multiple rows on the left side (the "many") t
 component entityName="Post" persistent="true"{
     property name="Authors"
         fieldtype="many-to-one"
-        cfc="User";
+        class="User";
 }
 ```
 
@@ -68,7 +68,7 @@ A many to many relationship allows each entity to relate to multiple rows on the
 component entityName="User" persistent="true"{
     property name="posts"
         fieldtype="many-to-many"
-        cfc="Post"
+        class="Post"
         linktable="user_posts_link";
 }
 ```
@@ -78,7 +78,7 @@ The `linktable` attribute is required on a `many-to-many` property to set the lo
 ```js
 property name="posts"
     fieldtype="many-to-many"
-    cfc="Post";
+    class="Post";
     linkschema="blog"
     linkcatalog="dbo";
 ```
@@ -91,7 +91,7 @@ On many\* relationships like `one-to-many`, `many-to-one`, etc., you'll be manip
 property name="Authors"
     singularName="Author"
     fieldtype="many-to-one"
-    cfc="User";
+    class="User";
 ```
 
 ### Lazy
@@ -103,7 +103,7 @@ Using `lazy=true`, we can tell Hibernate not to fetch the relational data _unles
 ```js
 property name="posts"
     fieldtype="one-to-many"
-    cfc="Post"
+    class="Post"
     lazy="true";
 ```
 
@@ -112,7 +112,7 @@ We can also use `lazy=extra` to only retrieve the rows that we touch. This may w
 ```js
 property name="posts"
     fieldtype="one-to-many"
-    cfc="Post"
+    class="Post"
     lazy="extra";
 ```
 

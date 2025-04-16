@@ -75,7 +75,7 @@ this.ormSettings = {
 
 ## Custom Naming Strategy
 
-You can define your own naming convention for table and column names by pointing `this.ormSettings.namingStrategy` to a custom CFC path:
+You can define your own naming convention for table and column names by pointing `this.ormSettings.namingStrategy` to a custom boxlang class:
 
 ```js
 this.ormSettings = {

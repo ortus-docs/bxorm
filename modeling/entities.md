@@ -12,7 +12,7 @@ class persistent="true"{
 }
 ```
 
-By default, the entity name will be the CFC file name - minus the file extension, of course. We can modify the entity name via the `entityname` annotation:
+By default, the entity name will be the boxlang class file name - minus the file extension, of course. We can modify the entity name via the `entityname` annotation:
 
 ```js
 class persistent="true" entityname="Author" {
@@ -50,7 +50,7 @@ Here's the full list of available annotations for a persistent class:
             <td><code>entityname</code></td>
             <td><code>string</code></td>
             <td></td>
-            <td>Set a custom entity name which is different than the CFC name</td>
+            <td>Set a custom entity name which is different than the boxlang class name</td>
         </tr>
         <tr>
             <td><code>table</code></td>
@@ -152,7 +152,7 @@ Here's the full list of available annotations for a persistent class:
             <td><code>embedded</code></td>
             <td><code>boolean</code></td>
             <td></td>
-            <td>Marks CFC as embedded, used when a CFC has an embedded object which also needs to be persisted along
+            <td>Marks class as embedded, used when a class has an embedded object which also needs to be persisted along
                 with the parent's data</td>
         </tr>
         <tr>
@@ -173,8 +173,8 @@ Here's the full list of available annotations for a persistent class:
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Specifies whether the generated Hibernate mapping file has to be saved to disk. If you set the value to
-                true, the Hibernate mapping XML file is saved as <code>{CFC name}.hbm.xml</code> in the same directory
-                as the CFC.</td>
+                true, the Hibernate mapping XML file is saved as <code>{class name}.hbm.xml</code> in the same directory
+                as the boxlang class.</td>
         </tr>
         <tr>
             <td><code>datasource</code></td>
