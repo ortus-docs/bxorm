@@ -47,8 +47,6 @@ transaction{
 
 ### Hibernate Version Support
 
-#### Extension v6.2+
-
 bx-orm bundles Hibernate `5.6.15.FINAL`.
 
 ### Open Source Product
