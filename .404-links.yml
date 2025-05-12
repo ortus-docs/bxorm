@@ -1,11 +1,12 @@
 folder: ./ # The folder that required to be parsed
 httpsOnly: true # If you want enforce only HTTPS links
-pullRequestReview: true # If you want a nice review in your pull requests
+pullRequestReview: false # If you want a nice review in your pull requests
 ignore: 
   # urls: # Array of url to ignore
   #   - https://github.com 
   #   - https://broken/* # wildcard allows
   files: # Array of markdown file the shouldn't parse
-    - ./.gitbook # Relative path from the folder shared above
+    - ./.gitbook
+    - ./.github
 # delay:
 #   'https://gitlab.com': 500 # Perform a pause of 500ms at each call matching the url
