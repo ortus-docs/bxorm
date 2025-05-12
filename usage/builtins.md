@@ -249,8 +249,6 @@ Most of the time this will be unnecessary.
 
 Alias for `ORMExecuteQuery()`.
 
-Added in `v6.4.0` (unreleased, version number subject to change.) - [5600833](https://github.com/ortus-boxlang/bx-orm/commit/5600833a78f432dc07618895b65b0f3da46474b1)
-
 **Returns: `Array`|`Struct`|`any`**
 
 ## ORMReload

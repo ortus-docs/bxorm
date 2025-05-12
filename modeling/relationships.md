@@ -119,5 +119,5 @@ property name="posts"
 ### Relationship Methods
 
 {% hint style="info" %}
-This section is missing documentation - would you care to [add it yourself](http://127.0.0.1:5000/s/vcvOjwmew3Y3IdvJ8jNG/guide/relationships/relationship-types/belongsto)?
+This section is missing documentation - would you care to [add it yourself](https://github.com/ortus-docs/bxorm/)?
 {% endhint %}
