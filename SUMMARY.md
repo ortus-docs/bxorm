@@ -2,6 +2,7 @@
 
 * [Introduction](README.md)
   * [Release History](intro/release-history.md)
+    * [What's New With 1.x](intro/release-history/whats-new-with-1x.md)
   * [About This Book](intro/about-this-book.md)
 
 ## Getting Started
