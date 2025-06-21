@@ -1,14 +1,17 @@
 ---
 description: >-
-  The BoxLang ORM module allows your BoxLang application to integrate with the powerful Hibernate ORM
+  The BoxLang ORM module allows your BoxLang application to integrate with the
+  powerful Hibernate ORM
 ---
 
 # Introduction
 
 ## BoxLang ORM
 
-The [BoxLang ORM module](https://github.com/ortus-boxlang/bx-orm) allows your BoxLang
-  application to integrate with the powerful [Hibernate ORM](https://hibernate.org/orm/). With Hibernate, you can interact with your database records in an object oriented fashion, using a BoxLang class to denote each record and simple getters and setters for each field value:
+<figure><img src=".gitbook/assets/bxorm-transparent.png" alt="" width="375"><figcaption></figcaption></figure>
+
+The [BoxLang ORM module](https://github.com/ortus-boxlang/bx-orm) allows your BoxLang\
+application to integrate with the powerful [Hibernate ORM](https://hibernate.org/orm/). With Hibernate, you can interact with your database records in an object oriented fashion, using a BoxLang class to denote each record and simple getters and setters for each field value:
 
 ```js
 class entityName="Auto" persistent="true" {
