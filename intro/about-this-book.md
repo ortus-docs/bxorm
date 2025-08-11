@@ -8,7 +8,7 @@ The source code for this book is hosted in GitHub:
 
 {% @github-files/github-code-block url="https://github.com/ortus-docs/bxorm" %}
 
-You can freely contribute to it and submit pull requests. The contents of this book is copyright by [Ortus Solutions, Corp](http://www.ortussolutions.com) and cannot be altered or reproduced without author's consent. All content is provided _"As-Is"_ and can be freely distributed.
+You can freely contribute to it and submit pull requests. The contents of this book is copyright by [Ortus Solutions, Corp]([http://www.ortussolutions.com](https://www.ortussolutions.com/)) and cannot be altered or reproduced without author's consent. All content is provided _"As-Is"_ and can be freely distributed.
 
 * The majority of code examples in this book are done in `cfscript`.
 * The majority of code generation and running of examples are done via **CommandBox**: The ColdFusion (CFML) CLI, Package Manager, REPL - [https://www.ortussolutions.com/products/commandbox](https://www.ortussolutions.com/products/commandbox)​
