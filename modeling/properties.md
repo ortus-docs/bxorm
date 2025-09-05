@@ -72,6 +72,27 @@ There are several options for the `fieldtype` value:
 * `many-to-many` - Denote a [many-to-many relationship](relationships.md#many-to-many)
 * `primary` - Not currently used.
 
+## ORM Type
+
+The `ormType` attribute allows you to define the database type of the property. This is important for ensuring that data is properly converted when being persisted or retrieved from the database. The `ormType` values are based on Hibernate types, and are documented in the [Hibernate 3.3 Mapping Documentation](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-types).
+
+While not an exhaustive list, here are some of the more common `ormType` values:
+
+* blob
+* bit
+* tinyint
+* yesno
+* truefalse
+* bigdecimal
+* biginteger
+* integer
+* numeric
+* date
+* datetime
+* char
+* nchar
+* clob
+
 ## Generator Annotations
 
 | Attribute     | Type                  | Description                                                                                |
