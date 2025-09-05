@@ -41,7 +41,7 @@ property
 
 There are several "type" concepts and annotations you may need to use to keep the proper format when persisting or retrieving table data. While these may look similar, they are not equivalent.
 
-| Attribute     | Examples                      | Description                                                                                |
+| Attribute     | Examples                      | Description                                                                               |
 |---------------|-------------------------------|-------------------------------------------------------------------------------------------|
 | `type`        | `date`,`numeric`              | Boxlang data type                                                                         |
 | `fieldtype`   | `column`,`id`, `one-to-many`  | Denote a special type of field, like an identifier or relationship field.                 |

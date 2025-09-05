@@ -6,6 +6,8 @@ description: Entity relationships let you define an association between two enti
 
 Every relationship property must define the state of the relationship. In each case, the relationship property is defined in an entity which represents the "left" side of the relationship. If you bring a `Posts` relationship into the `User` entity, then from the `User` entity, the `User` is the left side of the relationship, and `Posts` is the right.
 
+<!-- TODO: Add simple left/right entity diagram. -->
+
 ## One To One
 
 A one to one relationship couples a single row on the left side to a single row on the right side:
@@ -33,7 +35,8 @@ A one to many relationship couples a single row on the left side (the "one") to 
 class entityName="User" persistent="true"{
     property name="posts"
         fieldtype="one-to-many"
-        class="Post";
+        class="Post"
+        fkcolumn="author_id";
 }
 ```
 
@@ -43,7 +46,8 @@ You'll normally want to set `lazy="true"` to (for example) avoid fetching every 
 property name="posts"
     fieldtype="one-to-many"
     class="Post"
-    lazy="true";
+    lazy="true"
+    fkcolumn="author_id";
 ```
 
 ## Many To One
@@ -51,11 +55,10 @@ property name="posts"
 A many to one relationship couples multiple rows on the left side (the "many") to a single row on the right side( the "one"):
 
 ```js
-class entityName="Post" persistent="true"{
-    property name="Authors"
-        fieldtype="many-to-one"
-        class="User";
-}
+property name="Authors"
+    fieldtype="many-to-one"
+    class="User"
+    fkcolumn="author_id";
 ```
 
 Thus, a single Post can have only one Author... but an author (or a User, really) can have many Posts.
@@ -65,15 +68,13 @@ Thus, a single Post can have only one Author... but an author (or a User, really
 A many to many relationship allows each entity to relate to multiple rows on the opposite side. A good example might be a blog which allows multiple authors for a single blog post. Each blog post can then have multiple authors, and each author has (likely) written multiple blog posts:
 
 ```js
-class entityName="User" persistent="true"{
-    property name="posts"
-        fieldtype="many-to-many"
-        class="Post"
-        linktable="user_posts_link";
-}
+property name="posts"
+    fieldtype="many-to-many"
+    class="Post"
+    linktable="user_posts_link";
 ```
 
-The `linktable` attribute is required on a `many-to-many` property to set the locationfor storing join records. You can further alter the storage location via `linkschema` and `linkcatalog`:
+The `linktable` attribute is required on a `many-to-many` property to set the location for storing join records. You can further alter the storage location via `linkschema` and `linkcatalog`:
 
 ```js
 property name="posts"
