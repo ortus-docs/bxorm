@@ -91,7 +91,7 @@ While not an exhaustive list, here are some of the more common `ormType` values:
 * datetime
 * char
 * nchar
-* clob
+* text
 
 ## Generator Annotations
 
