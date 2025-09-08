@@ -17,7 +17,7 @@ EntityNew(entityName=[String], properties=[Struct], ignoreExtras=[Boolean])
 |----------|------|----------|-------------|---------|
 | `entityName` | `String` | `true` | The name of the entity to create. |  |
 | `properties` | `Struct` | `false` | A struct of properties to populate on the new entity. |  |
-| `ignoreExtras` | `Boolean` | `false` | If false, an error will be thrown if properties are provided that do not exist on the entity. Not implemented. | `true` |
+| `ignoreExtras` | `Boolean` | `false` | If false, an error will be thrown if properties are provided that do not exist on the entity. Not implemented. |  |
 
 ## Examples
 
