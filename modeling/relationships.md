@@ -117,7 +117,7 @@ property name="posts"
     lazy="extra";
 ```
 
-### Relationship Methods
+## Relationship Methods
 
 When you define a relationship property, a number of methods are automatically generated in each relationship entity instance which allow you to access and manipulate the relationship data.
 
@@ -137,7 +137,7 @@ public component function addPosts( required any postItem );
 public component function removePosts( required any postItem );
 ```
 
-#### One-To-One Example
+### One-To-One Example
 
 The following relationship definition defines a `Contact` property on a `User` entity:
 
@@ -152,7 +152,7 @@ Since this is a one-to-one relationship, *only the `hasContact()` method is gene
 
 Use the property accessor methods `getContact()` and `setContact()` to access and modify the relationship.
 
-#### One-To-Many Example
+### One-To-Many Example
 
 The following relationship definition defines a `posts` property on a `User` entity:
 
@@ -169,7 +169,7 @@ Since this is a one-to-many relationship, the following methods are generated:
 * `addPosts()`
 * `removePosts()`
 
-#### Singular Name
+### Singular Name
 
 We can set a `singularName` attribute to change the `addPosts()` and `removePosts()` methods to `addPost()` and `removePost()`:
 
