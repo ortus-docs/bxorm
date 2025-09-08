@@ -6,26 +6,28 @@ description: Entity relationships let you define an association between two enti
 
 Every relationship property must define the state of the relationship. In each case, the relationship property is defined in an entity which represents the "left" side of the relationship. If you bring a `Posts` relationship into the `User` entity, then from the `User` entity, the `User` is the left side of the relationship, and `Posts` is the right.
 
-<!-- TODO: Add simple left/right entity diagram. -->
-
 ## One To One
 
 A one to one relationship couples a single row on the left side to a single row on the right side:
 
 ```js
-property name="Contact"
+property name="Address"
     fieldtype="one-to-one"
-    class="Contact";
+    class="Address";
 ```
 
 One to one relationships can be seen as simply extending the entity with additional information. Since there is no possibility of multiple records per entity instance, it may be worthwhile to set `lazy=false` to fetch the related entity along with any entity load:
 
 ```js
-property name="Contact"
+property name="Address"
     fieldtype="one-to-one"
-    class="Contact"
+    class="Address"
     lazy="false";
 ```
+
+This one-to-one relationship can be visualized as follows:
+
+![One User has one Address, an entity relationship diagram](entity-relationship-one-to-one.png)
 
 ## One To Many
 
@@ -49,6 +51,8 @@ property name="posts"
     lazy="true"
     fkcolumn="author_id";
 ```
+
+![One user writes many Posts, an entity relationship diagram](entity-relationship-one-to-many.png)
 
 ## Many To One
 
