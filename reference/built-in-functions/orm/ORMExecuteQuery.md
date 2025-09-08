@@ -2,7 +2,7 @@
 
 # Function: `ORMExecuteQuery`
 
-ORMExecuteQuery
+Execute an HQL query with (optional) parameters and specific query options.
 
 ## Method Signature
 
@@ -15,10 +15,10 @@ ORMExecuteQuery(hql=[String], params=[Any], unique=[Any], options=[Struct])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `hql` | `String` | `true` |  |  |
-| `params` | `Any` | `false` |  |  |
-| `unique` | `Any` | `false` |  |  |
-| `options` | `Struct` | `false` |  |  |
+| `hql` | `String` | `true` | The HQL query string to execute. |  |
+| `params` | `Any` | `false` | Optional parameters for the HQL query. Can be a struct of named parameters or an array of positional parameters. |  |
+| `unique` | `Any` | `false` | Optional boolean indicating whether to return a unique result (true) or a list of results (false). If true, the query will return<br>                  a single object or null if no results found. |  |
+| `options` | `Struct` | `false` | Optional struct of additional query options. |  |
 
 ## Examples
 

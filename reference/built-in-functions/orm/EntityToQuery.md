@@ -2,7 +2,7 @@
 
 # Function: `EntityToQuery`
 
-ExampleBIF
+Convert an entity or array of entities to a Query object.
 
 ## Method Signature
 
@@ -15,8 +15,8 @@ EntityToQuery(entity=[Any], name=[Any])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entity` | `Any` | `true` |  |  |
-| `name` | `Any` | `false` |  |  |
+| `entity` | `Any` | `true` | An instance of an ORM entity or an array of entities. |  |
+| `name` | `Any` | `false` | The name of the entity. Required if `entity` is an array. |  |
 
 ## Examples
 

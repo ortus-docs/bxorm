@@ -15,10 +15,10 @@ EntityLoad(entityName=[string], idOrFilter=[any], uniqueOrOrder=[any], options=[
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entityName` | `string` | `true` |  |  |
-| `idOrFilter` | `any` | `false` |  |  |
-| `uniqueOrOrder` | `any` | `false` |  |  |
-| `options` | `struct` | `false` |  |  |
+| `entityName` | `string` | `true` | The name of the entity to load. |  |
+| `idOrFilter` | `any` | `false` | Either the ID of the entity to load, or a struct of filter criteria. |  |
+| `uniqueOrOrder` | `any` | `false` | Either a boolean indicating whether to return a unique result, or a string/array of order by clauses. |  |
+| `options` | `struct` | `false` | A struct of options to modify the load operation. See below for supported options. |  |
 
 ## Examples
 

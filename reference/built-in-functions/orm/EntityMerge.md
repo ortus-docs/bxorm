@@ -2,7 +2,7 @@
 
 # Function: `EntityMerge`
 
-Merge the state of the given entity into the current persistence context.
+Merge the state of the given entity into the current persistence context (session).
 
 ## Method Signature
 
@@ -15,7 +15,7 @@ EntityMerge(entity=[Any])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entity` | `Any` | `true` |  |  |
+| `entity` | `Any` | `true` | The entity instance to merge. |  |
 
 ## Examples
 

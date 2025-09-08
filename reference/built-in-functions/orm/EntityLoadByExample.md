@@ -2,7 +2,7 @@
 
 # Function: `EntityLoadByExample`
 
-ExampleBIF
+Load entities matching an example entity.
 
 ## Method Signature
 
@@ -15,8 +15,8 @@ EntityLoadByExample(sampleEntity=[any], unique=[boolean])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `sampleEntity` | `any` | `true` |  |  |
-| `unique` | `boolean` | `false` |  | `false` |
+| `sampleEntity` | `any` | `true` | Instance of an ORM entity to use as an example for the query. |  |
+| `unique` | `boolean` | `false` | Whether to return a single unique result (true) or an array of results (false). | `false` |
 
 ## Examples
 

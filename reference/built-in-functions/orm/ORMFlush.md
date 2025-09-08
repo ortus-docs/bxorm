@@ -2,10 +2,7 @@
 
 # Function: `ORMFlush`
 
-ORMFlush
-
-<p>
- Flush the Hibernate session - synchronizing the in-memory state with the database.
+Flush the Hibernate session - synchronizing the in-memory state with the database.
 
 ## Method Signature
 
@@ -18,7 +15,7 @@ ORMFlush(datasource=[String])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `datasource` | `String` | `false` |  |  |
+| `datasource` | `String` | `false` | The datasource on which to flush the current session. If not provided, the default datasource will be used. |  |
 
 ## Examples
 

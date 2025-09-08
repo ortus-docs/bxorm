@@ -15,8 +15,8 @@ ORMEvictEntity(entityName=[String], primaryKey=[String])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entityName` | `String` | `true` |  |  |
-| `primaryKey` | `String` | `false` |  |  |
+| `entityName` | `String` | `true` | The name of the entity on which to evict all cached data. |  |
+| `primaryKey` | `String` | `false` | Optional primary key of the entity instance for which to evict cached data. If not provided, all cached data for the entity<br>                      will be evicted. |  |
 
 ## Examples
 

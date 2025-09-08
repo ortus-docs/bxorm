@@ -15,7 +15,7 @@ EntityNameList(delimiter=[String], datasource=[String])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `delimiter` | `String` | `false` | The delimiter to use between entity names. Defaults to a comma. |  |
+| `delimiter` | `String` | `false` | The delimiter to use between entity names. | `,` |
 | `datasource` | `String` | `false` | The name of the datasource to filter on. If provided, only entities configured for this datasource will be returned. |  |
 
 ## Examples

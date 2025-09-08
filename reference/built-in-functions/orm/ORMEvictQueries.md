@@ -15,8 +15,8 @@ ORMEvictQueries(cacheName=[String], datasource=[String])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `cacheName` | `String` | `false` |  |  |
-| `datasource` | `String` | `false` |  |  |
+| `cacheName` | `String` | `false` | The name of the cache region to evict. If not provided, the default query cache will be evicted. |  |
+| `datasource` | `String` | `false` | The name of the datasource on which to evict the cache. If not provided, the default datasource will be used. |  |
 
 ## Examples
 

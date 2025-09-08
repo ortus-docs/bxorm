@@ -15,9 +15,9 @@ ORMEvictCollection(entityName=[String], collectionName=[String], primaryKey=[Str
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entityName` | `String` | `true` |  |  |
-| `collectionName` | `String` | `true` |  |  |
-| `primaryKey` | `String` | `false` |  |  |
+| `entityName` | `String` | `true` | The name of the entity on which the collection is defined. |  |
+| `collectionName` | `String` | `true` | The name of the collection property to evict. |  |
+| `primaryKey` | `String` | `false` | Optional primary key of the entity instance for which to evict the collection. If not provided, all cached data for the<br>                      collection will be evicted. |  |
 
 ## Examples
 

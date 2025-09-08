@@ -4,6 +4,8 @@
 
 Delete an entity from the database.
 
+Delete operations will cascade to related entities if `cascade` is enabled on the relationship property.
+
 ## Method Signature
 
 ```
@@ -15,7 +17,7 @@ EntityDelete(entity=[class])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entity` | `class` | `true` |  |  |
+| `entity` | `class` | `true` | The entity instance to delete. |  |
 
 ## Examples
 

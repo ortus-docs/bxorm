@@ -14,9 +14,10 @@ Load an array of entities by the primary key.
  is supported. To return an array of entities, use the `entityLoad` BIF.
  <p>
  Composite keys are also supported:
- <code>
+ 
+ <pre>
  entityLoadByPK( "VehicleType", { make : "Ford", model: "Fusion" } );
- </code>
+ </pre>
 
 ## Method Signature
 
@@ -29,9 +30,9 @@ EntityLoadByPK(entity=[String], id=[String], unique=[String])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entity` | `String` | `true` |  |  |
-| `id` | `String` | `true` |  |  |
-| `unique` | `String` | `false` |  |  |
+| `entity` | `String` | `true` | The name of the entity to load. |  |
+| `id` | `String` | `true` | The primary key value, or a struct of key/value pairs for composite keys. |  |
+| `unique` | `String` | `false` | Not implemented. In BoxLang, a single entity is always returned. |  |
 
 ## Examples
 

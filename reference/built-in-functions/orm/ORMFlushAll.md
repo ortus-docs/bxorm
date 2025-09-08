@@ -2,10 +2,7 @@
 
 # Function: `ORMFlushAll`
 
-ORMFlushAll
-
-<p>
- Flush all open Hibernate sessions in the current request.
+Flush all open Hibernate sessions in the current request.
 
 ## Method Signature
 

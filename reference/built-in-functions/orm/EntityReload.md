@@ -4,6 +4,8 @@
 
 Reload an entity from the database.
 
+Will repopulate all persistent properties on the entity with the latest values from the database.
+
 ## Method Signature
 
 ```
@@ -15,7 +17,7 @@ EntityReload(entity=[Any])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entity` | `Any` | `true` |  |  |
+| `entity` | `Any` | `true` | The entity instance to reload. |  |
 
 ## Examples
 
