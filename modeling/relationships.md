@@ -119,6 +119,72 @@ property name="posts"
 
 ### Relationship Methods
 
-{% hint style="info" %}
-This section is missing documentation - would you care to [add it yourself](https://github.com/ortus-docs/bxorm/)?
-{% endhint %}
+When you define a relationship property, a number of methods are automatically generated in each relationship entity instance which allow you to access and manipulate the relationship data.
+
+| Method | Description | Relationship types |
+|--------|-------------|-------|
+| `has<PropertyName>()` | Returns true if the relationship contains any items. | All |
+| `add<PropertyName>( entity1 )` | Add an entity instance to the relationship. | `one-to-many`, `many-to-many` |
+| `remove<PropertyName>( entity1 )` | Removes one or more entities from the relationship. | `one-to-many`, `many-to-many` |
+
+These method signatures are as follows:
+
+```java
+public boolean function hasPosts();
+// returns `this` for method chaining
+public component function addPosts( required any postItem );
+// returns `this` for method chaining
+public component function removePosts( required any postItem );
+```
+
+#### One-To-One Example
+
+The following relationship definition defines a `Contact` property on a `User` entity:
+
+```java
+property name="Contact"
+    fieldtype="one-to-one"
+    class="Contact";
+```
+Since this is a one-to-one relationship, *only the `hasContact()` method is generated*:
+
+* `hasContact()`
+
+Use the property accessor methods `getContact()` and `setContact()` to access and modify the relationship.
+
+#### One-To-Many Example
+
+The following relationship definition defines a `posts` property on a `User` entity:
+
+```java
+property name="posts"
+    fieldtype="one-to-many"
+    class="Post"
+    lazy="true";
+```
+
+Since this is a one-to-many relationship, the following methods are generated:
+
+* `hasPosts()`
+* `addPosts()`
+* `removePosts()`
+
+#### Singular Name
+
+We can set a `singularName` attribute to change the `addPosts()` and `removePosts()` methods to `addPost()` and `removePost()`:
+
+```java
+property name="posts"
+    singularName="post"
+    fieldtype="one-to-many"
+    class="Post"
+    lazy="true";
+```
+
+This will generate the following methods:
+
+* `hasPosts()`
+* `addPost()`
+* `removePost()`
+
+Note that the `hasPosts()` method remains plural since it checks for the existence of any posts in the relationship.
