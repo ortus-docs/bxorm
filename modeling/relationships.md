@@ -27,7 +27,7 @@ property name="Address"
 
 This one-to-one relationship can be visualized as follows:
 
-![One User has one Address, an entity relationship diagram](entity-relationship-one-to-one.png)
+<img src="entity-relationship-one-to-one.png" alt="One User has one Address, an entity relationship diagram" style="max-width: 600px">
 
 ## One To Many
 
@@ -52,7 +52,7 @@ property name="posts"
     fkcolumn="author_id";
 ```
 
-![One user writes many Posts, an entity relationship diagram](entity-relationship-one-to-many.png)
+<img src="entity-relationship-one-to-many.png" alt="One user writes many Posts, an entity relationship diagram" style="max-width: 600px">
 
 ## Many To One
 
@@ -65,9 +65,9 @@ property name="Authors"
     fkcolumn="author_id";
 ```
 
-Thus, a single Post can have only one Author... but an author (or a User, really) can have many Posts.
+Thus, a single Post can have only one Author... but an Author (or a User, really) can have many Posts.
 
-![Many Posts are written by one User, an entity relationship diagram](entity-relationship-many-to-one.png)
+<img src="entity-relationship-many-to-one.png" alt="Many Posts are written by one User, an entity relationship diagram" style="max-width: 600px">
 
 ## Many To Many
 
@@ -91,7 +91,7 @@ property name="authors"
     linkcatalog="dbo";
 ```
 
-![Many Authors write Many Books, an entity relationship diagram](entity-relationship-many-to-many.png)
+<img src="entity-relationship-many-to-many.png" alt="Many Authors write Many Books, an entity relationship diagram" style="max-width: 600px">
 
 ### Singular Name
 
