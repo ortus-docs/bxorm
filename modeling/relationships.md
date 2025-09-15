@@ -67,26 +67,31 @@ property name="Authors"
 
 Thus, a single Post can have only one Author... but an author (or a User, really) can have many Posts.
 
+![Many Posts are written by one User, an entity relationship diagram](entity-relationship-many-to-one.png)
+
 ## Many To Many
 
-A many to many relationship allows each entity to relate to multiple rows on the opposite side. A good example might be a blog which allows multiple authors for a single blog post. Each blog post can then have multiple authors, and each author has (likely) written multiple blog posts:
+A many to many relationship allows each entity to relate to multiple rows on the opposite side. A good example might be the author/book relationship. Each book can have multiple authors, and each author may write multiple books:
 
 ```js
-property name="posts"
+// Author.bx
+property name="books"
     fieldtype="many-to-many"
-    class="Post"
-    linktable="user_posts_link";
+    class="Book"
+    linktable="author_books_link";
 ```
 
 The `linktable` attribute is required on a `many-to-many` property to set the location for storing join records. You can further alter the storage location via `linkschema` and `linkcatalog`:
 
 ```js
-property name="posts"
+property name="authors"
     fieldtype="many-to-many"
-    class="Post";
+    class="Author";
     linkschema="blog"
     linkcatalog="dbo";
 ```
+
+![Many Authors write Many Books, an entity relationship diagram](entity-relationship-many-to-many.png)
 
 ### Singular Name
 

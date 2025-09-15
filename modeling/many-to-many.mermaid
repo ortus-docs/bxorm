@@ -1,0 +1,17 @@
+---
+config:
+  theme: redux-dark
+---
+erDiagram
+	direction LR
+	Author {
+		string id  ""  
+		string name  ""  
+		string penName  ""  
+	}
+	Book {
+		string id  ""  
+		date title  ""  
+		string text  ""  
+	}
+	Author}|--|{Book:"authors many"

@@ -1,0 +1,17 @@
+---
+config:
+  theme: redux-dark
+---
+erDiagram
+	direction LR
+	Post {
+		string id  ""
+		string title  ""
+		string text  ""
+	}
+	Author {
+		string id  ""  
+		string name  ""  
+		string email  ""  
+	}
+	Post}|--||Author:"has one"

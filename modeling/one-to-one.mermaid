@@ -1,0 +1,18 @@
+---
+config:
+  theme: redux-dark
+---
+erDiagram
+	direction LR
+	Contact {
+		string id  ""  
+		string name  ""  
+		string email  ""  
+	}
+	Address {
+		string address  ""
+		string stateOrProvince  ""
+		string postalCode  ""
+		string country  ""
+	}
+	Contact||--||Address:"has one"
