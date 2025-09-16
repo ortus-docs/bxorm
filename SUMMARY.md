@@ -16,8 +16,8 @@
 ## Modeling
 
 * [Entities](modeling/entities.md)
-* [Identifiers](modeling/identifiers.md)
 * [Properties](modeling/properties.md)
+* [Identifiers](modeling/identifiers.md)
 * [Relationships](modeling/relationships.md)
 
 ## Usage

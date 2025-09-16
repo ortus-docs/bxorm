@@ -16,4 +16,9 @@ All documentation is written in markdown and organized in a hierarchical structu
 * Hyperlinks - automatically checked on each commit via CI using [markdown-link-check](.github/workflows/link-checker.yml)
 * Images - all images should be stored in the same folder as the markdown file that references them
 * Diagrams - Use MermaidJS syntax for diagramming, use [mermaidchart.com](https://www.mermaidchart.com/) OR the MermaidChart VS Code plugin to render them. Diagram source code should be stored as `.mermaid` files in the same folder as the markdown file that references them.
-* Use gitbook hints to refer to other sections of the documentation.
+
+## Syntax
+
+* Use gitbook hints to refer to other sections of the documentation: `{% hint style="info" %}...{% endhint %}`
+* Use standard markdown syntax for code blocks. Most often the specified language should be `js` for syntax highlighting: <code>```js ... ```</code>
+* Use standard markdown syntax for images: `![alt text](image-url)` unless a consistent image width is desired, in which case use `<img style="max-width: 600px" src="..." alt="..." />`
