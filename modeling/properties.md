@@ -99,17 +99,28 @@ While not an exhaustive list, here are some of the more common `ormType` values:
 |---------------|-----------------------|--------------------------------------------------------------------------------------------|
 | `generator`   | `string`              | One of `increment`,`identity`,`native`,`seqhilo`,`uuid`,`guid`,`select`,`foreign`, `assigned` |
 | `params`      | `struct`, `string`    | `{ "table: "uuid_table", column: "uuid_value_column" }` |
-| `sequence`    | `string`              | |
+| `sequence`    | `string`              | Specify the database sequence key name to use for value generation. Use with `generator="seqhilo"` |
 | `selectkey`   | `string`              | Only used with `generator=select`. Specify the select key to use when selecting sequence values from the database.|
-| `generated`   | `string`              | `always`, `insert`, `never`. |
+| `generated`   | `string`              | Specify whether this property should generate values upon entity save. One of `always`, `insert`, `never`. |
+
+```js
+property name      = "userID"
+         fieldtype = "id"
+         generator = "seqhilo"
+         sequence  = "userIDGenerator";
+```
+
+{% hint style="info" %}
+See [Identifiers and Generators](identifiers.md#common-generator-types) for more information on generated value properties.
+{% endhint %}
 
 ## Validation
 
 | Attribute        | Type       | Description                                                                                |
 |------------------|------------|--------------------------------------------------------------------------------------------|
+| `notnull`        | `boolean`  | Specify a not-null constraint. |
 | `insert`         | `boolean`  | Allow inserting values to new rows. |
 | `update`         | `boolean`  | Allow value updates on existing rows. |
-| `notnull`        | `boolean`  | Specify a not-null constraint. |
 | `uniquekey`      | `string`   | Specify a key name for a unique constraint. Useful for defining a unique constraint across multiple columns. |
 | `unique`         | `boolean`  | Specify a unique constraint. Default `false`.|
 | `validateParams` | `string`   | *Not currently supported* |
@@ -119,12 +130,23 @@ While not an exhaustive list, here are some of the more common `ormType` values:
 
 These property annotations are used when setting `fieldtype="collection"` and `collectiontype` is either `struct` or `map`.
 
-| Attribute     | Type                         | Description                                                                                |
-|---------------|-------------------------------|-------------------------------------------------------------------------------------------|
-| `structkeycolumn` | `string` ||
-| `structkeytype` | `string` ||
-| `elementtype` | `string` ||
-| `elementcolumn` | `string` ||
+| Attribute         | Type                          | Description                                                                                |
+|-------------------|-------------------------------|-------------------------------------------------------------------------------------------|
+| `structkeycolumn` | `string`                      | Specify the column name to use as the key in the collection struct. |
+| `structkeytype`   | `string`                      | Specify the ORM type of the key column. |
+| `elementcolumn`   | `string`                      | Specify the column name to use as the value in the collection struct. |
+| `elementtype`     | `string`                      | Specify the value type of the collection values. |
+
+```js
+property name            = "yearlyEarnings"
+         class           = "Earnings"
+         fieldtype       = "collection"
+         collectiontype  = "struct"
+         structkeycolumn = "year"
+         structkeytype   = "integer"
+         elementcolumn   = "totalEarnings"
+         elementtype     = "bigdecimal";
+```
 
 ## Relationship Modifiers
 
@@ -138,30 +160,43 @@ These property annotations are used when setting `fieldtype="collection"` and `c
 | `linkcatalog`         | `string`            | Specify the catalog name of the link table |
 | `linktable`           | `string`            | Specify the name of the link table |
 | `missingRowIgnored`   | `boolean`           | Do not throw an error if a foreign key has no match in the foreign entity |
-| `fkcolumn`            | `string`            | |
-| `orderby`             | `string`            | |
-| `fetch`               | `string`            | |
-| `cascade`             | `string`            | |
+| `fkcolumn`            | `string`            | Specify the foreign key column in the link table referencing this entity's primary key |
+| `orderby`             | `string`            | Specify the order by clause for the association |
+| `fetch`               | `string`            | Specify the fetch strategy for the association. One of `join`, `select`. |
+| `cascade`             | `string`            | Specify the cascade operation(s) to use upon manipulation of this entity or association. One of `all`,`none`,`save-update`,`delete`,`all-delete-orphan`,`delete-orphan`,`create`,`merge`,`lock`,`refresh`,`evict`,`replicate`. |
 | `constrained`         | `boolean`           | Only valid for `one-to-one` relationships. [See Hibernate 3.3 Mapping Documentation](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-onetoone) |
 | `optimisticLock`      | `boolean`           | Enable optimistic locking on this association. One of `all`, `dirty`, `version`, `none`. |
 | `mappedby`            | `string`            | Specify the property on the association that maps to this entity. |
 | `class`               | `string`            | Specify the location of the foreign entity. |
 | `joinColumn`          | `string`            | Join the foreign entity on this column in this entity. |
 | `where`               | `string`            | Arbitrary SQL where clause for the relation. |
-| `singularname`        || *Not currently supported* |
+| `singularname`        | `string`            | Singular name to use when generating accessor methods for the relationship: `addPost()`, `removePost()` |
+
+```js
+property name         = "posts"
+         singularName = "post"
+         fieldtype    = "one-to-many"
+         class        = "Post"
+         lazy         = "true"
+         fkcolumn     = "author_id";
+```
+
+{% hint style="info" %}
+See [Modeling Relationships](relationships.md) for more details on modeling an ORM entity relationship.
+{% endhint %}
 
 ## Other
 
 | Attribute      | Type      | Description                                                                                |
 |----------------|-----------|--------------------------------------------------------------------------------------------|
-| `scale`        | `integer` ||
-| `length`       | `integer` ||
-| `precision`    | `integer` ||
+| `scale`        | `integer` | Decimal scale                                                                              |
+| `precision`    | `integer` | Decimal precision                                                                          |
+| `length`       | `integer` | String length                                                                              |
 | `formula`      | `string`  | Define this property as a computed property by using a SQL query to determine the property value. Formula properties cannot be modified. |
 | `index`        | `string`  | Key name for a property value index. |
 | `cacheUse`     | `string`  | Define a cache type to use for this property. One of `read-only`, `nonstrict-read-write`, `read-write`, or `transactional`. |
 | `cacheName`    | `string`  | Set the name of the cache to use for this property. |
-| `unSavedValue` | `string`  | Set a value to use for newly instantiated objects. |
+| `unSavedValue` | `string`  | Set a value to populate into this column on newly instantiated entities. |
 
 ## Formula Property
 
