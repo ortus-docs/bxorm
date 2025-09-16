@@ -8,4 +8,4 @@ In this section, you will find the release notes for each version we release und
 
 ## v1.x
 
-Check out our [1.x release notes](release-history/1x.md) for the latest updates and changes.
+Check out our [1.x release notes](1x.md) for the latest updates and changes.

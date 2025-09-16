@@ -1,9 +1,9 @@
 # Table of contents
 
 * [Introduction](README.md)
-  * [Release History](intro/release-history.md)
-    * [1.x](intro/release-history/1x.md)
   * [About This Book](intro/about-this-book.md)
+* [Release History](release-history/readme.md)
+  * [1.x](release-history/1x.md)
 
 ## Getting Started
 
@@ -11,7 +11,7 @@
 * [Configuration](intro/configuration.md)
   * [Custom Hibernate Config](intro/configuration/custom-hibernate-config.md)
   * [Secondary Caches](intro/configuration/secondary-caches.md)
-  * [Logging](getting-started/configuration/logging.md)
+  * [Logging](intro/configuration/logging.md)
 
 ## Modeling
 
