@@ -22,10 +22,9 @@
 
 ## Usage
 
-* [Querying](usage/querying.md)
+* [Queries and HQL](usage/querying.md)
 * [Events](usage/events.md)
 * [Session Management](usage/session-management.md)
-* [HQL](usage/hql.md)
 * [Transactions](usage/transactions.md)
 * [Caching](usage/caching.md)
 
