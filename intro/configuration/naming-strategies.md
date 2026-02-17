@@ -4,15 +4,16 @@ Boxlang ORM provides flexible naming strategies to control how entity and proper
 
 ## Predefined Naming Strategies
 
-Boxlang ORM includes the following built-in naming strategies:
+You have several choices of naming strategies to choose from:
 
 - **default**: No conversion is performed. Entity and property names are mapped to table and column names exactly as defined in your code.
 
 - **smart**: Applies a smart conversion:
   - All names are forced to uppercase.
   - camelCase names are automatically separated with underscores. For example, `userProfile` becomes `USER_PROFILE`.
+- **custom**: Specify a custom naming strategy class that implements the `INamingStrategy` interface. This allows you to implement your own logic for converting names. See [Custom Naming Strategy](#custom-naming-strategy).
 
-## Custom Naming Strategies
+## Custom Naming Strategy
 
 Need something else? Try a custom naming strategy. This allows you to implement your own logic for converting entity and property names to table and column names.
 
