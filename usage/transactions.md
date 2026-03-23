@@ -16,6 +16,17 @@ transaction{
 
 The transaction will automatically commit (persist) at the end of the transaction block.
 
+{% hint style="warning" %}
+**Transaction Scope:** Transaction events are persisted across **ALL** ORM datasources. This means that:
+
+* **Transaction begin** - begins a transaction on every ORM datasource referenced by an ORM entity
+* **Transaction commit** - commits changes on every ORM datasource
+* **Transaction rollback** - rolls back changes on every ORM datasource
+* **Transaction end** - ends the transaction on every ORM datasource
+
+When you initiate a transaction, it affects **all** datasources that have been referenced by ORM entities, not just a single datasource as in normal Boxlang transaction management.
+{% endhint %}
+
 ## Transaction Rollback
 
 A transaction rollback undoes all changes made within the transaction block and prevents them from being persisted to the database. This is useful when an error occurs or business rules are violated.
