@@ -14,6 +14,7 @@
   * [Logging](intro/configuration/logging.md)
   * [Naming Strategies](intro/configuration/naming-strategies.md)
 * [ACF/Lucee Migration Guide](intro/migration-from-cfml.md)
+* [Performance](usage/performance.md)
 
 ## Modeling
 
