@@ -9,7 +9,7 @@ You want the short answer?
 * Commit your XML mapping files to disk and set `this.ormSettings.generateMappings = false` to eliminate the XML mapping generation time on startup.
 * Fine-tune `this.ormSettings.entityPaths` to minimize the number of candidate files that need to be parsed for entity discovery.
 
-See also [Startup Metrics Logs](../intro/configuration/logging.md#startup-metrics-logs) for consolidated examples of the debug log output for ORM startup performance metrics.
+See also [Startup Metrics Logs](../intro/configuration/logging.md#startup-metrics) for consolidated examples of the debug log output for ORM startup performance metrics.
 
 ### Entity Discovery
 

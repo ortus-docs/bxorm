@@ -9,7 +9,7 @@ There are several categories of logs generated during normal use of a bx-orm app
 1. `bx-orm` logs
 2. SQL logs
 3. Hibernate logs
-4. Startup metrics logs
+4. Startup Metrics
 
 ## bx-orm logs
 
@@ -61,7 +61,7 @@ These SQL statements will also log to the `orm.log` file located in `${boxlang-h
 
 Hibernate-native logging statements will also be captured in the `orm.log` file located in `${boxlang-home}/logs`.
 
-## Startup Metrics Logs
+## Startup Metrics
 
 In debug mode, bx-orm will log the time taken for each step of the startup process, including entity discovery, metadata parsing, XML mapping generation, and SessionFactory building. Here are some example log entries:
 
