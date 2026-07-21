@@ -29,6 +29,19 @@ This one-to-one relationship can be visualized as follows:
 
 <img src="entity-relationship-one-to-one.png" alt="One User has one Address, an entity relationship diagram" style="max-width: 600px">
 
+### Constrained (`constrained`)
+
+The `constrained` attribute is specific to `one-to-one` relationships. When set to `true`, it declares that the owning entity's primary key has a foreign-key constraint pointing to the associated entity's primary key — in other words, the associated record must exist:
+
+```js
+property name        = "userProfile"
+         fieldtype   = "one-to-one"
+         class       = "UserProfile"
+         constrained = "true";
+```
+
+Use `constrained=true` when the `UserProfile` table's primary key is also a foreign key back to the `User` table (a shared-primary-key one-to-one). Without it, Hibernate treats the association as a simple reference with no FK constraint generated in the schema.
+
 ## One To Many
 
 A one to many relationship couples a single row on the left side (the "one") to multiple rows on the right side (the "many"):
@@ -170,7 +183,7 @@ property name      = "posts"
 
 Use `lazy=extra` when you frequently need collection metadata (e.g. counts) but rarely iterate over the full set.
 
-### `proxyLazyLoading` Application Setting
+#### `proxyLazyLoading` Application Setting
 
 The `proxyLazyLoading` boolean in your `Application.bx` ORM settings controls whether `lazy=true` is automatically promoted to `lazy=proxy` for **to-one** relationships at mapping time.
 
@@ -316,19 +329,6 @@ property name      = "posts"
 If you load 100 `User` entities and then access each one's `posts`, Hibernate will fetch them in batches of 50 rather than issuing 100 individual SELECT queries.
 
 When no per-property `batchsize` is set, Hibernate falls back to the application-wide `defaultBatchSize` ORM setting (see [Configuration](../intro/configuration.md)). BoxLang ORM defaults `defaultBatchSize` to `25`, while Adobe ColdFusion and Lucee both historically default to `16`. If you are migrating from ACF/Lucee and want matching batch-fetch behavior, set `defaultBatchSize=16` in your `this.ormSettings`, or install `bx-compat-cfml` which restores the legacy default.
-
-### Constrained (`constrained`)
-
-The `constrained` attribute is specific to `one-to-one` relationships. When set to `true`, it declares that the owning entity's primary key has a foreign-key constraint pointing to the associated entity's primary key — in other words, the associated record must exist:
-
-```js
-property name        = "userProfile"
-         fieldtype   = "one-to-one"
-         class       = "UserProfile"
-         constrained = "true";
-```
-
-Use `constrained=true` when the `UserProfile` table's primary key is also a foreign key back to the `User` table (a shared-primary-key one-to-one). Without it, Hibernate treats the association as a simple reference with no FK constraint generated in the schema.
 
 ## Relationship Methods
 
