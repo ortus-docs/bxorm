@@ -7,7 +7,7 @@ Execute an HQL query with (optional) parameters and specific query options.
 <h2>Parameters</h2>
  The <code>parameters</code> argument can be used to bind parameters to the SQL query.
  You can use either an array of binding parameters or a struct of named binding parameters.
- 
+
  The SQL must have the parameters bound using the syntax <code>?</code> for positional parameters or <code>:name</code> for named parameters.
  <p>
  Example:
@@ -16,9 +16,9 @@ Execute an HQL query with (optional) parameters and specific query options.
  ORMExecuteQuery( hql: "FROM autos WHERE make = ?", params: [ 'Ford' ] );
  ORMExecuteQuery( hql: "FROM autos WHERE make = :make", params: { make: 'Ford' } );
  </pre>
- 
+
  <h2>Options</h2>
- 
+
  The options struct can contain any of the following keys:
  <ul>
  <li><strong><code>unique</code></strong> - Specifies whether to retrieve a single, unique item. Default is false.</li>
@@ -58,7 +58,7 @@ var allToyotas = ORMExecuteQuery(
 );
 ```
 
-## Passing parameters
+## Passing Parameters
 
 You can pass parameters to your HQL query using either named parameters (as a struct) or positional parameters (as an array).
 

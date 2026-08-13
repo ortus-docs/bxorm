@@ -16,7 +16,9 @@ This function does not accept any arguments
 
 ## Examples
 
-
+```java
+version = ormGetHibernateVersion();
+```
 
 ## Related
 

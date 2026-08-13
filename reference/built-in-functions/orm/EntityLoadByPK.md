@@ -22,7 +22,7 @@ Load an array of entities by the primary key.
 ## Method Signature
 
 ```
-EntityLoadByPK(entity=[String], id=[String], unique=[String])
+EntityLoadByPK(entity=[String], id=[Any], unique=[String])
 ```
 
 ### Arguments
@@ -31,12 +31,25 @@ EntityLoadByPK(entity=[String], id=[String], unique=[String])
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
 | `entity` | `String` | `true` | The name of the entity to load. |  |
-| `id` | `String` | `true` | The primary key value, or a struct of key/value pairs for composite keys. |  |
+| `id` | `Any` | `true` | The primary key value, or a struct of key/value pairs for composite keys. |  |
 | `unique` | `String` | `false` | Not implemented. In BoxLang, a single entity is always returned. |  |
 
 ## Examples
 
+### Load by Primary Key
+Load entity by primary key:
 
+```java
+vehicle = entityLoadByPK( "Vehicle", "1HGCM82633A123456" );
+```
+
+### Load by Composite Key
+
+Pass a struct when the entity key is composite.
+
+```java
+vehicleType = entityLoadByPK( "VehicleType", { make: "Ford", model: "Fusion" } );
+```
 
 ## Related
 

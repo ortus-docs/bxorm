@@ -16,7 +16,12 @@ This function does not accept any arguments
 
 ## Examples
 
+```java
+mySession = ormGetSession();
+alternateSession = ormGetSession( "admin" );
 
+ormCloseAllSessions();
+```
 
 ## Related
 
