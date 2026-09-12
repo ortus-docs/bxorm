@@ -93,22 +93,28 @@ While not an exhaustive list, here are some of the more common `ormType` values:
 * nchar
 * text
 
+See [Type Conversion](type-conversion.md) for exactly how each `ormType` value is bridged to a JDBC column type.
+
 ## Generator Annotations
 
 | Attribute     | Type                  | Description                                                                                |
 |---------------|-----------------------|--------------------------------------------------------------------------------------------|
-| `generator`   | `string`              | One of `increment`,`identity`,`native`,`seqhilo`,`uuid`,`guid`,`select`,`foreign`, `assigned` |
+| `generator`   | `string`              | One of the built-in generators: `assigned`, `foreign`, `guid`, `identity`, `increment`, `native`, `select`, `sequence`, `sequence-identity`, `uuid`, `uuid2`. Any other value is treated as a fully-qualified Java class name for a custom generator. |
 | `params`      | `struct`, `string`    | `{ "table: "uuid_table", column: "uuid_value_column" }` |
-| `sequence`    | `string`              | Specify the database sequence key name to use for value generation. Use with `generator="seqhilo"` |
+| `sequence`    | `string`              | Specify the database sequence key name to use for value generation. Use with `generator="sequence"` |
 | `selectkey`   | `string`              | Only used with `generator=select`. Specify the select key to use when selecting sequence values from the database.|
 | `generated`   | `string`              | Specify whether this property should generate values upon entity save. One of `always`, `insert`, `never`. |
 
 ```js
 property name      = "userID"
          fieldtype = "id"
-         generator = "seqhilo"
+         generator = "sequence"
          sequence  = "userIDGenerator";
 ```
+
+{% hint style="warning" %}
+The legacy CFML/Lucee generator name `seqhilo` is **not** a recognized built-in generator in bx-orm. Use `generator="sequence"` instead. See [Identifiers](identifiers.md) for the full list of built-in generators.
+{% endhint %}
 
 {% hint style="info" %}
 See [Identifiers and Generators](identifiers.md#common-generator-types) for more information on generated value properties.
@@ -196,6 +202,7 @@ See [Modeling Relationships](relationships.md) for more details on modeling an O
 | `index`        | `string`  | Key name for a property value index. |
 | `cacheUse`     | `string`  | Define a cache type to use for this property. One of `read-only`, `nonstrict-read-write`, `read-write`, or `transactional`. |
 | `cacheName`    | `string`  | Set the name of the cache to use for this property. |
+| `cacheInclude` | `string`  | Set to `non-lazy` to exclude this property from the secondary cache entry when lazy-loaded. Defaults to `all`. |
 | `unSavedValue` | `string`  | Set a value to populate into this column on newly instantiated entities. |
 
 ## Formula Property

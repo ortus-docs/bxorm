@@ -134,5 +134,12 @@ Here is the full list of event types which can be listened to in entity event li
 * `preUpdate`
 * `postUpdate`
 * `preDelete`
-* `onDelete`
 * `postDelete`
+
+{% hint style="info" %}
+`onDelete` is only available in the [global event handler](#global-event-handler), not as an entity-level method - it fires once per delete operation, before Hibernate has resolved which entity persister to use.
+{% endhint %}
+
+{% hint style="info" %}
+Changes you make to the entity inside `preInsert` or `preUpdate` (either globally or at the entity level) are written back into the values Hibernate persists - these are the two events where mutating the entity actually affects what gets saved.
+{% endhint %}

@@ -27,7 +27,6 @@ Both of these settings are supported in `bx-compat-cfml` for compatibility with 
 | `autoManageSession` | `true` | `true` | `false` |
 | `flushAtRequestEnd` | `true` | `true` | `false` |
 | `proxyLazyLoading` | `true` | `true` | `false` |
-| `defaultBatchSize` | `16` | `16` | `25` |
 
 Again, each of these settings are reverted to the ACF/Lucee defaults in `bx-compat-cfml`.
 

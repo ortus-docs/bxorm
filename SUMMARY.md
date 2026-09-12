@@ -22,6 +22,7 @@
 * [Properties](modeling/properties.md)
 * [Identifiers](modeling/identifiers.md)
 * [Relationships](modeling/relationships.md)
+* [Type Conversion](modeling/type-conversion.md)
 
 ## Usage
 
@@ -35,6 +36,7 @@
 
 * [Built-in Functions](reference/built-in-functions/README.md)
   * [EntityDelete](reference/built-in-functions/orm/EntityDelete.md)
+  * [EntityIsAttached](reference/built-in-functions/orm/EntityIsAttached.md)
   * [EntityLoad](reference/built-in-functions/orm/EntityLoad.md)
   * [EntityLoadByExample](reference/built-in-functions/orm/EntityLoadByExample.md)
   * [EntityLoadByPK](reference/built-in-functions/orm/EntityLoadByPK.md)
@@ -58,6 +60,7 @@
   * [ORMGetSession](reference/built-in-functions/orm/ORMGetSession.md)
   * [ORMGetSessionFactory](reference/built-in-functions/orm/ORMGetSessionFactory.md)
   * [ORMReload](reference/built-in-functions/orm/ORMReload.md)
+* [CLI Tools](reference/cli-tools.md)
 
 ## External Links
 

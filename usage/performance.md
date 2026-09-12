@@ -32,6 +32,8 @@ This startup penalty can be mostly eliminated by committing your hbm.xml mapping
 
 Note that for any ORM entity changes, you will need to regenerate the XML mapping files by setting `this.ormSettings.generateMappings = true` and running `ormReload()` or restarting your application. This will regenerate the XML mappings to pick up any changes.
 
+You can also pre-generate `.hbm.xml` files from the command line, without booting a full application, using the [GenerateMappings CLI tool](../reference/cli-tools.md).
+
 Enable debug mode to see the time taken for XML mapping generation in the logs:
 
 ```bash

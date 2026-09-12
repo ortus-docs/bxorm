@@ -149,6 +149,15 @@ Here's the full list of available annotations for a persistent class:
             <td>Define a join column for inheritance mapping</td>
         </tr>
         <tr>
+            <td><code>mappedSuperClass</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Mark a non-persistent parent class as a mapped superclass. Its properties are folded directly into
+                each persistent subclass's own table, rather than requiring a <code>joinColumn</code> or
+                <code>discriminatorValue</code>-based inheritance strategy. Useful for sharing common properties
+                (e.g. <code>createdDate</code>, <code>modifiedDate</code>) across unrelated entities.</td>
+        </tr>
+        <tr>
             <td><code>embedded</code></td>
             <td><code>boolean</code></td>
             <td></td>
@@ -159,14 +168,20 @@ Here's the full list of available annotations for a persistent class:
             <td><code>cacheUse</code></td>
             <td><code>string</code></td>
             <td></td>
-            <td>Specify the caching strategy to be used for caching this entity's data in the secondary cache:
-                <code>read-only</code></td>
+            <td>Specify the caching strategy to be used for caching this entity's data in the secondary cache. One of
+                <code>read-only</code>, <code>nonstrict-read-write</code>, <code>read-write</code>, or <code>transactional</code></td>
         </tr>
         <tr>
             <td><code>cacheName</code></td>
             <td><code>string</code></td>
             <td></td>
             <td>Specify the name of the secondary cache</td>
+        </tr>
+        <tr>
+            <td><code>cacheInclude</code></td>
+            <td><code>string</code></td>
+            <td><code>all</code></td>
+            <td>Set to <code>non-lazy</code> to exclude lazy-loaded properties from the secondary cache entry</td>
         </tr>
         <tr>
             <td><code>saveMapping</code></td>
@@ -184,3 +199,24 @@ Here's the full list of available annotations for a persistent class:
         </tr>
     </tbody>
 </table>
+
+### Sharing Properties with `mappedSuperClass`
+
+Use `mappedSuperClass` when you want several entities to share a set of properties (like audit columns) without those properties living in their own database table:
+
+```js
+// BaseEntity.bx - not persistent itself
+class mappedSuperClass="true" {
+    property name="createdDate" ormType="timestamp";
+    property name="modifiedDate" ormType="timestamp";
+}
+
+// Author.bx
+class persistent="true" extends="BaseEntity" {
+    property name="authorID" fieldtype="id";
+    property name="name" ormType="string";
+    // createdDate and modifiedDate columns are added to the "Author" table
+}
+```
+
+This differs from `joinColumn`/`discriminatorValue` inheritance, where subclasses share rows through a join or a discriminator column in a single parent table. With `mappedSuperClass`, there is no parent table at all: every property is copied into each subclass's own table.

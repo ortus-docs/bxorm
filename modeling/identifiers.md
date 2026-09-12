@@ -86,12 +86,19 @@ property name      = "userID"
 There are several lesser-known identifier generator types, including:
 
 * `foreign` - use a specific property from a foreign entity
-* `seqhilo` - use an optimized hi/lo algorithm to generate values from a specified sequence
-* `sequence` - Alias for `seqhilo`
+* `sequence` - use a database sequence (name it with the `sequence` attribute); replaces the legacy `seqhilo` generator name
+* `sequence-identity` - use a database sequence, then retrieve the generated value via `INSERT ... RETURNING` (supported databases only)
 * `identity` - use an identity column from the database (auto-increment)
-* `native` - use identity, sequence or hilo depending on the underlying database capabilities
+* `native` - use identity, sequence, or an optimized algorithm depending on the underlying database capabilities
 * `select` - select the next value from the column denoted in `selectKey`
-* `uuid` - use Hibernate's UUID generation
+* `uuid` / `uuid2` - use Hibernate's UUID generation
+* `guid` - use the database's native GUID generation
+
+The full list of built-in generator names is: `assigned`, `foreign`, `guid`, `identity`, `increment`, `native`, `select`, `sequence`, `sequence-identity`, `uuid`, `uuid2`. Any other value is treated as the fully-qualified Java class name of a custom generator on the classpath; an unrecognized value throws a `BoxRuntimeException` at mapping time.
+
+{% hint style="warning" %}
+The legacy CFML/Lucee generator name `seqhilo` is **not** a recognized built-in generator in bx-orm. Use `generator="sequence"` with a `sequence` attribute naming your database sequence instead.
+{% endhint %}
 
 {% hint style="info" %}
 See the [Hibernate 3.3 Mapping Reference Documentation](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-id-generator) for more information on these and other generator types.

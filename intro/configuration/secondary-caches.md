@@ -51,22 +51,21 @@ This `ehcache.xml` cache configuration then should look something like this:
 </ehcache>
 ```
 
-### Alternate Cache Providers Are Unsupported
+### How the Cache Provider Setting Works
 
-While there is a `cacheProvider` setting, only EHCache (currently) is supported as a secondary cache provider.
+bx-orm bridges Hibernate's JCache (JSR-107) SPI to BoxLang's own `CacheService`, so `cacheProvider` selects a **BoxLang cache provider by name** rather than a specific Hibernate/EHCache implementation:
 
 ```js
 this.ormSettings = {
     secondaryCacheEnabled : true,
-    // NOT SUPPORTED!
-    cacheProvider : "ConcurrentHashMap"
+    // use the "userCache" provider registered in your CacheBox/CacheService config
+    cacheProvider : "userCache"
 };
 ```
 
-Thus, any usage of `cacheProvider` other than `"ehcache"` will be ignored.
+- The default, `"BoxCacheProvider"`, uses BoxLang's built-in in-memory cache.
+- `"ConcurrentHashMap"` and `"HashTable"` are legacy aliases kept for CFML/Lucee compatibility; both simply resolve to the default BoxLang cache provider.
+- Any other value must be the name of a cache provider already registered with BoxLang's `CacheService` (e.g. via CacheBox). If no provider with that name is found, ORM startup throws an error.
+- `cacheConfigProperties` lets you pass secondary-cache settings as a BoxLang struct instead of (or alongside) an XML `cacheConfig` file.
 
-Savepoints are not *currently* supported on ORM transactions.
-
-{% hint style="info" %}
-Looking for alternate cache providers? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).
-{% endhint %}
+See the [Caching](../../usage/caching.md) page for entity-level cache strategies (`cacheUse`).

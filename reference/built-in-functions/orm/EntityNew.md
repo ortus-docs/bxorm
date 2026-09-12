@@ -69,6 +69,7 @@ This will create the entity and ignore the `Color` property if it does not exist
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
+  * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)

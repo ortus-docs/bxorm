@@ -23,6 +23,7 @@ version = ormGetHibernateVersion();
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
+  * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
