@@ -81,6 +81,7 @@ This will search for the `Auto` entity with the specified `VIN` and return it if
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
+  * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
   * [EntityMerge](./EntityMerge.md)

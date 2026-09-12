@@ -1,15 +1,13 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `EntityReload`
+# Function: `EntityIsAttached`
 
-Reload an entity from the database.
-
-Will repopulate all persistent properties on the entity with the latest values from the database.
+Check whether an entity is attached to the current ORM session.
 
 ## Method Signature
 
 ```
-EntityReload(entity=[Any])
+EntityIsAttached(entity=[Any])
 ```
 
 ### Arguments
@@ -17,28 +15,23 @@ EntityReload(entity=[Any])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entity` | `Any` | `true` | The entity instance to reload. |  |
+| `entity` | `Any` | `true` | The entity instance to check. |  |
 
 ## Examples
 
-Reload an entity by passing the entity object directly:
+Check whether a loaded entity is still attached to its datasource's session:
 
 ```java
 manufacturer = entityLoadByPK( "Manufacturer", 1 );
-reloaded = entityReload( manufacturer );
-```
+isAttached   = entityIsAttached( manufacturer );
 
-Reload all in-session entities by entity name:
-
-```java
-manufacturer = entityLoadByPK( "Manufacturer", 1 );
-reloaded = entityReload( "manufacturer" );
+ormEvictEntity( "Manufacturer" );
+isAttached   = entityIsAttached( manufacturer ); // false
 ```
 
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
-  * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
@@ -46,6 +39,7 @@ reloaded = entityReload( "manufacturer" );
   * [EntityNameArray](./EntityNameArray.md)
   * [EntityNameList](./EntityNameList.md)
   * [EntityNew](./EntityNew.md)
+  * [EntityReload](./EntityReload.md)
   * [EntitySave](./EntitySave.md)
   * [EntityToQuery](./EntityToQuery.md)
   * [ORMClearSession](./ORMClearSession.md)

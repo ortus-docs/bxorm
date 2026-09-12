@@ -154,8 +154,10 @@ transaction name="outer" {
 
 ## Transaction Savepoint
 
-Savepoints are not _currently_ supported on ORM transactions.
+True database savepoints (`SAVEPOINT` / `ROLLBACK TO SAVEPOINT`) are not _currently_ supported on ORM transactions - you cannot partially roll back a transaction to an intermediate point.
+
+Nested `transaction` blocks are still tracked internally: when an inner (child) `transaction` block ends, bx-orm flushes the Hibernate session for each active datasource so that its changes are pushed to the database before the outer transaction continues. This keeps nested transaction blocks well-behaved, but it is not a substitute for real savepoint/rollback support.
 
 {% hint style="info" %}
-Looking for ORM savepoint support? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).
+Looking for full ORM savepoint support? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).
 {% endhint %}
