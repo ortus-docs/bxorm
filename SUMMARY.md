@@ -22,6 +22,7 @@
 * [Properties](modeling/properties.md)
 * [Identifiers](modeling/identifiers.md)
 * [Relationships](modeling/relationships.md)
+* [Type Conversion](modeling/type-conversion.md)
 
 ## Usage
 
@@ -59,6 +60,7 @@
   * [ORMGetSession](reference/built-in-functions/orm/ORMGetSession.md)
   * [ORMGetSessionFactory](reference/built-in-functions/orm/ORMGetSessionFactory.md)
   * [ORMReload](reference/built-in-functions/orm/ORMReload.md)
+* [CLI Tools](reference/cli-tools.md)
 
 ## External Links
 

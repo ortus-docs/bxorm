@@ -93,6 +93,8 @@ While not an exhaustive list, here are some of the more common `ormType` values:
 * nchar
 * text
 
+See [Type Conversion](type-conversion.md) for exactly how each `ormType` value is bridged to a JDBC column type.
+
 ## Generator Annotations
 
 | Attribute     | Type                  | Description                                                                                |
