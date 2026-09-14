@@ -30,175 +30,32 @@ class persistent="true" entityname="Author" table="authors" {
 
 Here's the full list of available annotations for a persistent class:
 
-<table data-full-width="true">
-    <thead>
-        <tr>
-            <th width="235">Attribute</th>
-            <th width="111">Type</th>
-            <th width="107">Default</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code>persistent</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Mark this class as an ORM entity</td>
-        </tr>
-        <tr>
-            <td><code>entityname</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Set a custom entity name which is different than the boxlang class name</td>
-        </tr>
-        <tr>
-            <td><code>table</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Specify the database table name</td>
-        </tr>
-        <tr>
-            <td><code>schema</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Specify the database schema name.</td>
-        </tr>
-        <tr>
-            <td><code>catalog</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Specify the database catalog name.</td>
-        </tr>
-        <tr>
-            <td><code>dynamicinsert</code></td>
-            <td></td>
-            <td></td>
-            <td>Specifies whether INSERT SQL is to be generated at runtime. Only those columns whose values are not null
-                are included in the SQL.</td>
-        </tr>
-        <tr>
-            <td><code>dynamicinsert</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Specifies whether INSERT SQL is to be generated at runtime. Only those columns whose values are not null
-                are included in the SQL.</td>
-        </tr>
-        <tr>
-            <td><code>dynamicupdate</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Specifies whether UPDATE SQL is to be generated at runtime. Only those columns whose values are not null
-                are included in the SQL.</td>
-        </tr>
-        <tr>
-            <td><code>readonly</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Specify whether table is readonly or not</td>
-        </tr>
-        <tr>
-            <td><code>selectbeforeupdate</code></td>
-            <td><code>boolean</code></td>
-            <td></td>
-            <td>Specify whether Hibernate should never perform an SQL UPDATE unless it is certain that an object is
-                actually modified. In cases when a transient object is associated with a new session using update(),
-                Hibernate performs an extra SQL SELECT to determine if an UPDATE is actually required.</td>
-        </tr>
-        <tr>
-            <td><code>optimisticlock</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Determines the locking strategy. It can be any one of:
-                <code>all</code>,<code>dirty</code>,<code>version</code>,<code>none</code></td>
-        </tr>
-        <tr>
-            <td><code>batchsize</code></td>
-            <td><code>integer</code></td>
-            <td></td>
-            <td>An integer value that specifies the number of records to be retrieved at a single instance.</td>
-        </tr>
-        <tr>
-            <td><code>lazy</code></td>
-            <td><code>boolean</code></td>
-            <td><code>true</code></td>
-            <td>Whether loading is to be done lazily or not.</td>
-        </tr>
-        <tr>
-            <td><code>rowid</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Specify the row id</td>
-        </tr>
-        <tr>
-            <td><code>discriminatorColumn</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Use this attribute to define the discriminator column to be used in inheritance mapping</td>
-        </tr>
-        <tr>
-            <td><code>discriminatorValue</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Use this attribute to define the discriminator value to be used in inheritance mapping</td>
-        </tr>
-        <tr>
-            <td><code>joinColumn</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Define a join column for inheritance mapping</td>
-        </tr>
-        <tr>
-            <td><code>mappedSuperClass</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Mark a non-persistent parent class as a mapped superclass. Its properties are folded directly into
-                each persistent subclass's own table, rather than requiring a <code>joinColumn</code> or
-                <code>discriminatorValue</code>-based inheritance strategy. Useful for sharing common properties
-                (e.g. <code>createdDate</code>, <code>modifiedDate</code>) across unrelated entities.</td>
-        </tr>
-        <tr>
-            <td><code>embedded</code></td>
-            <td><code>boolean</code></td>
-            <td></td>
-            <td>Marks class as embedded, used when a class has an embedded object which also needs to be persisted along
-                with the parent's data</td>
-        </tr>
-        <tr>
-            <td><code>cacheUse</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Specify the caching strategy to be used for caching this entity's data in the secondary cache. One of
-                <code>read-only</code>, <code>nonstrict-read-write</code>, <code>read-write</code>, or <code>transactional</code></td>
-        </tr>
-        <tr>
-            <td><code>cacheName</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Specify the name of the secondary cache</td>
-        </tr>
-        <tr>
-            <td><code>cacheInclude</code></td>
-            <td><code>string</code></td>
-            <td><code>all</code></td>
-            <td>Set to <code>non-lazy</code> to exclude lazy-loaded properties from the secondary cache entry</td>
-        </tr>
-        <tr>
-            <td><code>saveMapping</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Specifies whether the generated Hibernate mapping file has to be saved to disk. If you set the value to
-                true, the Hibernate mapping XML file is saved as <code>{class name}.hbm.xml</code> in the same directory
-                as the boxlang class.</td>
-        </tr>
-        <tr>
-            <td><code>datasource</code></td>
-            <td><code>string</code></td>
-            <td></td>
-            <td>Name a specific datasource to persist this entity to.</td>
-        </tr>
-    </tbody>
-</table>
+|Attribute|Type|Default|Description|
+|---|---|---|---|
+|`persistent`|`boolean`|`false`|Mark this class as an ORM entity|
+|`entityname`|`string`||Set a custom entity name which is different than the boxlang class name|
+|`table`|`string`||Specify the database table name|
+|`schema`|`string`||Specify the database schema name.|
+|`catalog`|`string`||Specify the database catalog name.|
+|`dynamicinsert`|||Specifies whether INSERT SQL is generated at runtime. Only columns whose values are not null are included in the SQL.|
+|`dynamicinsert`|`boolean`|`false`|Specifies whether INSERT SQL is generated at runtime. Only columns whose values are not null are included in the SQL.|
+|`dynamicupdate`|`boolean`|`false`|Specifies whether UPDATE SQL is generated at runtime. Only columns whose values are not null are included in the SQL.|
+|`readonly`|`boolean`|`false`|Specify whether the table is read-only.|
+|`selectbeforeupdate`|`boolean`||Specify whether Hibernate should perform an SQL `UPDATE` only when an object is actually modified.|
+|`optimisticlock`|`string`||Determines the locking strategy: `all`, `dirty`, `version`, or `none`.|
+|`batchsize`|`integer`||Number of records to retrieve at a single instance.|
+|`lazy`|`boolean`|`true`|Whether loading is done lazily.|
+|`rowid`|`string`||Specify the row ID.|
+|`discriminatorColumn`|`string`||Define the discriminator column used in inheritance mapping.|
+|`discriminatorValue`|`string`||Define the discriminator value used in inheritance mapping.|
+|`joinColumn`|`string`||Define a join column for inheritance mapping.|
+|`mappedSuperClass`|`boolean`|`false`|Mark a non-persistent parent class as a mapped superclass. Its properties are folded into each persistent subclass's table.|
+|`embedded`|`boolean`||Mark the class as embedded so its properties are persisted with the parent's data.|
+|`cacheUse`|`string`||Caching strategy: `read-only`, `nonstrict-read-write`, `read-write`, or `transactional`.|
+|`cacheName`|`string`||Specify the name of the secondary cache.|
+|`cacheInclude`|`string`|`all`|Set to `non-lazy` to exclude lazy-loaded properties from the secondary cache entry.|
+|`saveMapping`|`boolean`|`false`|Save the generated Hibernate mapping file as `{class name}.hbm.xml` beside the BoxLang class.|
+|`datasource`|`string`||Name a specific datasource to persist this entity to.|
 
 ### Sharing Properties with `mappedSuperClass`
 
