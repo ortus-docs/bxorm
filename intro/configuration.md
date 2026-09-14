@@ -4,7 +4,7 @@ description: Easily configure Hibernate with BL
 
 # Configuration
 
-### Application.bx
+## Application.bx
 
 The ORM can be configured by a struct of settings set in `this.ormSettings` in your main `Application.bx`:
 
@@ -17,7 +17,7 @@ class{
 }
 ```
 
-### ORM Settings
+## ORM Settings
 
 The full list of available properties you can use to configure the ORM are the following:
 
@@ -52,7 +52,7 @@ The full list of available properties you can use to configure the ORM are the f
 |`sqlScript`||Path to a SQL script executed after ORM initialization.|
 |`useDBForMapping`|`true`|Inspects the database for missing mapping information, including column types, primary keys, and foreign keys.|
 
-### Dialects
+## Dialects
 
 By using the `ormsettings.dialect` you can tell Hibernate which specific database dialect to use for building queries.  By default, Hibernate tries to inspect the datasource and define it for you.  95% of the time, this works.  However, if you want a specific one, then you can use the following names or a fully qualified Java class name.
 
@@ -115,7 +115,7 @@ By using the `ormsettings.dialect` you can tell Hibernate which specific databas
 See the Hibernate Dialect Section: [Hibernate\_User\_Guide.html#database-dialect](https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html#database-dialect)
 {% endhint %}
 
-#### SQLite
+### SQLite
 
 ```js
 this.datasources = {
@@ -133,7 +133,7 @@ this.ormSettings = {
 You'll need a SQLite JDBC driver (e.g. `org.xerial:sqlite-jdbc`) on your application's classpath, as bx-orm does not bundle one.
 {% endhint %}
 
-### Sample Config
+## Sample Config
 
 Here is an example configuration from the popular ContentBox Modular CMS application
 
