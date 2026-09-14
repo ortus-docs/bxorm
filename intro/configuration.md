@@ -137,14 +137,13 @@ You'll need a SQLite JDBC driver (e.g. `org.xerial:sqlite-jdbc`) on your applica
 
 Here is an example configuration from the popular ContentBox Modular CMS application
 
-```cfscript
+```js
 // THE CONTENTBOX DATASOURCE NAME
 this.datasource  = "contentbox";
 // ORM SETTINGS
 this.ormEnabled  = true;
-// cfformat-ignore-start
 this.ormSettings = {
-	// ENTITY LOCATIONS, ADD MORE LOCATIONS AS YOU SEE FIT
+	// An array of paths where your entity classes are located
 	entityPaths           : [
 		// If you create your own app entities
 		"models",
@@ -157,18 +156,27 @@ this.ormSettings = {
 	],
 	// THE DIALECT OF YOUR DATABASE OR LET HIBERNATE FIGURE IT OUT, UP TO YOU TO CONFIGURE.
 	dialect              : request.$systemHelper.getSystemSetting( "ORM_DIALECT", "" ),
-	// DO NOT REMOVE THE FOLLOWING LINE OR AUTO-UPDATES MIGHT FAIL.
+    // The database creation strategy (e.g., "update", "create", "dropcreate")
 	dbcreate             : "update",
+    // Enable or disable the secondary cache
 	secondarycacheenabled: request.$systemHelper.getSystemSetting( "ORM_SECONDARY_CACHE", false ),
+    // The cache provider to use for the secondary cache
 	cacheprovider        : request.$systemHelper.getSystemSetting( "ORM_SECONDARY_CACHE", "ehCache" ),
-	logSQL               : request.$systemHelper.getSystemSetting( "ORM_LOGSQL", false ),
+	// Whether to log SQL statements
+    logSQL               : request.$systemHelper.getSystemSetting( "ORM_LOGSQL", false ),
+    // The SQL script to execute during ORM initialization
 	sqlScript            : request.$systemHelper.getSystemSetting( "ORM_SQL_SCRIPT", "" ),
+    // Whether to flush the session at the end of each request
 	flushAtRequestEnd    : false,
+    // Whether to automatically manage the session
 	autoManageSession    : false,
+    // Whether to enable event handling
 	eventHandling        : true,
-	eventHandler         : "cborm.models.EventHandler",
+    // The event handler class to use
+	eventHandler         : "cborm.models.BxEventHandler",
+    // Whether to ignore parse errors
 	ignoreParseErrors     : true,
 	// TURN ON FOR Debugging if ORM mappings are not working.
 	savemapping          : false
-};
+}
 ```
