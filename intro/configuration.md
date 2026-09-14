@@ -117,6 +117,8 @@ See the Hibernate Dialect Section: [Hibernate\_User\_Guide.html#database-dialect
 
 ### SQLite
 
+bx-orm automatically detects SQLite from the JDBC connection, so you do not need to configure `dialect: "SQLite"` explicitly.
+
 ```js
 this.datasources = {
     "myDB" : {
