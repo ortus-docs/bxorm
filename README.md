@@ -50,7 +50,7 @@ transaction{
 
 ### Hibernate Version Support
 
-bx-orm bundles Hibernate `5.6.15.FINAL`.
+bx-orm bundles Hibernate ORM `7.4.8.Final`.
 
 ### Open Source Product
 

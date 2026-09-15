@@ -16,7 +16,7 @@ EntitySave(entity=[Any], forceinsert=[Boolean])
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
 | `entity` | `Any` | `true` | The entity instance to save. |  |
-| `forceinsert` | `Boolean` | `false` | If true, will force an insert operation. Otherwise, a saveOrUpdate operation will be performed. |  |
+| `forceinsert` | `Boolean` | `false` | If true, will force an insert operation. Otherwise, a save or update operation will be performed (an insert for a new entity, an update for an existing one). |  |
 
 ## Examples
 
