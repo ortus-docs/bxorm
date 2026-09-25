@@ -88,3 +88,35 @@ This ordering means other requests keep using a valid `ORMApp` throughout the re
 | [ORMClearSession](../reference/built-in-functions/orm/ORMClearSession.md) | Detach all entities from the session without flushing |
 | [ORMCloseSession](../reference/built-in-functions/orm/ORMCloseSession.md) / [ORMCloseAllSessions](../reference/built-in-functions/orm/ORMCloseAllSessions.md) | Close one or all open sessions for the current context |
 | [ORMReload](../reference/built-in-functions/orm/ORMReload.md) | Rebuild the ORM application's session factories |
+| [ORMIsSessionDirty](../reference/built-in-functions/orm/ORMIsSessionDirty.md) | Whether a flush would write something |
+| [ORMGetSessionStatistics](../reference/built-in-functions/orm/ORMGetSessionStatistics.md) | Which entities and collections the session holds |
+
+## Inspecting entities and the session
+
+These functions answer "what is this entity, and what changed" without touching the Hibernate API. They take an entity instance (or, where it makes sense, an entity name) and never load a lazy reference just to answer.
+
+```js
+user = entityLoadByPK( "User", 1 );
+
+entityGetName( user );             // "User"
+entityGetDatasource( user );       // "app"
+entityGetId( user );               // 1 (a struct for composite ids)
+entityGetMetadata( "User" ).tableName; // "users"
+
+user.setEmail( "new@example.com" );
+entityIsDirty( user );             // true
+entityGetDirtyProperties( user );  // [ "email" ]
+ormIsSessionDirty();               // true
+ormGetSessionStatistics().entityKeys; // [ "User#1" ]
+```
+
+An entity in the session is compared with the values it was loaded with, with no SQL. An entity outside the session is compared with a fresh read of its row. An entity that was never saved is not dirty.
+
+| Function | Purpose |
+| --- | --- |
+| [EntityGetName](../reference/built-in-functions/orm/EntityGetName.md) | The entity name of an instance, lazy reference or name |
+| [EntityGetDatasource](../reference/built-in-functions/orm/EntityGetDatasource.md) | The entity's datasource |
+| [EntityGetId](../reference/built-in-functions/orm/EntityGetId.md) | The entity's id |
+| [EntityGetMetadata](../reference/built-in-functions/orm/EntityGetMetadata.md) | Table, ids, properties and associations |
+| [EntityIsDirty](../reference/built-in-functions/orm/EntityIsDirty.md) | Whether the entity has unsaved changes |
+| [EntityGetDirtyProperties](../reference/built-in-functions/orm/EntityGetDirtyProperties.md) | Which properties changed |

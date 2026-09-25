@@ -67,6 +67,7 @@ catch ( "orm.query" e ) {
 | `orm.id.missing` | An entity with an assigned id (`generator="assigned"`) was saved without one. | Set the id before `entitySave()`, or give the id a generator. |
 | `orm.session.duplicate` | Two different objects for the same row are in one session. | Use `entityMerge()`, or keep working with the instance you loaded. |
 | `orm.stale` | Optimistic locking: the row changed or was deleted after you loaded it. | Reload the entity and apply your change again. |
+| `orm.event.veto` | A `preInsert` handler returned `false` for an entity whose id comes from the database (`generator="identity"`); that insert cannot be skipped. | Decide before `entitySave()`, or throw an error from `preInsert`. See [Events](events.md#vetoing-an-operation). |
 | `orm.constraint.unique` | A unique constraint rejected the change. | Another row already has this value. |
 | `orm.constraint.notNull` | A required property (`notnull="true"`) or column has no value. | Set it before saving. |
 | `orm.constraint.foreignKey` | A foreign key rejected the change: it points to a missing row, or deletes a row still referenced. | Save or keep the referenced row, or add a cascade. |

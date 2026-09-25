@@ -37,7 +37,13 @@ singleMatch = entityLoadByExample( sample, true );
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
+  * [EntityGetDatasource](./EntityGetDatasource.md)
+  * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
+  * [EntityGetId](./EntityGetId.md)
+  * [EntityGetMetadata](./EntityGetMetadata.md)
+  * [EntityGetName](./EntityGetName.md)
   * [EntityIsAttached](./EntityIsAttached.md)
+  * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
   * [EntityMerge](./EntityMerge.md)
@@ -50,6 +56,7 @@ singleMatch = entityLoadByExample( sample, true );
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
   * [ORMCloseSession](./ORMCloseSession.md)
+  * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)
   * [ORMEvictQueries](./ORMEvictQueries.md)
@@ -59,4 +66,6 @@ singleMatch = entityLoadByExample( sample, true );
   * [ORMGetHibernateVersion](./ORMGetHibernateVersion.md)
   * [ORMGetSession](./ORMGetSession.md)
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
+  * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
+  * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
   * [ORMReload](./ORMReload.md)

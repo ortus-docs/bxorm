@@ -1,13 +1,13 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `ORMEvictQueries`
+# Function: `ORMIsSessionDirty`
 
-Evict all queries from the named or default cache on the named or default datasource.
+Whether the ORM session for a datasource has changes that are not flushed to the database yet.
 
 ## Method Signature
 
 ```
-ORMEvictQueries(cacheName=[String], datasource=[String])
+ORMIsSessionDirty(datasource=[String])
 ```
 
 ### Arguments
@@ -15,23 +15,16 @@ ORMEvictQueries(cacheName=[String], datasource=[String])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `cacheName` | `String` | `false` | The name of the cache region to evict. If not provided, the default query cache will be evicted. |  |
-| `datasource` | `String` | `false` | The name of the datasource on which to evict the cache. If not provided, the default datasource will be used. |  |
+| `datasource` | `String` | `false` | The datasource whose session to inspect. Defaults to the application's default datasource. |  |
 
 ## Examples
 
-### Evict All Query Caches
-Call with no arguments to clear all query cache regions.
-
 ```java
-ormEvictQueries();
-```
-
-### Evict by Region and Datasource Cache
-You can target a specific cache region and datasource.
-
-```java
-ormEvictQueries( "queries", "admin" );
+user = entityLoadByPK( "User", 1 );
+ormIsSessionDirty();          // false
+user.setEmail( "new@example.com" );
+ormIsSessionDirty();          // true
+ormIsSessionDirty( "audit" ); // the audit datasource's session
 ```
 
 ## Related
@@ -60,6 +53,7 @@ ormEvictQueries( "queries", "admin" );
   * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)
+  * [ORMEvictQueries](./ORMEvictQueries.md)
   * [ORMExecuteQuery](./ORMExecuteQuery.md)
   * [ORMFlush](./ORMFlush.md)
   * [ORMFlushAll](./ORMFlushAll.md)
@@ -67,5 +61,4 @@ ormEvictQueries( "queries", "admin" );
   * [ORMGetSession](./ORMGetSession.md)
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
   * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
-  * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
   * [ORMReload](./ORMReload.md)

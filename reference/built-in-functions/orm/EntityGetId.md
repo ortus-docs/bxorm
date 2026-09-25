@@ -1,13 +1,13 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `ORMEvictQueries`
+# Function: `EntityGetId`
 
-Evict all queries from the named or default cache on the named or default datasource.
+The primary key of an entity. A lazy reference answers without being loaded. When given an entity name, there is no instance to read, so an `orm.argument` error is raised.
 
 ## Method Signature
 
 ```
-ORMEvictQueries(cacheName=[String], datasource=[String])
+EntityGetId(entity=[Any])
 ```
 
 ### Arguments
@@ -15,23 +15,17 @@ ORMEvictQueries(cacheName=[String], datasource=[String])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `cacheName` | `String` | `false` | The name of the cache region to evict. If not provided, the default query cache will be evicted. |  |
-| `datasource` | `String` | `false` | The name of the datasource on which to evict the cache. If not provided, the default datasource will be used. |  |
+| `entity` | `Any` | `true` | An entity instance (loaded, new or a lazy reference). |  |
+
+Returns the id value; a struct of `{ property : value }` for a composite id; `null` when the entity has no id yet.
 
 ## Examples
 
-### Evict All Query Caches
-Call with no arguments to clear all query cache regions.
-
 ```java
-ormEvictQueries();
-```
-
-### Evict by Region and Datasource Cache
-You can target a specific cache region and datasource.
-
-```java
-ormEvictQueries( "queries", "admin" );
+entityGetId( entityLoadByPK( "User", 5 ) );   // 5
+entityGetId( entityNew( "User" ) );           // null
+entityGetId( order.getCustomer() );           // the customer id, without loading the customer
+entityGetId( playingField );                  // { fieldID : 1, fieldName : "North" }
 ```
 
 ## Related
@@ -39,7 +33,6 @@ ormEvictQueries( "queries", "admin" );
   * [EntityDelete](./EntityDelete.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
-  * [EntityGetId](./EntityGetId.md)
   * [EntityGetMetadata](./EntityGetMetadata.md)
   * [EntityGetName](./EntityGetName.md)
   * [EntityIsAttached](./EntityIsAttached.md)
@@ -60,6 +53,7 @@ ormEvictQueries( "queries", "admin" );
   * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)
+  * [ORMEvictQueries](./ORMEvictQueries.md)
   * [ORMExecuteQuery](./ORMExecuteQuery.md)
   * [ORMFlush](./ORMFlush.md)
   * [ORMFlushAll](./ORMFlushAll.md)

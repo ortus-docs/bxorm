@@ -26,7 +26,13 @@ ormFlushAll();
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
+  * [EntityGetDatasource](./EntityGetDatasource.md)
+  * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
+  * [EntityGetId](./EntityGetId.md)
+  * [EntityGetMetadata](./EntityGetMetadata.md)
+  * [EntityGetName](./EntityGetName.md)
   * [EntityIsAttached](./EntityIsAttached.md)
+  * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
@@ -40,6 +46,7 @@ ormFlushAll();
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
   * [ORMCloseSession](./ORMCloseSession.md)
+  * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)
   * [ORMEvictQueries](./ORMEvictQueries.md)
@@ -48,4 +55,6 @@ ormFlushAll();
   * [ORMGetHibernateVersion](./ORMGetHibernateVersion.md)
   * [ORMGetSession](./ORMGetSession.md)
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
+  * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
+  * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
   * [ORMReload](./ORMReload.md)

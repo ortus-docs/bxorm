@@ -38,7 +38,13 @@ ormEvictEntity( "Manufacturer", record.getId() );
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
+  * [EntityGetDatasource](./EntityGetDatasource.md)
+  * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
+  * [EntityGetId](./EntityGetId.md)
+  * [EntityGetMetadata](./EntityGetMetadata.md)
+  * [EntityGetName](./EntityGetName.md)
   * [EntityIsAttached](./EntityIsAttached.md)
+  * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
@@ -52,6 +58,7 @@ ormEvictEntity( "Manufacturer", record.getId() );
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
   * [ORMCloseSession](./ORMCloseSession.md)
+  * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictQueries](./ORMEvictQueries.md)
   * [ORMExecuteQuery](./ORMExecuteQuery.md)
@@ -60,4 +67,6 @@ ormEvictEntity( "Manufacturer", record.getId() );
   * [ORMGetHibernateVersion](./ORMGetHibernateVersion.md)
   * [ORMGetSession](./ORMGetSession.md)
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
+  * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
+  * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
   * [ORMReload](./ORMReload.md)

@@ -37,7 +37,13 @@
 
 * [Built-in Functions](reference/built-in-functions/README.md)
   * [EntityDelete](reference/built-in-functions/orm/EntityDelete.md)
+  * [EntityGetDatasource](reference/built-in-functions/orm/EntityGetDatasource.md)
+  * [EntityGetDirtyProperties](reference/built-in-functions/orm/EntityGetDirtyProperties.md)
+  * [EntityGetId](reference/built-in-functions/orm/EntityGetId.md)
+  * [EntityGetMetadata](reference/built-in-functions/orm/EntityGetMetadata.md)
+  * [EntityGetName](reference/built-in-functions/orm/EntityGetName.md)
   * [EntityIsAttached](reference/built-in-functions/orm/EntityIsAttached.md)
+  * [EntityIsDirty](reference/built-in-functions/orm/EntityIsDirty.md)
   * [EntityLoad](reference/built-in-functions/orm/EntityLoad.md)
   * [EntityLoadByExample](reference/built-in-functions/orm/EntityLoadByExample.md)
   * [EntityLoadByPK](reference/built-in-functions/orm/EntityLoadByPK.md)
@@ -61,6 +67,8 @@
   * [ORMGetHibernateVersion](reference/built-in-functions/orm/ORMGetHibernateVersion.md)
   * [ORMGetSession](reference/built-in-functions/orm/ORMGetSession.md)
   * [ORMGetSessionFactory](reference/built-in-functions/orm/ORMGetSessionFactory.md)
+  * [ORMGetSessionStatistics](reference/built-in-functions/orm/ORMGetSessionStatistics.md)
+  * [ORMIsSessionDirty](reference/built-in-functions/orm/ORMIsSessionDirty.md)
   * [ORMReload](reference/built-in-functions/orm/ORMReload.md)
 * [CLI Tools](reference/cli-tools.md)
 

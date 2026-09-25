@@ -1,13 +1,13 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `ORMEvictQueries`
+# Function: `EntityGetMetadata`
 
-Evict all queries from the named or default cache on the named or default datasource.
+The mapping metadata of an entity, as a struct. Built once per entity and cached for the life of the ORM application; each call returns a copy you may change.
 
 ## Method Signature
 
 ```
-ORMEvictQueries(cacheName=[String], datasource=[String])
+EntityGetMetadata(entity=[Any])
 ```
 
 ### Arguments
@@ -15,23 +15,34 @@ ORMEvictQueries(cacheName=[String], datasource=[String])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `cacheName` | `String` | `false` | The name of the cache region to evict. If not provided, the default query cache will be evicted. |  |
-| `datasource` | `String` | `false` | The name of the datasource on which to evict the cache. If not provided, the default datasource will be used. |  |
+| `entity` | `Any` | `true` | An entity instance (loaded, new or a lazy reference) or an entity name. |  |
+
+### Returned keys
+
+| Key | Description |
+| --- | --- |
+| `entityName` | The entity name. |
+| `className` | The BoxLang class path. |
+| `datasource` | The datasource name. |
+| `tableName`, `schema`, `catalog` | Where the entity is stored. |
+| `parent` | The parent entity name for inheritance, or empty. |
+| `readOnly` | True for an immutable entity. |
+| `discriminator` | `{ column, value }` for single-table inheritance. |
+| `idProperties` | The id property names (more than one for a composite id). |
+| `idType` | The id ormtype, or `composite`. |
+| `version` | The version property name, or empty. |
+| `properties` | One struct per column-backed property: `name`, `column` (empty for a formula), `ormtype`, `fieldtype`, `nullable`, `unique`, `length`, `precision`, `scale`, `formula`, `insertable`, `updatable`. |
+| `associations` | One struct per association: `name`, `kind` (`many-to-one`, `one-to-many`, ...), `target` (entity name), `cascade`, `lazy`, `inverse`, `fkcolumn`, `mappedBy`, `linkTable`, `orderBy`. |
+| `propertyNames` | Every non-id property name. |
 
 ## Examples
 
-### Evict All Query Caches
-Call with no arguments to clear all query cache regions.
-
 ```java
-ormEvictQueries();
-```
-
-### Evict by Region and Datasource Cache
-You can target a specific cache region and datasource.
-
-```java
-ormEvictQueries( "queries", "admin" );
+meta = entityGetMetadata( "User" );
+meta.tableName;                              // "users"
+meta.idProperties;                           // [ "id" ]
+meta.associations.map( a => a.name );        // [ "role", "orders" ]
+meta.properties.filter( p => !p.nullable );  // required columns
 ```
 
 ## Related
@@ -40,7 +51,6 @@ ormEvictQueries( "queries", "admin" );
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
   * [EntityGetId](./EntityGetId.md)
-  * [EntityGetMetadata](./EntityGetMetadata.md)
   * [EntityGetName](./EntityGetName.md)
   * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityIsDirty](./EntityIsDirty.md)
@@ -60,6 +70,7 @@ ormEvictQueries( "queries", "admin" );
   * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)
+  * [ORMEvictQueries](./ORMEvictQueries.md)
   * [ORMExecuteQuery](./ORMExecuteQuery.md)
   * [ORMFlush](./ORMFlush.md)
   * [ORMFlushAll](./ORMFlushAll.md)

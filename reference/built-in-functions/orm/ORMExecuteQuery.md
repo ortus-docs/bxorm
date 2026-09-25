@@ -27,6 +27,9 @@ Execute an HQL query with (optional) parameters and specific query options.
  <li><strong><code>offset</code></strong> - Specifies the position from which to retrieve the objects. Default is 0.</li>
  <li><strong><code>maxresults</code></strong> - Specifies the maximum number of objects to be retrieved. Default is no limit.</li>
  <li><strong><code>readonly</code></strong> - If true, the query will be read-only. Default is false.</li>
+ <li><strong><code>cacheable</code></strong> - Cache the result in the second-level query cache (needs <code>secondaryCacheEnabled</code>). Default is false.</li>
+ <li><strong><code>cacheName</code></strong> - The query cache region to use (alias <code>cacheRegion</code>). Implies <code>cacheable</code> unless <code>cacheable</code> is given.</li>
+ <li><strong><code>timeout</code></strong> - The query timeout in seconds. Default is no timeout.</li>
  </ul>
 
 ## Method Signature
@@ -90,7 +93,13 @@ prior to query execution.
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
+  * [EntityGetDatasource](./EntityGetDatasource.md)
+  * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
+  * [EntityGetId](./EntityGetId.md)
+  * [EntityGetMetadata](./EntityGetMetadata.md)
+  * [EntityGetName](./EntityGetName.md)
   * [EntityIsAttached](./EntityIsAttached.md)
+  * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
@@ -104,6 +113,7 @@ prior to query execution.
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
   * [ORMCloseSession](./ORMCloseSession.md)
+  * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)
   * [ORMEvictQueries](./ORMEvictQueries.md)
@@ -112,4 +122,6 @@ prior to query execution.
   * [ORMGetHibernateVersion](./ORMGetHibernateVersion.md)
   * [ORMGetSession](./ORMGetSession.md)
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
+  * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
+  * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
   * [ORMReload](./ORMReload.md)
