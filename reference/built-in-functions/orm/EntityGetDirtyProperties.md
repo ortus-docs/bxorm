@@ -30,6 +30,7 @@ entityGetDirtyProperties( user );   // [ "email", "role" ]
 
 ## Related
 
+  * [EntityCriteria](./EntityCriteria.md)
   * [EntityDelete](./EntityDelete.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetId](./EntityGetId.md)

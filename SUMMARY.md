@@ -27,6 +27,7 @@
 ## Usage
 
 * [Queries and HQL](usage/querying.md)
+* [Criteria Queries](usage/criteria.md)
 * [Events](usage/events.md)
 * [Session Management](usage/session-management.md)
 * [Transactions](usage/transactions.md)
@@ -36,6 +37,7 @@
 ## Reference
 
 * [Built-in Functions](reference/built-in-functions/README.md)
+  * [EntityCriteria](reference/built-in-functions/orm/EntityCriteria.md)
   * [EntityDelete](reference/built-in-functions/orm/EntityDelete.md)
   * [EntityGetDatasource](reference/built-in-functions/orm/EntityGetDatasource.md)
   * [EntityGetDirtyProperties](reference/built-in-functions/orm/EntityGetDirtyProperties.md)

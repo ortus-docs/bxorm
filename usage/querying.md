@@ -4,7 +4,7 @@ description: Query your entities with HQL or simple filter-based lookups
 
 # Querying
 
-bx-orm gives you two ways to query entities: **HQL** (Hibernate Query Language) for anything beyond a simple lookup, and **filter-based queries** for quick equality lookups without writing a query string at all.
+bx-orm gives you three ways to query entities: **HQL** (Hibernate Query Language) for anything beyond a simple lookup, **filter-based queries** for quick equality lookups without writing a query string at all, and the fluent [entityCriteria()](criteria.md) builder, which chains conditions, joins and projections without a query string.
 
 ## HQL Queries
 

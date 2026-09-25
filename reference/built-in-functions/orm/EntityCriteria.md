@@ -1,15 +1,13 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `EntityDelete`
+# Function: `EntityCriteria`
 
-Delete an entity from the database.
-
-Delete operations will cascade to related entities if `cascade` is enabled on the relationship property.
+Start a fluent query on an entity. Chain conditions, joins, projections, ordering and options, then run it with a terminal method such as list(), count(), get(), first(), paginate() or each().
 
 ## Method Signature
 
 ```
-EntityDelete(entity=[class])
+EntityCriteria(entityName=[String])
 ```
 
 ### Arguments
@@ -17,32 +15,58 @@ EntityDelete(entity=[class])
 
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `entity` | `class` | `true` | The entity instance to delete. |  |
+| `entityName` | `String` | `true` | The entity to query. |  |
+
+Returns a criteria builder. See [Criteria Queries](../../../usage/criteria.md) for every method.
 
 ## Examples
 
-Delete an entity by passing the entity object to `entityDelete()`:
+Active users whose last name starts with "Sm", ordered:
 
 ```java
-entityDelete( entityLoadByPK( "Vehicle", "1HGCM82633A123456" ) );
+users = entityCriteria( "User" )
+    .isEq( "active", true )
+    .like( "lastName", "Sm%" )
+    .order( "lastName" )
+    .list();
 ```
 
-Note that this operation will also remove associated child entities depending on the `cascade` configuration in the entity property mapping. In this case, we wish a deletion of a blog post to also delete all associated comments:
+Or-groups and association paths (joined automatically):
 
 ```java
-property
-    name="comments"
-    cfc="Comment"
-    fieldtype="one-to-many"
-    inverse="true"
-    cascade="delete";
-...
-entityDelete( entityLoadByPK( "blogPost", "779ccbb8-a444-11eb-ab6f-0290cc502ae3" ) );
+admins = entityCriteria( "User" )
+    .anyOf( ( c ) => c.isEq( "role.name", "admin" ).isTrue( "isSuperUser" ) )
+    .count();
+```
+
+A page of results with its paging numbers:
+
+```java
+page = entityCriteria( "Order" )
+    .isGe( "createdDate", dateAdd( "d", -30, now() ) )
+    .orderByDesc( "createdDate" )
+    .paginate( page = 2, maxRows = 25 );
+// { results : [...], pagination : { page : 2, maxRows : 25, totalRecords : 130, totalPages : 6 } }
+```
+
+Grouped totals as structs:
+
+```java
+totals = entityCriteria( "Order" )
+    .project( ( p ) => p.group( "status" ).count( "id", "orders" ).sum( "total", "revenue" ) )
+    .asStruct()
+    .list();
+```
+
+See the SQL without running the query:
+
+```java
+writeOutput( entityCriteria( "User" ).isEq( "active", true ).getSQL( true ) );
 ```
 
 ## Related
 
-  * [EntityCriteria](./EntityCriteria.md)
+  * [EntityDelete](./EntityDelete.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
   * [EntityGetId](./EntityGetId.md)

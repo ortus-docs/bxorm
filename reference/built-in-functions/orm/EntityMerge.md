@@ -30,6 +30,7 @@ ormFlush();
 
 ## Related
 
+  * [EntityCriteria](./EntityCriteria.md)
   * [EntityDelete](./EntityDelete.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)

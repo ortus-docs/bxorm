@@ -44,6 +44,7 @@ Note that for performance reasons we recommend passing the entity name explicitl
 
 ## Related
 
+  * [EntityCriteria](./EntityCriteria.md)
   * [EntityDelete](./EntityDelete.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)

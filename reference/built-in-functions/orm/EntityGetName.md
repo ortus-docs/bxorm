@@ -30,6 +30,7 @@ entityGetName( user.getRole() ); // "Role", without loading the role
 
 ## Related
 
+  * [EntityCriteria](./EntityCriteria.md)
   * [EntityDelete](./EntityDelete.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)

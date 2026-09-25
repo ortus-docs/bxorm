@@ -62,6 +62,7 @@ catch ( "orm.query" e ) {
 | `orm.query.semantic` | HQL that parses but is not valid (bad function or path). | Check the HQL against your entities. |
 | `orm.query.parameter` | A named parameter without a value, too few positional values, named vs positional mixed up, a value of the wrong type, or an empty string for a non-text value. | Pass one value per parameter, of the right type. Pass `null` (not `""`) for "no value". |
 | `orm.query.nonUnique` | A `unique` query or `entityLoad()` matched more than one row. | Narrow the query, or pass `{ uniqueFirst : true }` to take the first row. |
+| `orm.notFound` | `getOrFail()` or `firstOrFail()` of [entityCriteria()](criteria.md) matched no row. | Use `get()` or `first()` to receive null instead, or check the conditions. |
 | `orm.lazy.noSession` | A lazy association was read after the session that loaded it was closed or cleared (`ormClearSession()`, `ormCloseSession()`, a finished request). | Reload the entity in the current session (`entityLoadByPK()`, `entityReload()`), or map the association with `lazy="false"`. |
 | `orm.transient` | A saved entity points to an entity that was never saved. | Save the other entity first, or add `cascade="save-update"` (or `"all"`) to the association. |
 | `orm.id.missing` | An entity with an assigned id (`generator="assigned"`) was saved without one. | Set the id before `entitySave()`, or give the id a generator. |

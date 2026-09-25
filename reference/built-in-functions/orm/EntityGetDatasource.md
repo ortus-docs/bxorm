@@ -26,6 +26,7 @@ entityGetDatasource( entityLoadByPK( "User", 1 ) );  // "app"
 
 ## Related
 
+  * [EntityCriteria](./EntityCriteria.md)
   * [EntityDelete](./EntityDelete.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
   * [EntityGetId](./EntityGetId.md)
