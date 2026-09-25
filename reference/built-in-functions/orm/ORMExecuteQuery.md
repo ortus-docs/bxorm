@@ -21,7 +21,8 @@ Execute an HQL query with (optional) parameters and specific query options.
 
  The options struct can contain any of the following keys:
  <ul>
- <li><strong><code>unique</code></strong> - Specifies whether to retrieve a single, unique item. Default is false.</li>
+ <li><strong><code>unique</code></strong> - Specifies whether to retrieve a single, unique item. Default is false. If more than one row matches, an <code>orm.query.nonUnique</code> error is raised.</li>
+ <li><strong><code>uniqueFirst</code></strong> - Return the first row even when several match (implies <code>unique</code>). Default is false.</li>
  <li><strong><code>datasource</code></strong> - The datasource to use for the query. If not specified, the default datasource will be used.</li>
  <li><strong><code>offset</code></strong> - Specifies the position from which to retrieve the objects. Default is 0.</li>
  <li><strong><code>maxresults</code></strong> - Specifies the maximum number of objects to be retrieved. Default is no limit.</li>

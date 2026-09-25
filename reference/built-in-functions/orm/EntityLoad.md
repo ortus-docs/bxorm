@@ -13,7 +13,8 @@ You can pass a struct of query options, including pagination, caching, and sort 
  <h2>Options</h2>
  
  <ul>
- <li><strong><code>unique</code></strong> - Boolean. Specifies whether to retrieve a single, unique item. Default is `false`.</li>
+ <li><strong><code>unique</code></strong> - Boolean. Specifies whether to retrieve a single, unique item. Default is `false`. If more than one entity matches the filter, an <code>orm.query.nonUnique</code> error is raised.</li>
+ <li><strong><code>uniqueFirst</code></strong> - Boolean. Return the first match even when several entities match (implies <code>unique</code>). Default is `false`.</li>
  <li><strong><code>ignorecase</code></strong> - Boolean. Ignores the case of sort order when set to true. Use only if you specify the sortorder
  parameter. Defaults to `false`.</li>
  <li><strong><code>offset</code></strong> - Number. Specifies the pagination offset. Defaults to 0.</li>

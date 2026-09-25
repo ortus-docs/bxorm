@@ -31,6 +31,7 @@
 * [Session Management](usage/session-management.md)
 * [Transactions](usage/transactions.md)
 * [Caching](usage/caching.md)
+* [Errors and Diagnostics](usage/errors-and-diagnostics.md)
 
 ## Reference
 
@@ -50,6 +51,7 @@
   * [ORMClearSession](reference/built-in-functions/orm/ORMClearSession.md)
   * [ORMCloseAllSessions](reference/built-in-functions/orm/ORMCloseAllSessions.md)
   * [ORMCloseSession](reference/built-in-functions/orm/ORMCloseSession.md)
+  * [ORMDiagnostics](reference/built-in-functions/orm/ORMDiagnostics.md)
   * [ORMEvictCollection](reference/built-in-functions/orm/ORMEvictCollection.md)
   * [ORMEvictEntity](reference/built-in-functions/orm/ORMEvictEntity.md)
   * [ORMEvictQueries](reference/built-in-functions/orm/ORMEvictQueries.md)
