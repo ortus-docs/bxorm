@@ -8,7 +8,7 @@ Load entities straight into structs, without loading the entities: one projectio
 * A filter struct (property values to match, `null` for `is null`) returns an array of structs, or one struct (or `null`) with the `unique` option. Several matching rows with `unique` raise `orm.query.nonUnique`.
 * Collections come back in id order.
 
-Getters need a loaded entity: a getter listed in the entity's `this.memento` defaults is left out, and a getter you ask for in `includes` raises `orm.argument` (use `entityToStruct()`, or compute the key with a mapper). Value collections (`fieldtype="collection"`) and entities with a composite id raise `orm.argument` too. An unknown include raises `orm.property.unknown`.
+A property whose getter you wrote is read through that getter, as in `entityToStruct()`: the row's plain values are copied into a scratch instance and the getter is called on it (associations are not loaded there). Includes that are only getters, not properties, need a loaded entity: one listed in the entity's `this.memento` defaults is left out, and one you ask for in `includes` raises `orm.argument` (use `entityToStruct()`, or compute the key with a mapper). Value collections (`fieldtype="collection"`) and entities with a composite id raise `orm.argument` too. An unknown include raises `orm.property.unknown`.
 
 See [Entities as Structs](../../../usage/structs.md).
 

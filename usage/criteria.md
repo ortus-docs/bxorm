@@ -408,7 +408,7 @@ The cborm criteria events are announced as BoxLang interception points. Each rec
 | Error | When |
 | --- | --- |
 | `orm.property.unknown` | A property that does not exist (including in `updateAll()`), or a path through a plain value, with a suggestion |
-| `orm.argument` | An unknown method or argument, a bad join type, operator or sort direction, a subquery run on its own; a function path argument that is not a path, function, number or quoted string, or unbalanced parentheses; `asStruct( includes )` with `each()` or `chunk()`, with a getter include, a value collection or a composite-id entity; `updateAll()` with an empty struct or a collection property; `updateAll()` or `deleteAll()` with `maxResults()` or `firstResult()`, or with association conditions on a composite-id entity; `lock()` with an unknown mode or outside `transaction{}` |
+| `orm.argument` | An unknown method or argument, a bad join type, operator or sort direction, a subquery run on its own; a function path argument that is not a path, function, number or quoted string, or unbalanced parentheses; `asStruct( includes )` with `each()` or `chunk()`, with a getter-only include, a value collection or a composite-id entity; `updateAll()` with an empty struct or a collection property; `updateAll()` or `deleteAll()` with `maxResults()` or `firstResult()`, or with association conditions on a composite-id entity; `lock()` with an unknown mode or outside `transaction{}` |
 | `orm.query.nonUnique` | `get()` matched more than one row |
 | `orm.notFound` | `getOrFail()` or `firstOrFail()` matched nothing |
 | `orm.query.parameter` | `sql()` params do not match its `?` placeholders |
