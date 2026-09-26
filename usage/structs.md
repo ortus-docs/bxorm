@@ -22,6 +22,8 @@ The rules follow [mementifier](https://forgebox.io/view/mementifier), so an enti
 
 ## What goes in the struct
 
+`entityToStruct()` reads each value through the entity's getter when it has one, else from the entity's variables scope. BoxLang gives every persistent property an implicit getter, so a getter you write yourself (for example `getEmail()` returning `lcase( variables.email )`) replaces it and shapes the output.
+
 By default a struct holds the entity's id and its plain properties (columns, version and timestamp properties), not its associations. The options change that:
 
 | Option | Meaning |
@@ -144,7 +146,7 @@ entityToStruct( author, { profile : "export" } );
 * One query reads the plain values of the root entity and of every to-one association in the includes (left joins, so a missing association is written as its default, an empty string).
 * Each to-many association is one more query, limited to the ids just read, and its rows are grouped back into their parents. Collections come back in id order.
 
-The output matches `entityToStruct()` for the same includes. What cannot be read without an entity:
+The output matches `entityToStruct()` for the same includes, except where a getter shapes a value: without an entity there is no getter to call, so a property whose getter you overrode comes back as its column value. Use `entityToStruct()`, or a mapper, when a getter transforms the value. What cannot be read without an entity:
 
 * **Getters**: a getter listed in the entity's `this.memento` defaults is left out; a getter you include yourself is an `orm.argument` error. Compute the key with a mapper instead, or use `entityToStruct()`.
 * **Value collections** (`fieldtype="collection"`) and **entities with a composite id** are `orm.argument` errors.
