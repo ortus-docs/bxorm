@@ -159,6 +159,26 @@ vehicles = entityCriteria( "Vehicle" ).fetch( "manufacturer" ).list();
 
 When a condition goes through a to-many association, each root entity is returned once, and `count()` counts each root once.
 
+## Functions in paths
+
+Any property argument can be a function call: in conditions, in `order()`, in `pluck()` and in projections.
+
+```js
+entityCriteria( "Order" ).isEq( "year(createdDate)", 2025 );
+entityCriteria( "Manufacturer" ).isEq( "lower(name)", "ford motor company" );
+entityCriteria( "Manufacturer" ).isEq( "upper(substring(name, 1, 4))", "FORD" );   // nested calls and number literals
+entityCriteria( "Manufacturer" ).isEq( "coalesce(address, 'none')", "none" );       // 'quoted strings'
+entityCriteria( "Manufacturer" ).isEq( "cast(id as String)", "42" );
+entityCriteria( "Vehicle" ).isEq( "lower(manufacturer.name)", "honda motor co." );  // paths join as usual
+entityCriteria( "Manufacturer" ).order( "length(name) desc" );
+entityCriteria( "Manufacturer" ).pluck( "upper(name)" );
+```
+
+* Each argument must be a property path, a nested function call, a number or a `'quoted string'` (`''` escapes a quote). Anything else is an `orm.argument` error: pass other values as the condition value, where they are bound as parameters.
+* The function can be an HQL function (`lower`, `upper`, `length`, `substring`, `coalesce`, `year`, `cast`, ...), a function of the database dialect, or one of the application's [named SQL functions](../intro/configuration.md#named-sql-functions).
+* Property names inside the call are checked like any other path (`lower(nmae)` is an `orm.property.unknown` error with a suggestion).
+* An unknown function name is passed to the database, which rejects it when the query runs (`orm.sql`).
+
 ## Subqueries
 
 `subquery( entityName, alias )` creates a subquery. Inside it, unqualified paths start at the subquery's entity, and `this.` refers to the outer query's root.
@@ -212,10 +232,25 @@ With one projection, `list()` returns plain values; with several, one array per 
 | Method | `list()` returns |
 | --- | --- |
 | (default) | Entities |
-| `asStruct()` | One struct per row. Without projections: the id and plain properties |
+| `asStruct()` | One struct per row. Without projections: the id and plain properties. Date values are ISO 8601 strings |
+| `asStruct( includes, [options] )` | Structs built like `entityToStruct()`, read with projection queries instead of loading entities. See below |
 | `asQuery()` | A query |
 | `asStream()` | A Java stream |
 | `asDistinct()` | Distinct rows |
+
+### Structs with includes
+
+`asStruct( includes, [options] )` returns the structs [`entityToStruct()`](structs.md) would build, without loading any entity: the criteria's conditions and order select the rows, one projection query reads the plain values and to-one associations, and each to-many association is one more query. The entity's `this.memento`, excludes, mappers, defaults and profiles apply; options are `excludes`, `mappers`, `defaults`, `ignoreDefaults` and `profile`.
+
+```js
+users = entityCriteria( "User" )
+    .isEq( "active", true )
+    .order( "lastName" )
+    .asStruct( "id,lastName,role.name,orders", { excludes : "orders.notes" } )
+    .paginate( page = 1, maxRows = 25 );
+```
+
+It works with `list()`, `get()`, `first()` and `paginate()`. With `each()` or `chunk()` it is an `orm.argument` error. See [Entities as Structs](structs.md) for the rules.
 
 ### Ordering and paging
 
@@ -227,6 +262,8 @@ c.orderBy( "make desc, model asc" );
 c.orderByDesc( "createdDate" );
 c.firstResult( 20 ).maxResults( 10 );     // aliases: offset, limit
 ```
+
+Without an `order()`, `list()`, `get()`, `first()` and `paginate()` return entity rows in the entity's [`defaultSort`](../modeling/entities.md#default-sort-order) order, when it declares one. An explicit `order()` replaces it, and it is not used for counts or projections.
 
 ### Options
 
@@ -259,7 +296,7 @@ c.firstResult( 20 ).maxResults( 10 );     // aliases: offset, limit
 | `updateAll( values )` | Sets properties on every matching row with one `UPDATE`; returns the row count. See [Bulk updates and deletes](#bulk-updates-and-deletes) |
 | `deleteAll()` | Deletes every matching row with one `DELETE`; returns the row count. See [Bulk updates and deletes](#bulk-updates-and-deletes) |
 
-`each()` and `chunk()` read the rows in batches (100 by default for `each()`). After each batch the session is flushed, so changes made in the callback are saved, and cleared, so memory stays flat. Without an explicit order, batches follow the id, so deleting or changing rows in the callback never skips any.
+`each()` and `chunk()` read the rows in batches (100 by default for `each()`). After each batch the session is flushed, so changes made in the callback are saved, and cleared, so memory stays flat. Without an explicit order, batches follow the id (not the entity's `defaultSort`), so deleting or changing rows in the callback never skips any.
 
 ```js
 entityCriteria( "User" ).isFalse( "verified" ).chunk( 500, ( users ) => {
@@ -371,9 +408,10 @@ The cborm criteria events are announced as BoxLang interception points. Each rec
 | Error | When |
 | --- | --- |
 | `orm.property.unknown` | A property that does not exist (including in `updateAll()`), or a path through a plain value, with a suggestion |
-| `orm.argument` | An unknown method or argument, a bad join type, operator or sort direction, a subquery run on its own; `updateAll()` with an empty struct or a collection property; `updateAll()` or `deleteAll()` with `maxResults()` or `firstResult()`, or with association conditions on a composite-id entity; `lock()` with an unknown mode or outside `transaction{}` |
+| `orm.argument` | An unknown method or argument, a bad join type, operator or sort direction, a subquery run on its own; a function path argument that is not a path, function, number or quoted string, or unbalanced parentheses; `asStruct( includes )` with `each()` or `chunk()`, with a getter include, a value collection or a composite-id entity; `updateAll()` with an empty struct or a collection property; `updateAll()` or `deleteAll()` with `maxResults()` or `firstResult()`, or with association conditions on a composite-id entity; `lock()` with an unknown mode or outside `transaction{}` |
 | `orm.query.nonUnique` | `get()` matched more than one row |
 | `orm.notFound` | `getOrFail()` or `firstOrFail()` matched nothing |
 | `orm.query.parameter` | `sql()` params do not match its `?` placeholders |
+| `orm.sql` | The database rejected the query, for example an unknown function name in a path |
 
 See [Errors and Diagnostics](errors-and-diagnostics.md) for the full catalog.

@@ -1,30 +1,32 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `ORMIsSessionDirty`
+# Function: `ORMGetSQLFunctions`
 
-Whether the ORM session for a datasource has changes that are not flushed to the database yet.
+The named SQL functions the application registered with the [`sqlFunctions`](../../../intro/configuration.md#named-sql-functions) ORM setting, which HQL and `entityCriteria()` paths can call by name.
+
+Returns a struct of function name to `{ sql, returns }`. `returns` is an empty string when Hibernate infers the result type.
 
 ## Method Signature
 
 ```
-ORMIsSessionDirty(datasource=[String])
+ORMGetSQLFunctions()
 ```
 
 ### Arguments
 
-
-| Argument | Type | Required | Description | Default |
-|----------|------|----------|-------------|---------|
-| `datasource` | `String` | `false` | The datasource whose session to inspect. Defaults to the application's default datasource. |  |
+This function does not accept any arguments
 
 ## Examples
 
 ```java
-user = entityLoadByPK( "User", 1 );
-ormIsSessionDirty();          // false
-user.setEmail( "new@example.com" );
-ormIsSessionDirty();          // true
-ormIsSessionDirty( "audit" ); // the audit datasource's session
+// Application.bx
+this.ormSettings.sqlFunctions = {
+    nameLen : { sql : "char_length(?1)", returns : "integer" },
+    shout   : "upper(?1)"
+};
+
+ormGetSQLFunctions();
+// { nameLen : { sql : "char_length(?1)", returns : "integer" }, shout : { sql : "upper(?1)", returns : "" } }
 ```
 
 ## Related
@@ -69,9 +71,9 @@ ormIsSessionDirty( "audit" ); // the audit datasource's session
   * [ORMFlush](./ORMFlush.md)
   * [ORMFlushAll](./ORMFlushAll.md)
   * [ORMGetHibernateVersion](./ORMGetHibernateVersion.md)
-  * [ORMGetSQLFunctions](./ORMGetSQLFunctions.md)
   * [ORMGetSession](./ORMGetSession.md)
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
   * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
+  * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
   * [ORMReadOnly](./ORMReadOnly.md)
   * [ORMReload](./ORMReload.md)

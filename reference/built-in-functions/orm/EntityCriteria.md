@@ -58,6 +58,21 @@ totals = entityCriteria( "Order" )
     .list();
 ```
 
+Structs built like `entityToStruct()`, read with projection queries instead of loading entities (see [Entities as Structs](../../../usage/structs.md)):
+
+```java
+users = entityCriteria( "User" )
+    .isEq( "active", true )
+    .asStruct( "id,name,role.name,orders" )
+    .list();
+```
+
+A property argument can be a function call, including the application's named [`sqlFunctions`](../../../intro/configuration.md#named-sql-functions):
+
+```java
+thisYear = entityCriteria( "Order" ).isEq( "year(createdDate)", 2025 ).order( "lower(customer.name)" ).list();
+```
+
 Change or delete every matching row with one statement (no entity events or cascades, see [Bulk updates and deletes](../../../usage/criteria.md#bulk-updates-and-deletes)):
 
 ```java
@@ -92,6 +107,7 @@ writeOutput( entityCriteria( "User" ).isEq( "active", true ).getSQL( true ) );
   * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
+  * [EntityLoadAsStruct](./EntityLoadAsStruct.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
   * [EntityLoadByPKOrFail](./EntityLoadByPKOrFail.md)
@@ -107,6 +123,7 @@ writeOutput( entityCriteria( "User" ).isEq( "active", true ).getSQL( true ) );
   * [EntityReload](./EntityReload.md)
   * [EntitySave](./EntitySave.md)
   * [EntityToQuery](./EntityToQuery.md)
+  * [EntityToStruct](./EntityToStruct.md)
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
   * [ORMCloseSession](./ORMCloseSession.md)
@@ -118,6 +135,7 @@ writeOutput( entityCriteria( "User" ).isEq( "active", true ).getSQL( true ) );
   * [ORMFlush](./ORMFlush.md)
   * [ORMFlushAll](./ORMFlushAll.md)
   * [ORMGetHibernateVersion](./ORMGetHibernateVersion.md)
+  * [ORMGetSQLFunctions](./ORMGetSQLFunctions.md)
   * [ORMGetSession](./ORMGetSession.md)
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
   * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)

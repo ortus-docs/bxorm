@@ -30,6 +30,18 @@ Both of these settings are supported in `bx-compat-cfml` for compatibility with 
 
 Again, each of these settings are reverted to the ACF/Lucee defaults in `bx-compat-cfml`.
 
+### Database Inspection (`useDBForMapping`)
+
+Adobe ColdFusion inspects the database by default to complete entity mappings. In BoxLang, `useDBForMapping` is `false` by default, so every entity must declare what it needs. If your entities leave out their `ormtype` or their id and rely on the table to fill them in, set it:
+
+```js
+this.ormSettings = {
+    useDBForMapping : true
+};
+```
+
+BoxLang then reads each existing table at startup and fills in the `ormtype` of untyped properties (from the column type) and the id of a root entity that declares none (from the primary key). Unlike Adobe ColdFusion, it does not infer foreign keys: declare relationships with their `fkcolumn`. See [Using the Database for Mapping](configuration.md#using-the-database-for-mapping).
+
 ### Event Handling
 
 As in Adobe ColdFusion and Lucee, ORM events only fire when `eventHandling` is `true`. With the default (`false`), neither entity event methods, the global `eventHandler`, nor `postNew` run. Earlier bx-orm versions fired events even without this setting, so set `eventHandling: true` if your application uses ORM events:
@@ -47,7 +59,7 @@ Most of the built-in functions (BIFs) from other CFML engines are functionally i
 
 ### `EntityLoadByPK()`
 
-In ACF/Lucee, this BIF returns an array of entities by default, and you must pass a `unique=true` argument to return a single entity. In BoxLang, a single entity is returned by default. A boolean third argument (Lucee's `unique`) is accepted and ignored; in BoxLang the third argument is a struct of load options (`lock`, `timeout`, `skipLocked`, `readOnly`). To return an array of entities in BoxLang, use the `entityLoad` BIF instead.
+In ACF/Lucee, this BIF returns an array of entities by default, and you must pass a `unique=true` argument to return a single entity. In BoxLang, a single entity is returned by default. A boolean third argument (Lucee's `unique`) is accepted and ignored; in BoxLang the third argument is a struct of load options (`lock`, `timeout`, `skipLocked`, `readOnly`). To return an array of entities in BoxLang, use the `entityLoad` BIF instead, or pass an array of ids: `entityLoadByPK( "Automobile", [ id1, id2 ] )` returns an array in the order of the ids.
 
 ```js
 // Lucee/ACF returns an array

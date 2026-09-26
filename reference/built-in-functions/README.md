@@ -6,13 +6,14 @@ bx-orm ships a set of Built-in Functions (BIFs) for working with entities and th
 
 | Function | Description |
 |----------|-------------|
-| [EntityDelete](orm/EntityDelete.md) | Delete an entity from the database. |
+| [EntityDelete](orm/EntityDelete.md) | Delete an entity, or an array of entities, from the database. |
 | [EntityEvict](orm/EntityEvict.md) | Remove an entity, or an array of entities, from the ORM session without deleting it. |
 | [EntityGetReference](orm/EntityGetReference.md) | Get a lazy reference to an entity by id without loading it from the database. |
 | [EntityIsAttached](orm/EntityIsAttached.md) | Check whether an entity is attached to the current ORM session. |
 | [EntityLoad](orm/EntityLoad.md) | Load an entity or array of entities from the database. |
+| [EntityLoadAsStruct](orm/EntityLoadAsStruct.md) | Load entities straight into structs, without loading the entities. |
 | [EntityLoadByExample](orm/EntityLoadByExample.md) | Load entities matching an example entity. |
-| [EntityLoadByPK](orm/EntityLoadByPK.md) | Load an entity by its primary key, optionally locked or read-only. |
+| [EntityLoadByPK](orm/EntityLoadByPK.md) | Load an entity, or an array of entities, by primary key, optionally locked or read-only. |
 | [EntityLoadByPKOrFail](orm/EntityLoadByPKOrFail.md) | Load an entity by its primary key, or throw `orm.notFound`. |
 | [EntityLoadOrFail](orm/EntityLoadOrFail.md) | Load one entity by id or filter, or throw `orm.notFound`. |
 | [EntityLoadOrNew](orm/EntityLoadOrNew.md) | Load an entity by id or filter, or return a new, unsaved one. |
@@ -24,8 +25,9 @@ bx-orm ships a set of Built-in Functions (BIFs) for working with entities and th
 | [EntityNameList](orm/EntityNameList.md) | Retrieve a list of entity names for this ORM application. |
 | [EntityNew](orm/EntityNew.md) | Instantiate a new entity, optionally with a struct of properties. |
 | [EntityReload](orm/EntityReload.md) | Reload an entity from the database. |
-| [EntitySave](orm/EntitySave.md) | Save the provided entity to the persistence context. |
+| [EntitySave](orm/EntitySave.md) | Save an entity, or an array of entities, to the persistence context. |
 | [EntityToQuery](orm/EntityToQuery.md) | Convert an entity or array of entities to a Query object. |
+| [EntityToStruct](orm/EntityToStruct.md) | Convert an entity or array of entities to a struct or array of structs. |
 
 ## ORM Session Functions
 
@@ -41,6 +43,7 @@ bx-orm ships a set of Built-in Functions (BIFs) for working with entities and th
 | [ORMFlush](orm/ORMFlush.md) | Flush the Hibernate session, synchronizing the in-memory state with the database. |
 | [ORMFlushAll](orm/ORMFlushAll.md) | Flush all open Hibernate sessions in the current request. |
 | [ORMGetHibernateVersion](orm/ORMGetHibernateVersion.md) | Retrieve the installed Hibernate version. |
+| [ORMGetSQLFunctions](orm/ORMGetSQLFunctions.md) | Retrieve the named SQL functions registered with the `sqlFunctions` setting. |
 | [ORMGetSession](orm/ORMGetSession.md) | Retrieve the Hibernate Session configured for this datasource or default datasource. |
 | [ORMGetSessionFactory](orm/ORMGetSessionFactory.md) | Retrieve the Hibernate SessionFactory configured for this datasource or default datasource. |
 | [ORMReadOnly](orm/ORMReadOnly.md) | Run a closure with every entity it loads read-only. |

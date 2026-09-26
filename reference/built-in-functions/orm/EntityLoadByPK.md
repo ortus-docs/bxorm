@@ -11,7 +11,14 @@ Load an entity by its primary key.
  <p>
  In Lucee, by default, an array of entities is returned and you must pass a third `unique=true` argument to return only a single entity. In BoxLang,
  only a single entity is returned - matching the Adobe ColdFusion behavior. A boolean third argument (Lucee's
- `unique`) is accepted and ignored. To return an array of entities, use the `entityLoad` BIF.
+ `unique`) is accepted and ignored. To return an array of entities, use the `entityLoad` BIF, or pass an array of ids.
+ <p>
+ Pass an array of ids to load several entities in one query. The result is an array in the order of the ids, with
+ null where no row has that id:
+
+ <pre>
+ users = entityLoadByPK( "User", [ 3, 1, 99 ] ); // [ user3, user1, null ]
+ </pre>
  <p>
  Composite keys are also supported:
 
@@ -21,7 +28,7 @@ Load an entity by its primary key.
 
 ## Options
 
-The third argument is a struct of load options:
+The third argument is a struct of load options. They apply to every entity of an array of ids too:
 
 | Option | Description |
 |--------|-------------|
@@ -42,7 +49,7 @@ EntityLoadByPK(entity=[String], id=[Any], options=[Any])
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
 | `entity` | `String` | `true` | The name of the entity to load. |  |
-| `id` | `Any` | `true` | The primary key value, or a struct of key/value pairs for composite keys. |  |
+| `id` | `Any` | `true` | The primary key value, a struct of key/value pairs for composite keys, or an array of either. |  |
 | `options` | `Any` | `false` | A struct of load options: `lock`, `timeout`, `skipLocked`, `readOnly`. A boolean (Lucee's `unique`) is accepted and ignored. |  |
 
 ## Examples
@@ -61,6 +68,21 @@ Pass a struct when the entity key is composite.
 ```java
 vehicleType = entityLoadByPK( "VehicleType", { make: "Ford", model: "Fusion" } );
 ```
+
+### Load Several by Primary Key
+
+Pass an array of ids to load them all with one batched query. The array keeps the order you asked for, with `null` where no row has that id. An id asked for twice returns the same instance twice:
+
+```java
+users = entityLoadByPK( "User", [ 3, 1, 99 ] );
+// [ user3, user1, null ]
+
+types = entityLoadByPK( "VehicleType", [ { make: "Honda", model: "Civic" }, { make: "Ford", model: "Fusion" } ] );
+
+reports = entityLoadByPK( "Report", ids, { readOnly : true } );
+```
+
+An empty array returns an empty array.
 
 ### Load and Lock
 
@@ -106,6 +128,7 @@ To throw an `orm.notFound` error instead of returning `null`, use [EntityLoadByP
   * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
+  * [EntityLoadAsStruct](./EntityLoadAsStruct.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPKOrFail](./EntityLoadByPKOrFail.md)
   * [EntityLoadOrFail](./EntityLoadOrFail.md)
@@ -120,6 +143,7 @@ To throw an `orm.notFound` error instead of returning `null`, use [EntityLoadByP
   * [EntityReload](./EntityReload.md)
   * [EntitySave](./EntitySave.md)
   * [EntityToQuery](./EntityToQuery.md)
+  * [EntityToStruct](./EntityToStruct.md)
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
   * [ORMCloseSession](./ORMCloseSession.md)
@@ -131,6 +155,7 @@ To throw an `orm.notFound` error instead of returning `null`, use [EntityLoadByP
   * [ORMFlush](./ORMFlush.md)
   * [ORMFlushAll](./ORMFlushAll.md)
   * [ORMGetHibernateVersion](./ORMGetHibernateVersion.md)
+  * [ORMGetSQLFunctions](./ORMGetSQLFunctions.md)
   * [ORMGetSession](./ORMGetSession.md)
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
   * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)

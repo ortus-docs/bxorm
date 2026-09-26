@@ -204,6 +204,12 @@ Here's the full list of available annotations for a persistent class:
             <td>A raw SQL condition added to every query and load of this entity. See <a href="#filtering-rows-with-where">Filtering rows with <code>where</code></a>.</td>
         </tr>
         <tr>
+            <td><code>defaultSort</code></td>
+            <td><code>string</code></td>
+            <td></td>
+            <td>The order <code>entityLoad()</code> and <code>entityCriteria()</code> return rows in when no order is given, e.g. <code>lastName, firstName desc</code>. See <a href="#default-sort-order">Default sort order</a>.</td>
+        </tr>
+        <tr>
             <td><code>softDelete</code></td>
             <td><code>string</code></td>
             <td></td>
@@ -256,6 +262,31 @@ entityLoadByPK( "Note", idOfAnInactiveNote ); // null
 ```
 
 Use column names, not property names, since the condition is SQL. In an inheritance hierarchy, only the root entity's `where` is used. To filter only one collection instead of the whole entity, put `where` on the one-to-many or many-to-many property. See [Filtering Collections](relationships.md#filtering-collections-where).
+
+## Default sort order
+
+`defaultSort` sets the order rows come back in when the caller gives none. It is a comma-separated list of properties, each optionally followed by `asc` (the default) or `desc`:
+
+```js
+class persistent="true" table="people" defaultSort="lastName, firstName desc" {
+    property name="id" fieldtype="id" generator="increment";
+    property name="firstName";
+    property name="lastName";
+}
+```
+
+```js
+entityLoad( "Person" );                          // by lastName, then firstName descending
+entityLoad( "Person", { lastName : "Baker" } );  // same order
+entityLoad( "Person", {}, "id desc" );           // an explicit order wins
+entityCriteria( "Person" ).list();               // same order
+entityCriteria( "Person" ).order( "id" ).list(); // an explicit order wins
+```
+
+* It applies to `entityLoad()` (all rows and the filter forms) and to `entityCriteria()` `list()`, `get()`, `first()` and `paginate()`. It is not used by `count()`, and criteria `each()` and `chunk()` without an order still go by id.
+* Use plain properties of the entity itself (no association paths).
+* A subclass entity inherits its parent entity's `defaultSort` unless it declares its own.
+* An unknown property or a direction other than `asc` or `desc` stops the ORM from starting with an `orm.config` error that suggests the right name.
 
 ## Soft delete
 

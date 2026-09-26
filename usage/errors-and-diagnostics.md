@@ -52,10 +52,10 @@ catch ( "orm.query" e ) {
 | --- | --- | --- |
 | `orm.notEnabled` | An ORM function runs in an application without `this.ormEnabled = true`. | Enable the ORM in `Application.bx`. |
 | `orm.notReady` | The ORM failed to start (the message repeats the startup error) or has not started. | Fix the startup error, then call `ormReload()` or restart the app. |
-| `orm.config` | Invalid ORM settings or entities found at startup: missing entity folder, unknown `fieldtype` or `ormtype`, relationship to a missing `cfc`, unknown datasource, two entities with the same name, an unknown `softDelete` or `autoTimestamp` value, `softDelete` on a subclass entity. | Follow the message; it names the entity, property or setting. |
+| `orm.config` | Invalid ORM settings or entities found at startup: missing entity folder, unknown `fieldtype` or `ormtype`, relationship to a missing `cfc`, unknown datasource, two entities with the same name, an unknown `softDelete` or `autoTimestamp` value, `softDelete` on a subclass entity, a `defaultSort` with an unknown property or direction, an invalid `sqlFunctions` setting. | Follow the message; it names the entity, property or setting. |
 | `orm.boot` | Hibernate refused the generated mapping. | The message names the entity; check its mapping annotations. |
 | `orm.entity.notFound` | An entity name that does not exist, in a BIF or in HQL. | Use the suggested name; `detail` lists the known entities. |
-| `orm.property.unknown` | A property that does not exist, in HQL, an `entityLoad()` filter or its sort order. | Use the suggested name; `detail` lists the entity's properties. |
+| `orm.property.unknown` | A property that does not exist, in HQL, an `entityLoad()` filter or its sort order, or an `entityToStruct()` / `entityLoadAsStruct()` include. | Use the suggested name; `detail` lists the entity's properties. |
 | `orm.property.type` | A property holds a value that cannot be stored in its column (e.g. `"abc"` in an integer), or an association was set to something that is not an entity. | Set values that fit each property's `ormtype`; set associations to entity instances. |
 | `orm.argument` | A BIF received the wrong kind of value, e.g. a struct instead of an entity, or an id of the wrong type. Also a lock taken outside `transaction{}`, an unknown lock mode, or lock mode `force` on an entity without a version property. | Pass what the message asks for. |
 | `orm.query.syntax` | HQL that cannot be parsed. The message gives the line, column and token; `detail` lists what was expected. | Fix the HQL at that position. |

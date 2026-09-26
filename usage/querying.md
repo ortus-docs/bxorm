@@ -53,6 +53,17 @@ Pass a struct of options to control pagination, caching, and result shape:
 | `lockTimeout` | Seconds to wait for the `lock` (`0` means do not wait) |
 | `skipLocked` | With `lock`, skip rows another transaction has locked instead of waiting |
 
+### Named SQL Functions
+
+HQL can call the SQL functions the application registers with the [`sqlFunctions`](../intro/configuration.md#named-sql-functions) setting, by name, like any HQL function:
+
+```js
+// Application.bx: sqlFunctions : { nameLen : { sql : "char_length(?1)", returns : "integer" } }
+var length = ORMExecuteQuery( "select nameLen( m.name ) from Manufacturer m where m.id = :id", { id : 1 }, true );
+```
+
+The same names work in [criteria paths](criteria.md#functions-in-paths). [ormGetSQLFunctions()](../reference/built-in-functions/orm/ORMGetSQLFunctions.md) lists them.
+
 ### Update and Delete Queries
 
 HQL `UPDATE` and `DELETE` statements are executed directly against the database (bypassing the second-level cache and entity lifecycle events), and return the number of affected rows instead of a result list:
@@ -92,6 +103,14 @@ If you need to hand entity results to code that expects a BoxLang `Query` object
 ```js
 var toyotas = entityLoad( "Auto", { make: "Toyota" } );
 var qryToyotas = entityToQuery( toyotas );
+```
+
+## Converting Results to Structs
+
+For JSON APIs and views, [entityToStruct()](../reference/built-in-functions/orm/EntityToStruct.md) turns entities into structs, and [entityLoadAsStruct()](../reference/built-in-functions/orm/EntityLoadAsStruct.md) reads the same structs without loading the entities. See [Entities as Structs](structs.md).
+
+```js
+var toyotas = entityLoadAsStruct( "Auto", { make: "Toyota" }, "", { sortOrder: "model" } );
 ```
 
 ## Where Queries Run

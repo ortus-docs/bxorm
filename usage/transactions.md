@@ -152,6 +152,18 @@ transaction name="outer" {
 }
 ```
 
+## After the commit
+
+To run code only once ORM writes are committed (and never for rolled-back ones), use the [`postCommit`](events.md#postcommit-after-the-commit) event. Inside `transaction{}` it fires for each written entity after BoxLang commits the transaction, when the transaction ends, in write order.
+
+```js
+class persistent="true" {
+	function postCommit( entity, action ) {
+		// insert, update or delete: the row is committed
+	}
+}
+```
+
 ## Locking
 
 A database lock stops other transactions from changing the locked rows until your transaction ends (a `write` lock also stops them from locking the rows). Locks need a transaction: taking one outside `transaction{}` raises an `orm.argument` error, and every lock is released when the transaction commits or rolls back.
