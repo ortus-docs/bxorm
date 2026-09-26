@@ -256,6 +256,8 @@ c.firstResult( 20 ).maxResults( 10 );     // aliases: offset, limit
 | `sum`, `avg`, `min`, `max( property )` | An aggregate |
 | `each( callback, [size] )` | Calls the closure once per row; returns the row count |
 | `chunk( size, callback )` | Calls the closure with each batch of rows; returns the row count |
+| `updateAll( values )` | Sets properties on every matching row with one `UPDATE`; returns the row count. See [Bulk updates and deletes](#bulk-updates-and-deletes) |
+| `deleteAll()` | Deletes every matching row with one `DELETE`; returns the row count. See [Bulk updates and deletes](#bulk-updates-and-deletes) |
 
 `each()` and `chunk()` read the rows in batches (100 by default for `each()`). After each batch the session is flushed, so changes made in the callback are saved, and cleared, so memory stays flat. Without an explicit order, batches follow the id, so deleting or changing rows in the callback never skips any.
 
@@ -264,6 +266,57 @@ entityCriteria( "User" ).isFalse( "verified" ).chunk( 500, ( users ) => {
     users.each( ( u ) => u.setReminderSent( true ) );
 } );
 ```
+
+## Bulk updates and deletes
+
+`updateAll()` and `deleteAll()` change every matching row with a single HQL statement, without loading any entity. Both return the number of rows changed.
+
+```js
+// one UPDATE
+count = entityCriteria( "Order" )
+    .isEq( "status", "pending" )
+    .isLt( "createdDate", dateAdd( "d", -30, now() ) )
+    .updateAll( { status : "expired", note : null } );
+
+// one DELETE
+count = entityCriteria( "Session" ).isLt( "expires", now() ).deleteAll();
+```
+
+`updateAll()` takes a struct of property values. It can set plain properties and to-one associations (pass an entity or an id), and `null` values are allowed. Collections cannot be set.
+
+`deleteAll()` on a [`softDelete`](../modeling/entities.md#soft-delete) entity marks the rows deleted instead of removing them.
+
+Conditions through an association (`isEq( "manufacturer.name", "Ford" )`) are turned into an id subquery, which needs an entity with a single id.
+
+{% hint style="warning" %}
+Bulk statements run in the database only:
+
+* No entity events fire.
+* No cascades: child rows are not deleted, so foreign keys can reject a `deleteAll()`.
+* No version increments and no [`autoTimestamp`](../modeling/properties.md#automatic-timestamps) values.
+* Entities already loaded in the session keep their old values. Reload them (`entityReload()`) or clear the session (`ormClearSession()`) to see the change.
+
+Pending changes in the session are flushed before the statement runs.
+{% endhint %}
+
+## Locking rows
+
+`lock( [mode], [options] )` locks the rows that `list()`, `get()` and `first()` return, until the transaction ends. Counts and aggregates are not locked. The mode is `write` (the default, exclusive), `read` (shared) or `force` (exclusive, and increments the version); see [entityLock()](../reference/built-in-functions/orm/EntityLock.md). Options are `timeout` (seconds to wait; `0` means do not wait) and `skipLocked`.
+
+A queue worker that claims up to 10 new jobs, skipping jobs another worker has already locked:
+
+```js
+transaction {
+    jobs = entityCriteria( "Job" )
+        .isEq( "status", "new" )
+        .lock( "write", { skipLocked : true } )
+        .maxResults( 10 )
+        .list();
+    jobs.each( ( job ) => job.setStatus( "running" ) );
+}
+```
+
+`lock()` must run inside `transaction{}`, otherwise an `orm.argument` error is raised.
 
 ## Flow helpers
 
@@ -317,8 +370,8 @@ The cborm criteria events are announced as BoxLang interception points. Each rec
 
 | Error | When |
 | --- | --- |
-| `orm.property.unknown` | A property that does not exist, or a path through a plain value, with a suggestion |
-| `orm.argument` | An unknown method or argument, a bad join type, operator or sort direction, a subquery run on its own |
+| `orm.property.unknown` | A property that does not exist (including in `updateAll()`), or a path through a plain value, with a suggestion |
+| `orm.argument` | An unknown method or argument, a bad join type, operator or sort direction, a subquery run on its own; `updateAll()` with an empty struct or a collection property; `updateAll()` or `deleteAll()` with `maxResults()` or `firstResult()`, or with association conditions on a composite-id entity; `lock()` with an unknown mode or outside `transaction{}` |
 | `orm.query.nonUnique` | `get()` matched more than one row |
 | `orm.notFound` | `getOrFail()` or `firstOrFail()` matched nothing |
 | `orm.query.parameter` | `sql()` params do not match its `?` placeholders |

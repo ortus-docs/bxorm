@@ -30,13 +30,24 @@ Both of these settings are supported in `bx-compat-cfml` for compatibility with 
 
 Again, each of these settings are reverted to the ACF/Lucee defaults in `bx-compat-cfml`.
 
+### Event Handling
+
+As in Adobe ColdFusion and Lucee, ORM events only fire when `eventHandling` is `true`. With the default (`false`), neither entity event methods, the global `eventHandler`, nor `postNew` run. Earlier bx-orm versions fired events even without this setting, so set `eventHandling: true` if your application uses ORM events:
+
+```js
+this.ormSettings = {
+    eventHandling : true,
+    eventHandler  : "models.ORMEventHandler"
+};
+```
+
 ## Built-in Function Differences
 
 Most of the built-in functions (BIFs) from other CFML engines are functionally identical in BoxLang. A few notable exceptions:
 
 ### `EntityLoadByPK()`
 
-In ACF/Lucee, this BIF returns an array of entities by default, and you must pass a `unique=true` argument to return a single entity. In BoxLang, a single entity is returned by default, and the `unique` argument is not supported. To return an array of entities in BoxLang, use the `entityLoad` BIF instead.
+In ACF/Lucee, this BIF returns an array of entities by default, and you must pass a `unique=true` argument to return a single entity. In BoxLang, a single entity is returned by default. A boolean third argument (Lucee's `unique`) is accepted and ignored; in BoxLang the third argument is a struct of load options (`lock`, `timeout`, `skipLocked`, `readOnly`). To return an array of entities in BoxLang, use the `entityLoad` BIF instead.
 
 ```js
 // Lucee/ACF returns an array

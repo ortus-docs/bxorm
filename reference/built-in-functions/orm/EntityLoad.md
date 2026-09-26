@@ -22,6 +22,8 @@ You can pass a struct of query options, including pagination, caching, and sort 
  <li><strong><code>cacheable</code></strong> - Boolean. Whether the result has to be cached in the second-level query cache (needs <code>secondaryCacheEnabled</code>). Default is `false`.</li>
  <li><strong><code>cachename</code></strong> - String. The query cache region to use. Implies <code>cacheable</code> unless <code>cacheable</code> is given.</li>
  <li><strong><code>timeout</code></strong> - Number. Specifies the timeout value (in seconds) for the query. No timeout by default.</li>
+ <li><strong><code>readOnly</code></strong> - Boolean. Load the entities read-only: they are not dirty-checked and changes to them are
+ never saved. Works for filter loads and loads by id. Default is `false`. See also <code>entityLoadReadOnly()</code>.</li>
  </ul>
 
 ## Method Signature
@@ -79,19 +81,37 @@ var myEntity = entityLoad( "Auto", { VIN = "1HGCM82633A123456" }, true );
 
 This will search for the `Auto` entity with the specified `VIN` and return it if found.
 
+### Loading Read-Only Entities
+
+Pass `readOnly : true` to load entities that are not dirty-checked. Changes made to them are never saved, which keeps large reads light:
+
+```java
+var shipped = entityLoad( "Order", { status = "shipped" }, "createdDate desc", { readOnly = true } );
+```
+
+[EntityLoadReadOnly](./EntityLoadReadOnly.md) does the same without the option.
+
 ## Related
 
   * [EntityCriteria](./EntityCriteria.md)
   * [EntityDelete](./EntityDelete.md)
+  * [EntityEvict](./EntityEvict.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
   * [EntityGetId](./EntityGetId.md)
   * [EntityGetMetadata](./EntityGetMetadata.md)
   * [EntityGetName](./EntityGetName.md)
+  * [EntityGetReference](./EntityGetReference.md)
   * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
+  * [EntityLoadByPKOrFail](./EntityLoadByPKOrFail.md)
+  * [EntityLoadOrFail](./EntityLoadOrFail.md)
+  * [EntityLoadOrNew](./EntityLoadOrNew.md)
+  * [EntityLoadOrSave](./EntityLoadOrSave.md)
+  * [EntityLoadReadOnly](./EntityLoadReadOnly.md)
+  * [EntityLock](./EntityLock.md)
   * [EntityMerge](./EntityMerge.md)
   * [EntityNameArray](./EntityNameArray.md)
   * [EntityNameList](./EntityNameList.md)
@@ -114,4 +134,5 @@ This will search for the `Auto` entity with the specified `VIN` and return it if
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
   * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
   * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
+  * [ORMReadOnly](./ORMReadOnly.md)
   * [ORMReload](./ORMReload.md)

@@ -86,6 +86,8 @@ This ordering means other requests keep using a valid `ORMApp` throughout the re
 | [ORMGetSessionFactory](../reference/built-in-functions/orm/ORMGetSessionFactory.md) | Get the Hibernate `SessionFactory` for a datasource |
 | [ORMFlush](../reference/built-in-functions/orm/ORMFlush.md) / [ORMFlushAll](../reference/built-in-functions/orm/ORMFlushAll.md) | Flush one or all open sessions |
 | [ORMClearSession](../reference/built-in-functions/orm/ORMClearSession.md) | Detach all entities from the session without flushing |
+| [EntityEvict](../reference/built-in-functions/orm/EntityEvict.md) | Detach one entity (or an array of entities) from the session without flushing |
+| [ORMReadOnly](../reference/built-in-functions/orm/ORMReadOnly.md) | Run a closure with every entity it loads read-only |
 | [ORMCloseSession](../reference/built-in-functions/orm/ORMCloseSession.md) / [ORMCloseAllSessions](../reference/built-in-functions/orm/ORMCloseAllSessions.md) | Close one or all open sessions for the current context |
 | [ORMReload](../reference/built-in-functions/orm/ORMReload.md) | Rebuild the ORM application's session factories |
 | [ORMIsSessionDirty](../reference/built-in-functions/orm/ORMIsSessionDirty.md) | Whether a flush would write something |

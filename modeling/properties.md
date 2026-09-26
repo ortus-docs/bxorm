@@ -35,6 +35,28 @@ property
     dbdefault="'2016-10-10'";
 ```
 
+## Automatic Timestamps
+
+The `autoTimestamp` annotation fills a date property for you when the entity is written:
+
+```js
+class persistent="true" {
+    property name="id" fieldtype="id" generator="increment";
+    property name="createdDate" ormType="timestamp" autoTimestamp="create";
+    property name="updatedDate" ormType="timestamp" autoTimestamp="update";
+}
+```
+
+| Value | When the property is set |
+| --- | --- |
+| `create` (also `created` or `insert`) | Once, when the entity is inserted |
+| `update` (also `updated`) | When the entity is inserted, and on every update |
+
+The value comes from the JVM clock when the session flushes. These are Hibernate's `@CreationTimestamp` and `@UpdateTimestamp`, so no event handler is needed (and `eventHandling` does not have to be on). Any other value stops the ORM from starting with an `orm.config` error.
+
+{% hint style="warning" %}
+Bulk statements such as the criteria [`updateAll()`](../usage/criteria.md#bulk-updates-and-deletes) bypass entities, so they do not set `autoTimestamp` properties.
+{% endhint %}
 
 
 ## Property Types
@@ -204,6 +226,7 @@ See [Modeling Relationships](relationships.md) for more details on modeling an O
 | `cacheName`    | `string`  | Set the name of the cache to use for this property. |
 | `cacheInclude` | `string`  | Set to `non-lazy` to exclude this property from the secondary cache entry when lazy-loaded. Defaults to `all`. |
 | `unSavedValue` | `string`  | Set a value to populate into this column on newly instantiated entities. |
+| `autoTimestamp` | `string` | Set the property to the current time on insert (`create`) or on every insert and update (`update`). See [Automatic Timestamps](#automatic-timestamps). |
 
 ## Formula Property
 

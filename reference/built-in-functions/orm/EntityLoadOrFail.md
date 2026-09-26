@@ -1,34 +1,41 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `ORMCloseSession`
+# Function: `EntityLoadOrFail`
 
-Close the Hibernate session for the current context and provided (or default) datasource
+Load one entity by id or filter, or throw an `orm.notFound` error when none exists.
+
+A filter must match exactly one entity: none is `orm.notFound`, several is `orm.query.nonUnique`. For a composite key, pass the key struct.
 
 ## Method Signature
 
 ```
-ORMCloseSession(datasource=[String])
+EntityLoadOrFail(entityName=[String], idOrFilter=[Any])
 ```
 
 ### Arguments
 
-
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `datasource` | `String` | `false` | The datasource on which to close the current session. If not provided, the default datasource will be used. |  |
+| `entityName` | `String` | `true` | The name of the entity. |  |
+| `idOrFilter` | `Any` | `true` | The primary key value, a composite key struct, or a struct of property values to match. |  |
+
+Returns the entity.
 
 ## Examples
 
-Close the ORM session for the default datasource:
-
 ```java
-ormCloseSession();
+order = entityLoadOrFail( "Order", url.id );
+user  = entityLoadOrFail( "User", { email : form.email } );
 ```
 
-Close the ORM session for a secondary, named datasource:
+Handle the missing case:
 
 ```java
-ormCloseSession( "admin" );
+try {
+    maker = entityLoadOrFail( "Manufacturer", 99999 );
+} catch ( "orm.notFound" e ) {
+    // e.message: No [Manufacturer] with id [99999] was found.
+}
 ```
 
 ## Related
@@ -48,7 +55,6 @@ ormCloseSession( "admin" );
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
   * [EntityLoadByPKOrFail](./EntityLoadByPKOrFail.md)
-  * [EntityLoadOrFail](./EntityLoadOrFail.md)
   * [EntityLoadOrNew](./EntityLoadOrNew.md)
   * [EntityLoadOrSave](./EntityLoadOrSave.md)
   * [EntityLoadReadOnly](./EntityLoadReadOnly.md)
@@ -62,6 +68,7 @@ ormCloseSession( "admin" );
   * [EntityToQuery](./EntityToQuery.md)
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
+  * [ORMCloseSession](./ORMCloseSession.md)
   * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)

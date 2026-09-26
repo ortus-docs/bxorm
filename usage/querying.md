@@ -49,6 +49,9 @@ Pass a struct of options to control pagination, caching, and result shape:
 | `maxResults` | Limit the number of results returned |
 | `readOnly` | Load results as read-only (not tracked for dirty-checking) |
 | `datasource` | Run the query against a specific datasource, instead of the entity's default |
+| `lock` | Lock the returned rows until the transaction ends: `read`, `write` or `force`. Needs `transaction{}`. See [Locking](transactions.md#locking) |
+| `lockTimeout` | Seconds to wait for the `lock` (`0` means do not wait) |
+| `skipLocked` | With `lock`, skip rows another transaction has locked instead of waiting |
 
 ### Update and Delete Queries
 

@@ -1,34 +1,37 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `ORMCloseSession`
+# Function: `EntityLoadOrSave`
 
-Close the Hibernate session for the current context and provided (or default) datasource
+Load an entity by id or filter, or create and save a new one when none exists.
+
+Works like [EntityLoadOrNew](./EntityLoadOrNew.md), then saves the new entity with `entitySave()`. As with any save, the row is written when the session flushes (at the end of the `transaction{}`). A found entity is returned as is, and `properties` is ignored.
+
+{% hint style="warning" %}
+Two requests can both find nothing and both insert. Put a unique constraint on the filter's columns (for example `unique="true"` or `uniquekey`) so the database rejects the second insert.
+{% endhint %}
 
 ## Method Signature
 
 ```
-ORMCloseSession(datasource=[String])
+EntityLoadOrSave(entityName=[String], idOrFilter=[Any], properties=[Struct])
 ```
 
 ### Arguments
 
-
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `datasource` | `String` | `false` | The datasource on which to close the current session. If not provided, the default datasource will be used. |  |
+| `entityName` | `String` | `true` | The name of the entity. |  |
+| `idOrFilter` | `Any` | `true` | The primary key value, a composite key struct, or a struct of property values to match. |  |
+| `properties` | `Struct` | `false` | Property values for the new entity when none is found. |  |
+
+Returns the entity found, or the new one, saved.
 
 ## Examples
 
-Close the ORM session for the default datasource:
-
 ```java
-ormCloseSession();
-```
-
-Close the ORM session for a secondary, named datasource:
-
-```java
-ormCloseSession( "admin" );
+transaction {
+    tag = entityLoadOrSave( "Tag", { slug : "boxlang" }, { name : "BoxLang" } );
+}
 ```
 
 ## Related
@@ -50,7 +53,6 @@ ormCloseSession( "admin" );
   * [EntityLoadByPKOrFail](./EntityLoadByPKOrFail.md)
   * [EntityLoadOrFail](./EntityLoadOrFail.md)
   * [EntityLoadOrNew](./EntityLoadOrNew.md)
-  * [EntityLoadOrSave](./EntityLoadOrSave.md)
   * [EntityLoadReadOnly](./EntityLoadReadOnly.md)
   * [EntityLock](./EntityLock.md)
   * [EntityMerge](./EntityMerge.md)
@@ -62,6 +64,7 @@ ormCloseSession( "admin" );
   * [EntityToQuery](./EntityToQuery.md)
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
+  * [ORMCloseSession](./ORMCloseSession.md)
   * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)

@@ -197,6 +197,24 @@ Here's the full list of available annotations for a persistent class:
             <td></td>
             <td>Name a specific datasource to persist this entity to.</td>
         </tr>
+        <tr>
+            <td><code>where</code></td>
+            <td><code>string</code></td>
+            <td></td>
+            <td>A raw SQL condition added to every query and load of this entity. See <a href="#filtering-rows-with-where">Filtering rows with <code>where</code></a>.</td>
+        </tr>
+        <tr>
+            <td><code>softDelete</code></td>
+            <td><code>string</code></td>
+            <td></td>
+            <td>Mark rows deleted instead of removing them: <code>true</code> (also <code>yes</code> or <code>deleted</code>), <code>active</code> or <code>timestamp</code>. See <a href="#soft-delete">Soft delete</a>.</td>
+        </tr>
+        <tr>
+            <td><code>softDeleteColumn</code></td>
+            <td><code>string</code></td>
+            <td></td>
+            <td>The column <code>softDelete</code> uses. Defaults to <code>deleted</code> (<code>active</code> for <code>softDelete="active"</code>).</td>
+        </tr>
     </tbody>
 </table>
 
@@ -220,3 +238,59 @@ class persistent="true" extends="BaseEntity" {
 ```
 
 This differs from `joinColumn`/`discriminatorValue` inheritance, where subclasses share rows through a join or a discriminator column in a single parent table. With `mappedSuperClass`, there is no parent table at all: every property is copied into each subclass's own table.
+
+## Filtering rows with `where`
+
+The `where` annotation adds a raw SQL condition (not HQL) to every query and load of the entity: `entityLoad()`, `entityLoadByPK()`, HQL and criteria queries. Rows that do not match are invisible to the ORM.
+
+```js
+class persistent="true" table="notes" where="is_active = 1" {
+    property name="id" fieldtype="id" generator="increment";
+    property name="title";
+    property name="isActive" column="is_active" ormType="boolean";
+}
+```
+
+```js
+entityLoadByPK( "Note", idOfAnInactiveNote ); // null
+```
+
+Use column names, not property names, since the condition is SQL. In an inheritance hierarchy, only the root entity's `where` is used. To filter only one collection instead of the whole entity, put `where` on the one-to-many or many-to-many property. See [Filtering Collections](relationships.md#filtering-collections-where).
+
+## Soft delete
+
+With `softDelete`, `entityDelete()` runs an `UPDATE` that marks the row deleted instead of a `DELETE`, and every load (`entityLoadByPK()`, `entityLoad()`, HQL, criteria queries and collections) skips deleted rows. This is Hibernate's `@SoftDelete`.
+
+```js
+class persistent="true" table="notes" softDelete="true" {
+    property name="id" fieldtype="id" generator="increment";
+    property name="title";
+}
+```
+
+```js
+entityDelete( note );                 // an UPDATE that sets deleted to true, not a DELETE
+entityLoadByPK( "Note", note.getId() ); // null
+```
+
+Hibernate maps the column itself, so do not declare a property for it. Like any other column, it must exist in the table (`dbcreate` creates it).
+
+| Value | Column | Meaning |
+| --- | --- | --- |
+| `true`, `yes` or `deleted` | `deleted` (boolean) | `false` while the row is live, `true` once deleted |
+| `active` | `active` (boolean) | `true` while the row is live, `false` once deleted |
+| `timestamp` | `deleted` (timestamp) | Empty while the row is live, the deletion time once deleted |
+
+`softDeleteColumn` renames the column:
+
+```js
+class persistent="true" table="notes" softDelete="timestamp" softDeleteColumn="archived_at" {
+    // ...
+}
+```
+
+A criteria [`deleteAll()`](../usage/criteria.md#bulk-updates-and-deletes) on a soft-delete entity also marks the rows deleted.
+
+{% hint style="warning" %}
+Declare `softDelete` on the root entity of an inheritance hierarchy only; its subclasses inherit it. A subclass that declares it, or an unknown `softDelete` value, stops the ORM from starting with an `orm.config` error.
+{% endhint %}

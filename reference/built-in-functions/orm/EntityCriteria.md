@@ -2,7 +2,7 @@
 
 # Function: `EntityCriteria`
 
-Start a fluent query on an entity. Chain conditions, joins, projections, ordering and options, then run it with a terminal method such as list(), count(), get(), first(), paginate() or each().
+Start a fluent query on an entity. Chain conditions, joins, projections, ordering and options, then run it with a terminal method such as list(), count(), get(), first(), paginate() or each(). The updateAll() and deleteAll() terminals change every matching row with one statement, and lock() locks the rows a query returns.
 
 ## Method Signature
 
@@ -58,6 +58,21 @@ totals = entityCriteria( "Order" )
     .list();
 ```
 
+Change or delete every matching row with one statement (no entity events or cascades, see [Bulk updates and deletes](../../../usage/criteria.md#bulk-updates-and-deletes)):
+
+```java
+archived = entityCriteria( "Order" ).isLt( "createdDate", cutoff ).updateAll( { status : "archived" } );
+removed  = entityCriteria( "Session" ).isLt( "expires", now() ).deleteAll();
+```
+
+Lock the rows a query returns until the transaction ends:
+
+```java
+transaction {
+    jobs = entityCriteria( "Job" ).isEq( "status", "new" ).lock( "write", { skipLocked : true } ).maxResults( 10 ).list();
+}
+```
+
 See the SQL without running the query:
 
 ```java
@@ -67,16 +82,24 @@ writeOutput( entityCriteria( "User" ).isEq( "active", true ).getSQL( true ) );
 ## Related
 
   * [EntityDelete](./EntityDelete.md)
+  * [EntityEvict](./EntityEvict.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
   * [EntityGetId](./EntityGetId.md)
   * [EntityGetMetadata](./EntityGetMetadata.md)
   * [EntityGetName](./EntityGetName.md)
+  * [EntityGetReference](./EntityGetReference.md)
   * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
+  * [EntityLoadByPKOrFail](./EntityLoadByPKOrFail.md)
+  * [EntityLoadOrFail](./EntityLoadOrFail.md)
+  * [EntityLoadOrNew](./EntityLoadOrNew.md)
+  * [EntityLoadOrSave](./EntityLoadOrSave.md)
+  * [EntityLoadReadOnly](./EntityLoadReadOnly.md)
+  * [EntityLock](./EntityLock.md)
   * [EntityMerge](./EntityMerge.md)
   * [EntityNameArray](./EntityNameArray.md)
   * [EntityNameList](./EntityNameList.md)
@@ -99,4 +122,5 @@ writeOutput( entityCriteria( "User" ).isEq( "active", true ).getSQL( true ) );
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
   * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
   * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
+  * [ORMReadOnly](./ORMReadOnly.md)
   * [ORMReload](./ORMReload.md)

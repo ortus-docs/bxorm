@@ -7,10 +7,18 @@ bx-orm ships a set of Built-in Functions (BIFs) for working with entities and th
 | Function | Description |
 |----------|-------------|
 | [EntityDelete](orm/EntityDelete.md) | Delete an entity from the database. |
+| [EntityEvict](orm/EntityEvict.md) | Remove an entity, or an array of entities, from the ORM session without deleting it. |
+| [EntityGetReference](orm/EntityGetReference.md) | Get a lazy reference to an entity by id without loading it from the database. |
 | [EntityIsAttached](orm/EntityIsAttached.md) | Check whether an entity is attached to the current ORM session. |
 | [EntityLoad](orm/EntityLoad.md) | Load an entity or array of entities from the database. |
 | [EntityLoadByExample](orm/EntityLoadByExample.md) | Load entities matching an example entity. |
-| [EntityLoadByPK](orm/EntityLoadByPK.md) | Load an array of entities by the primary key. |
+| [EntityLoadByPK](orm/EntityLoadByPK.md) | Load an entity by its primary key, optionally locked or read-only. |
+| [EntityLoadByPKOrFail](orm/EntityLoadByPKOrFail.md) | Load an entity by its primary key, or throw `orm.notFound`. |
+| [EntityLoadOrFail](orm/EntityLoadOrFail.md) | Load one entity by id or filter, or throw `orm.notFound`. |
+| [EntityLoadOrNew](orm/EntityLoadOrNew.md) | Load an entity by id or filter, or return a new, unsaved one. |
+| [EntityLoadOrSave](orm/EntityLoadOrSave.md) | Load an entity by id or filter, or create and save a new one. |
+| [EntityLoadReadOnly](orm/EntityLoadReadOnly.md) | Load entities like `entityLoad()`, read-only. |
+| [EntityLock](orm/EntityLock.md) | Lock an entity's row in the database until the current transaction ends. |
 | [EntityMerge](orm/EntityMerge.md) | Merge the state of the given entity into the current persistence context (session). |
 | [EntityNameArray](orm/EntityNameArray.md) | Retrieve an array of entity names for this ORM application. |
 | [EntityNameList](orm/EntityNameList.md) | Retrieve a list of entity names for this ORM application. |
@@ -35,4 +43,5 @@ bx-orm ships a set of Built-in Functions (BIFs) for working with entities and th
 | [ORMGetHibernateVersion](orm/ORMGetHibernateVersion.md) | Retrieve the installed Hibernate version. |
 | [ORMGetSession](orm/ORMGetSession.md) | Retrieve the Hibernate Session configured for this datasource or default datasource. |
 | [ORMGetSessionFactory](orm/ORMGetSessionFactory.md) | Retrieve the Hibernate SessionFactory configured for this datasource or default datasource. |
+| [ORMReadOnly](orm/ORMReadOnly.md) | Run a closure with every entity it loads read-only. |
 | [ORMReload](orm/ORMReload.md) | Reload the ORM application. |

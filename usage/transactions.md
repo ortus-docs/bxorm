@@ -152,6 +152,34 @@ transaction name="outer" {
 }
 ```
 
+## Locking
+
+A database lock stops other transactions from changing the locked rows until your transaction ends (a `write` lock also stops them from locking the rows). Locks need a transaction: taking one outside `transaction{}` raises an `orm.argument` error, and every lock is released when the transaction commits or rolls back.
+
+```js
+transaction {
+    var account = entityLoadByPK( "Account", 1, { lock : "write" } );
+    account.setBalance( account.getBalance() - 100 );
+}
+```
+
+| To lock | Use |
+| --- | --- |
+| An entity you already loaded | [entityLock( entity, [mode], [options] )](../reference/built-in-functions/orm/EntityLock.md) |
+| An entity while loading it by id | The `lock` option of [entityLoadByPK()](../reference/built-in-functions/orm/EntityLoadByPK.md) |
+| The rows of a criteria query | [`lock()`](criteria.md#locking-rows) on `entityCriteria()` |
+| The rows of an HQL query | The `lock` option of [ORMExecuteQuery()](../reference/built-in-functions/orm/ORMExecuteQuery.md) |
+
+The modes are `write` (exclusive, the default), `read` (shared) and `force` (exclusive, and increments the version of a versioned entity). Each also takes a lock timeout in seconds (`timeout`, or `lockTimeout` for `ormExecuteQuery()`; `0` means do not wait) and `skipLocked`.
+
+### Read-only loads
+
+When you only read entities (reports, exports), load them read-only. They are not dirty-checked, so flushes are cheaper, and changes made to them by mistake are never saved:
+
+* [ormReadOnly( callback )](../reference/built-in-functions/orm/ORMReadOnly.md) makes every entity loaded inside the closure read-only.
+* [entityLoadReadOnly()](../reference/built-in-functions/orm/EntityLoadReadOnly.md) is `entityLoad()` with read-only results.
+* The `readOnly` option of `entityLoad()`, `entityLoadByPK()` and `ormExecuteQuery()`, and `readOnly()` on `entityCriteria()`.
+
 ## Transaction Savepoint
 
 True database savepoints (`SAVEPOINT` / `ROLLBACK TO SAVEPOINT`) are not _currently_ supported on ORM transactions - you cannot partially roll back a transaction to an intermediate point.

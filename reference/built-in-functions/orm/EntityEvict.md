@@ -1,41 +1,48 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `ORMCloseSession`
+# Function: `EntityEvict`
 
-Close the Hibernate session for the current context and provided (or default) datasource
+Remove one entity, or an array of entities, from the ORM session. The session stops tracking them: later changes to an evicted entity are not saved, and loading it again reads it fresh from the database. Nothing is deleted.
+
+Unsaved changes to an evicted entity are dropped, so flush first (`ormFlush()`) if you want to keep them. Evicting an entity that is not in the session does nothing.
+
+This is not the same as [ORMEvictEntity](./ORMEvictEntity.md), which removes cached data from the second-level cache and leaves the session alone.
 
 ## Method Signature
 
 ```
-ORMCloseSession(datasource=[String])
+EntityEvict(entity=[Any])
 ```
 
 ### Arguments
 
-
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `datasource` | `String` | `false` | The datasource on which to close the current session. If not provided, the default datasource will be used. |  |
+| `entity` | `Any` | `true` | An entity, or an array of entities, to remove from the session. |  |
+
+Returns `null`.
 
 ## Examples
 
-Close the ORM session for the default datasource:
-
 ```java
-ormCloseSession();
+entityEvict( user );
+entityEvict( [ user, order ] );
 ```
 
-Close the ORM session for a secondary, named datasource:
+Changes made after the eviction are not saved:
 
 ```java
-ormCloseSession( "admin" );
+user = entityLoadByPK( "User", 1 );
+entityEvict( user );
+user.setEmail( "new@example.com" );
+ormFlush();                            // no UPDATE: the session no longer tracks the user
+entityIsAttached( user );              // false
 ```
 
 ## Related
 
   * [EntityCriteria](./EntityCriteria.md)
   * [EntityDelete](./EntityDelete.md)
-  * [EntityEvict](./EntityEvict.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
   * [EntityGetId](./EntityGetId.md)
@@ -62,6 +69,7 @@ ormCloseSession( "admin" );
   * [EntityToQuery](./EntityToQuery.md)
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
+  * [ORMCloseSession](./ORMCloseSession.md)
   * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)

@@ -12,6 +12,10 @@ this.ormSettings = {
 };
 ```
 
+{% hint style="warning" %}
+`eventHandling: true` is required. It defaults to `false`, and with `false` no ORM event fires: not the event methods on your entities, not the global `eventHandler` (even when it is set), and not `postNew`. Earlier bx-orm versions fired events regardless of this setting, so an application that relied on events without setting `eventHandling: true` must now set it. Adobe ColdFusion and Lucee also require it.
+{% endhint %}
+
 This will enable two different event listener types for listening to Hibernate events:
 
 * Listen to all events across all entities via the [global event handler](#global-event-handler)
@@ -32,6 +36,7 @@ The `EventHandler.bx` must then contain function definitions matching the ORM ev
 
 Currently, the available event names are:
 
+* `postNew`
 * `onFlush`
 * `preLoad`
 * `postLoad`
@@ -127,6 +132,7 @@ Note that only events related to a specific entity will fire upon that entity. F
 
 Here is the full list of event types which can be listened to in entity event listeners:
 
+* `postNew`
 * `preLoad`
 * `postLoad`
 * `preInsert`
@@ -135,6 +141,10 @@ Here is the full list of event types which can be listened to in entity event li
 * `postUpdate`
 * `preDelete`
 * `postDelete`
+
+{% hint style="info" %}
+`postNew` is not a Hibernate event: it fires when `entityNew()` creates an entity (and when `entityLoadOrNew()` or `entityLoadOrSave()` create one), not when an entity is loaded. Use `postLoad` for loads.
+{% endhint %}
 
 {% hint style="info" %}
 `onDelete` is only available in the [global event handler](#global-event-handler), not as an entity-level method - it fires once per delete operation, before Hibernate has resolved which entity persister to use.
@@ -166,7 +176,7 @@ What happens after a veto:
 
 | Event | Result |
 | --- | --- |
-| `preInsert` | No row is written. The entity stays in the session: remove it with `ormGetSession().evict( entity )` or `ormClearSession()` before changing it, or the next flush tries to update a row that does not exist (`orm.stale`). |
+| `preInsert` | No row is written. The entity stays in the session: remove it with [entityEvict( entity )](../reference/built-in-functions/orm/EntityEvict.md) or `ormClearSession()` before changing it, or the next flush tries to update a row that does not exist (`orm.stale`). |
 | `preUpdate` | Nothing is written and the entity keeps its changes. It stays dirty, so the update, and your `preUpdate`, run again on every flush. Call `entityReload( entity )` to discard the change. |
 | `preDelete` | The row stays. The entity leaves the session. |
 

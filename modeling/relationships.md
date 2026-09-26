@@ -278,7 +278,9 @@ property name      = "publishedPosts"
          where     = "status = 'published'";
 ```
 
-`getPosts()` will only ever return rows where `status = 'published'`. This is useful for modelling a filtered view of a collection without a separate entity query.
+`getPublishedPosts()` will only ever return rows where `status = 'published'`. This is useful for modelling a filtered view of a collection without a separate entity query. `where` works on `one-to-many` and `many-to-many` collections.
+
+To hide rows from every query and load of an entity, not just from one collection, put `where` on the entity itself. See [Filtering rows with `where`](entities.md#filtering-rows-with-where).
 
 ### Inverse and Bidirectional Relationships
 

@@ -1,34 +1,41 @@
 [comment]: # (Note: This documentation is generated dynamically in the build process.  To modify the contents, change the javadoc on the _invoke method of the BIF class)
 
-# Function: `ORMCloseSession`
+# Function: `EntityGetReference`
 
-Close the Hibernate session for the current context and provided (or default) datasource
+Get a reference to an entity by id without loading it from the database.
+
+Use it to set an association when all you have is the id: no `SELECT` runs.
+
+The reference is a lazy proxy. Reading any of its properties or calling its methods loads the row then, and fails at that point if no row has that id. When the session already holds the entity, that entity is returned.
 
 ## Method Signature
 
 ```
-ORMCloseSession(datasource=[String])
+EntityGetReference(entityName=[String], id=[Any])
 ```
 
 ### Arguments
 
-
 | Argument | Type | Required | Description | Default |
 |----------|------|----------|-------------|---------|
-| `datasource` | `String` | `false` | The datasource on which to close the current session. If not provided, the default datasource will be used. |  |
+| `entityName` | `String` | `true` | The name of the entity. |  |
+| `id` | `Any` | `true` | The primary key value, or a struct of key/value pairs for composite keys. |  |
+
+Returns the reference: an unloaded proxy, or the entity when the session already holds it.
 
 ## Examples
 
-Close the ORM session for the default datasource:
+Set an association from a form value, without loading the customer:
 
 ```java
-ormCloseSession();
+order.setCustomer( entityGetReference( "Customer", form.customerId ) );
+entitySave( order );
 ```
 
-Close the ORM session for a secondary, named datasource:
+Composite keys take a struct:
 
 ```java
-ormCloseSession( "admin" );
+vehicleType = entityGetReference( "VehicleType", { make : "Ford", model : "Fusion" } );
 ```
 
 ## Related
@@ -41,7 +48,6 @@ ormCloseSession( "admin" );
   * [EntityGetId](./EntityGetId.md)
   * [EntityGetMetadata](./EntityGetMetadata.md)
   * [EntityGetName](./EntityGetName.md)
-  * [EntityGetReference](./EntityGetReference.md)
   * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
@@ -62,6 +68,7 @@ ormCloseSession( "admin" );
   * [EntityToQuery](./EntityToQuery.md)
   * [ORMClearSession](./ORMClearSession.md)
   * [ORMCloseAllSessions](./ORMCloseAllSessions.md)
+  * [ORMCloseSession](./ORMCloseSession.md)
   * [ORMDiagnostics](./ORMDiagnostics.md)
   * [ORMEvictCollection](./ORMEvictCollection.md)
   * [ORMEvictEntity](./ORMEvictEntity.md)

@@ -30,6 +30,9 @@ Execute an HQL query with (optional) parameters and specific query options.
  <li><strong><code>cacheable</code></strong> - Cache the result in the second-level query cache (needs <code>secondaryCacheEnabled</code>). Default is false.</li>
  <li><strong><code>cacheName</code></strong> - The query cache region to use (alias <code>cacheRegion</code>). Implies <code>cacheable</code> unless <code>cacheable</code> is given.</li>
  <li><strong><code>timeout</code></strong> - The query timeout in seconds. Default is no timeout.</li>
+ <li><strong><code>lock</code></strong> - Lock the rows the query returns until the transaction ends: <code>read</code>, <code>write</code> or <code>force</code> (see <code>entityLock()</code>). Needs <code>transaction{}</code>, otherwise an <code>orm.argument</code> error is raised.</li>
+ <li><strong><code>lockTimeout</code></strong> - Seconds to wait for the lock. <code>0</code> means do not wait.</li>
+ <li><strong><code>skipLocked</code></strong> - Skip rows another transaction has locked instead of waiting for them.</li>
  </ul>
 
 ## Method Signature
@@ -90,20 +93,42 @@ FROM Auto WHERE Make = ?1
 
 prior to query execution.
 
+## Locking Rows
+
+Inside a transaction, the `lock` option locks the rows the query returns until the transaction ends:
+
+```java
+transaction {
+    var jobs = ORMExecuteQuery(
+        hql     = "FROM Job WHERE status = :status",
+        params  = { status = "new" },
+        options = { lock = "write", skipLocked = true, maxResults = 10 }
+    );
+}
+```
+
 ## Related
 
   * [EntityCriteria](./EntityCriteria.md)
   * [EntityDelete](./EntityDelete.md)
+  * [EntityEvict](./EntityEvict.md)
   * [EntityGetDatasource](./EntityGetDatasource.md)
   * [EntityGetDirtyProperties](./EntityGetDirtyProperties.md)
   * [EntityGetId](./EntityGetId.md)
   * [EntityGetMetadata](./EntityGetMetadata.md)
   * [EntityGetName](./EntityGetName.md)
+  * [EntityGetReference](./EntityGetReference.md)
   * [EntityIsAttached](./EntityIsAttached.md)
   * [EntityIsDirty](./EntityIsDirty.md)
   * [EntityLoad](./EntityLoad.md)
   * [EntityLoadByExample](./EntityLoadByExample.md)
   * [EntityLoadByPK](./EntityLoadByPK.md)
+  * [EntityLoadByPKOrFail](./EntityLoadByPKOrFail.md)
+  * [EntityLoadOrFail](./EntityLoadOrFail.md)
+  * [EntityLoadOrNew](./EntityLoadOrNew.md)
+  * [EntityLoadOrSave](./EntityLoadOrSave.md)
+  * [EntityLoadReadOnly](./EntityLoadReadOnly.md)
+  * [EntityLock](./EntityLock.md)
   * [EntityMerge](./EntityMerge.md)
   * [EntityNameArray](./EntityNameArray.md)
   * [EntityNameList](./EntityNameList.md)
@@ -125,4 +150,5 @@ prior to query execution.
   * [ORMGetSessionFactory](./ORMGetSessionFactory.md)
   * [ORMGetSessionStatistics](./ORMGetSessionStatistics.md)
   * [ORMIsSessionDirty](./ORMIsSessionDirty.md)
+  * [ORMReadOnly](./ORMReadOnly.md)
   * [ORMReload](./ORMReload.md)

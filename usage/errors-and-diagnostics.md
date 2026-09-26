@@ -52,19 +52,19 @@ catch ( "orm.query" e ) {
 | --- | --- | --- |
 | `orm.notEnabled` | An ORM function runs in an application without `this.ormEnabled = true`. | Enable the ORM in `Application.bx`. |
 | `orm.notReady` | The ORM failed to start (the message repeats the startup error) or has not started. | Fix the startup error, then call `ormReload()` or restart the app. |
-| `orm.config` | Invalid ORM settings or entities found at startup: missing entity folder, unknown `fieldtype` or `ormtype`, relationship to a missing `cfc`, unknown datasource, two entities with the same name. | Follow the message; it names the entity, property or setting. |
+| `orm.config` | Invalid ORM settings or entities found at startup: missing entity folder, unknown `fieldtype` or `ormtype`, relationship to a missing `cfc`, unknown datasource, two entities with the same name, an unknown `softDelete` or `autoTimestamp` value, `softDelete` on a subclass entity. | Follow the message; it names the entity, property or setting. |
 | `orm.boot` | Hibernate refused the generated mapping. | The message names the entity; check its mapping annotations. |
 | `orm.entity.notFound` | An entity name that does not exist, in a BIF or in HQL. | Use the suggested name; `detail` lists the known entities. |
 | `orm.property.unknown` | A property that does not exist, in HQL, an `entityLoad()` filter or its sort order. | Use the suggested name; `detail` lists the entity's properties. |
 | `orm.property.type` | A property holds a value that cannot be stored in its column (e.g. `"abc"` in an integer), or an association was set to something that is not an entity. | Set values that fit each property's `ormtype`; set associations to entity instances. |
-| `orm.argument` | A BIF received the wrong kind of value, e.g. a struct instead of an entity, or an id of the wrong type. | Pass what the message asks for. |
+| `orm.argument` | A BIF received the wrong kind of value, e.g. a struct instead of an entity, or an id of the wrong type. Also a lock taken outside `transaction{}`, an unknown lock mode, or lock mode `force` on an entity without a version property. | Pass what the message asks for. |
 | `orm.query.syntax` | HQL that cannot be parsed. The message gives the line, column and token; `detail` lists what was expected. | Fix the HQL at that position. |
 | `orm.query.semantic` | HQL that parses but is not valid (bad function or path). | Check the HQL against your entities. |
 | `orm.query.parameter` | A named parameter without a value, too few positional values, named vs positional mixed up, a value of the wrong type, or an empty string for a non-text value. | Pass one value per parameter, of the right type. Pass `null` (not `""`) for "no value". |
 | `orm.query.nonUnique` | A `unique` query or `entityLoad()` matched more than one row. | Narrow the query, or pass `{ uniqueFirst : true }` to take the first row. |
-| `orm.notFound` | `getOrFail()` or `firstOrFail()` of [entityCriteria()](criteria.md) matched no row. | Use `get()` or `first()` to receive null instead, or check the conditions. |
+| `orm.notFound` | `getOrFail()` or `firstOrFail()` of [entityCriteria()](criteria.md), `entityLoadOrFail()` or `entityLoadByPKOrFail()` matched no row. | Use `get()`, `first()`, `entityLoad()` or `entityLoadByPK()` to receive null instead, or check the id or conditions. |
 | `orm.lazy.noSession` | A lazy association was read after the session that loaded it was closed or cleared (`ormClearSession()`, `ormCloseSession()`, a finished request). | Reload the entity in the current session (`entityLoadByPK()`, `entityReload()`), or map the association with `lazy="false"`. |
-| `orm.transient` | A saved entity points to an entity that was never saved. | Save the other entity first, or add `cascade="save-update"` (or `"all"`) to the association. |
+| `orm.transient` | A saved entity points to an entity that was never saved, or `entityLock()` received an entity that is not in the session. | Save the other entity first, or add `cascade="save-update"` (or `"all"`) to the association. For `entityLock()`, load the entity first. |
 | `orm.id.missing` | An entity with an assigned id (`generator="assigned"`) was saved without one. | Set the id before `entitySave()`, or give the id a generator. |
 | `orm.session.duplicate` | Two different objects for the same row are in one session. | Use `entityMerge()`, or keep working with the instance you loaded. |
 | `orm.stale` | Optimistic locking: the row changed or was deleted after you loaded it. | Reload the entity and apply your change again. |
