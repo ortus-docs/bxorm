@@ -4,7 +4,7 @@ description: Easily configure Hibernate with BL
 
 # Configuration
 
-### Application.bx
+## Application.bx
 
 The ORM can be configured by a struct of settings set in `this.ormSettings` in your main `Application.bx`:
 
@@ -17,13 +17,45 @@ class{
 }
 ```
 
-### ORM Settings
+## ORM Settings
 
 The full list of available properties you can use to configure the ORM are the following:
 
-<table><thead><tr><th width="258">Setting Name<th width="128">Default<th>Description<tbody><tr><td><code>generateMappings</code><td><code>true</code><td>Specifies whether ColdFusion should automatically generate entity mappings for the persistent classes. If <code>generateMappings=false</code>, xml mappings must be provided as <code>{entityName}.hbm.xml</code> files stored alongside the entity.<tr><td><code>autoGenMap</code><td><code>true</code><td>Backwards-compatible alias for <code>generateMappings</code>. Deprecated.<tr><td><code>autoManageSession</code><td><code>false</code><td>Allows the engine to manage the Hibernate session. It is recommended not to let the engine manage it for you.<br><br>Use <code>transaction</code> blocks in order to demarcate your regions that should start, flush and end a transaction.<br><br><a href="https://docs.jboss.org/hibernate/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#transactions">https://docs.jboss.org/hibernate/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#transactions</a><tr><td><code>cacheConfig</code><td><em>empty</em><td>Specifies the location of the configuration file that the secondary cache provider should use. This setting is used only when <code>secondaryCacheEnabled=true</code>. See <a href="configuration.md#secondary-cache">Secondary Cache</a> below.<tr><td><code>cacheConfigProperties</code><td><em>empty struct</em><td>A struct alternative to <code>cacheConfig</code>: define secondary cache region settings directly as a BoxLang struct instead of pointing to a config file. See <a href="configuration.md#secondary-cache">Secondary Cache</a> below.<tr><td><code>cacheProvider</code><td><code>"BoxCacheProvider"</code><td><p>Specifies the cache provider that ORM should use as a secondary cache. bx-orm bridges Hibernate's JSR-107 cache SPI to BoxLang's own <code>CacheService</code>, so the value can be:<ul><li>The name of any BoxLang cache provider registered with <code>CacheService</code> (the default, <code>BoxCacheProvider</code>, uses BoxLang's built-in in-memory cache)<li><code>ehcache</code>, <code>ConcurrentHashMap</code>, or <code>HashTable</code> as legacy aliases, which all resolve to the default BoxLang cache provider<li>The fully qualified name of a JCache-compliant provider class</ul><p>See <a href="configuration.md#secondary-cache">Secondary Cache</a> below.<tr><td><code>catalog</code><td><td>Specifies the default Database Catalog that ORM should use.<tr><td><code>entityPaths</code><td><code>empty</code><td><p>Specifies the directory (or array of directories) that should be used to search for persistent CFCs to generate the mapping.<p><p><strong>Always specify it or pay a performance startup price.</strong><p><p><strong>Important:</strong><p>If it is not set, the extension looks at the application directory, its sub-directories, and its mapped directories to search for persistent CFCs.<tr><td><code>datasource</code><td><code>application.datasource</code><td>This setting defines the data source to be utilized by the ORM. If not used, defaults to the <code>this.datasource</code> in the <code>Application.bx</code><tr><td><code>defaultBatchSize</code><td><code>16</code><td>The default batch size Hibernate uses when fetching lazy collections or proxies, unless overridden by a per-property <code>batchsize</code> attribute.<tr><td><code>dbcreate</code><td><code>none</code><td><ul><li><code>update</code> : Creates the database according to your ORM model. It only does incremental updates. It will never remove tables, indexes, etc.<li><code>dropcreate</code> : Same as above but it destroys the database if it has ny content and recreates it every time the ORM is reloaded.<li><code>none</code> : Does not change the database at all.</ul><tr><td><code>dialect</code><td><code>autodiscover</code><td>The dialect to use for your database. By default Hibernate will introspect the datasource and try to figure it out. See the dialects section below.<br><br>You can also use the fully Java qualified name of the class.<br><br>See the <a href="configuration.md#dialects">dialects</a> section below.<tr><td><code>eventHandling</code><td><code>false</code><td>Must be <code>true</code> for any ORM event to fire: the event methods on entities (<code>preInsert()</code>, <code>postLoad()</code>, ...), the global <code>eventHandler</code> and <code>postNew</code>. With <code>false</code> no ORM event fires, even when <code>eventHandler</code> is set. See <a href="../usage/events.md">Events</a>.<tr><td><code>eventHandler</code><td><td>Path to the <code>.bx</code> class that will manage the global ORM events.<tr><td><code>enableThreadedMapping</code><td><code>true</code><td>When <code>true</code>, entity mapping generation runs across multiple threads at ORM startup to speed up boot time. Set to <code>false</code> to force single-threaded mapping, which can help when debugging mapping generation issues.<tr><td><code>flushAtRequestEnd</code><td><code>false</code><td>Specifies if an orm flush should be called automatically at the end of a request. In our opinion this SHOULD never be true. A database persistence should be done via <code>transaction</code> tags and good transaction demarcation.<tr><td><code>hibernateProperties</code><td><code>empty</code><td>A flat struct of raw Hibernate property name/value pairs (e.g. <code>{ "hibernate.connection.release_mode" : "on_close" }</code>), applied directly to the Hibernate configuration. The simplest way to tune arbitrary Hibernate settings without a custom Hibernate config file. Applied last, so it overrides both bx-orm's own defaults and any settings loaded from <code>ormconfig</code>. See <a href="configuration/custom-hibernate-config.md">Custom Hibernate Config</a>.<tr><td><code>logSQL</code><td><code>false</code><td>Specifies if the SQL queries should be logged to the console.<tr><td><code>namingstrategy</code><td><code>default</code><td>Defines the naming convention to use on table and column names.<br><br>See <a href="./configuration/naming-strategies.md">Naming Strategies</a> for more information.<tr><td><code>ormconfig</code><td><td>The path to a custom, flat <code>hibernate.properties</code>-formatted file. Every key/value pair in the file is applied to the Hibernate configuration, applied before <code>hibernateProperties</code> (a matching key in <code>hibernateProperties</code> wins). The XML <code>hibernate.cfg.xml</code> format is not yet supported. Please see <a href="configuration/custom-hibernate-config.md">Custom Hibernate Config</a><tr><td><code>proxyLazyLoading</code><td><code>false</code><td>When <code>true</code>, lazy-loaded relationship properties are wrapped in a proxy object instead of triggering an immediate load. See <a href="../modeling/relationships.md">Relationships</a>.<tr><td><code>quoteIdentifiers</code><td><code>false</code><td>When <code>true</code>, all generated table and column identifiers are quoted in the Hibernate mapping, forcing Hibernate to preserve case and allowing reserved words as table/column names.<tr><td><code>savemapping</code><td><code>false</code><td>If enabled, the ORM will create the Hibernate mapping XML (<code>*.hbmxml</code>) files alongside the entities. This is great for debugging your entities and relationships.<tr><td><code>schema</code><td><td>The default database schema to use<tr><td><code>secondaryCacheEnabled</code><td><code>false</code><td>Enable the secondary cache or not. See our <a href="../usage/caching.md">Caching</a> section.<tr><td><code>ignoreParseErrors</code><td><code>false</code><td>If <code>true</code>, then the ORM will ignore classes that have compile time errors in them. Use <code>false</code> to throw exceptions.<tr><td><code>sqlScript</code><td><td>Path to a SQL script file that will be executed after the ORM is initialized. A great way to seed a database.<tr><td><code>sqlFunctions</code><td><em>empty struct</em><td>Named SQL functions that HQL and <code>entityCriteria()</code> paths can call: a struct of name to a SQL template, or to <code>{ sql, returns }</code>. See <a href="configuration.md#named-sql-functions">Named SQL Functions</a> below.<tr><td><code>useDBForMapping</code><td><code>false</code><td><p>Adobe ColdFusion compatibility. When <code>true</code>, the ORM reads each entity's existing table at startup to fill in what the entity leaves out: the <code>ormtype</code> of untyped properties (from the column type) and the id of an entity without one (from the primary key). Foreign keys are not inferred. See <a href="configuration.md#using-the-database-for-mapping">Using the Database for Mapping</a> below.</table>
+|Setting Name|Default|Description|
+|---|---|---|
+|`generateMappings`|`true`|Automatically generate entity mappings for persistent classes. When `false`, provide `{entityName}.orm.xml` mapping files beside the entity (see `savemapping`).|
+|`autoGenMap`|`true`|Backwards-compatible alias for `generateMappings`. Deprecated.|
+|`autoManageSession`|`false`|Allows the engine to manage the Hibernate session. Use `transaction` blocks to demarcate transaction regions. See [Transactions](../usage/transactions.md).|
+|`cacheConfig`|*empty*|Location of the secondary cache provider configuration file. Used only when `secondaryCacheEnabled=true`. See [Secondary Cache](configuration.md#secondary-cache).|
+|`cacheConfigProperties`|*empty struct*|Struct alternative to `cacheConfig` for defining secondary cache region settings. See [Secondary Cache](configuration.md#secondary-cache).|
+|`cacheProvider`|`"BoxCacheProvider"`|Secondary cache provider. This can be a BoxLang cache provider name, a legacy alias such as `ehcache`, `ConcurrentHashMap`, or `HashTable`, or a fully qualified JCache provider class. See [Secondary Cache](configuration.md#secondary-cache).|
+|`catalog`||Default database catalog.|
+|`entityPaths`|*empty*|Directory or array of directories searched for persistent classes. Specify this to avoid a startup performance cost.|
+|`datasource`|`application.datasource`|Datasource used by the ORM. Defaults to `this.datasource` in `Application.bx` when not specified.|
+|`defaultBatchSize`|`16`|Default batch size Hibernate uses when fetching lazy collections or proxies.|
+|`dbcreate`|`none`|Schema strategy: `update` creates incremental updates, `dropcreate` recreates the database on reload, and `none` leaves the database unchanged.|
+|`dialect`|`autodiscover`|Database dialect. Hibernate introspects the datasource by default, or you can provide a fully qualified Java class name. See [Dialects](#dialects).|
+|`eventHandling`|`false`|Must be `true` for any ORM event to fire: entity event methods, the global `eventHandler` and `postNew`. See [Events](../usage/events.md).|
+|`eventHandler`||Path to the `.bx` class that manages global ORM events.|
+|`enableThreadedMapping`|`true`|Runs entity mapping generation across multiple threads at startup. Set to `false` to force single-threaded generation.|
+|`flushAtRequestEnd`|`false`|Automatically flushes the ORM at the end of a request. Persistence should generally be done through `transaction` blocks.|
+|`hibernateProperties`|`empty`|Flat struct of raw Hibernate property name/value pairs applied directly to Hibernate configuration. Applied last, so it overrides ORM defaults and `ormconfig`. See [Custom Hibernate Config](configuration/custom-hibernate-config.md).|
+|`logSQL`|`false`|Logs SQL queries to the console.|
+|`namingstrategy`|`default`|Naming convention used for table and column names. See [Naming Strategies](./configuration/naming-strategies.md).|
+|`ormconfig`||Path to a flat `hibernate.properties` file. Applied before `hibernateProperties`; matching keys in `hibernateProperties` take precedence. The XML `hibernate.cfg.xml` format is not supported. See [Custom Hibernate Config](configuration/custom-hibernate-config.md).|
+|`proxyLazyLoading`|`false`|Wraps lazy-loaded relationship properties in a proxy instead of triggering an immediate load. See [Relationships](../modeling/relationships.md).|
+|`quoteIdentifiers`|`false`|Quotes generated table and column identifiers in the Hibernate mapping.|
+|`ormManifest`|`off`|Boot cache mode: `off`, `auto` (write the `.bxorm/` boot cache on every boot and reload on entity changes) or `trust` (boot straight from the cache). See [Boot Cache](../usage/performance.md#boot-cache).|
+|`ormManifestLocation`|*empty*|Parent folder for the `.bxorm/` boot cache. Blank uses the application root; a relative path resolves against it. See [Boot Cache](../usage/performance.md#boot-cache).|
+|`savemapping`|`false`|Writes each generated Hibernate mapping as `{entityName}.orm.xml` beside the entity, for debugging.|
+|`schema`||Default database schema.|
+|`secondaryCacheEnabled`|`false`|Enables the secondary cache. See [Caching](../usage/caching.md).|
+|`ignoreParseErrors`|`false`|Ignores classes with compile-time errors when `true`; otherwise throws exceptions.|
+|`sqlScript`||Path to a SQL script executed after ORM initialization.|
+|`sqlFunctions`|*empty struct*|Named SQL functions that HQL and `entityCriteria()` paths can call. See [Named SQL Functions](#named-sql-functions).|
+|`useDBForMapping`|`false`|Adobe ColdFusion compatibility: fill in untyped property types and missing ids from the existing tables at startup. Foreign keys are not inferred. See [Using the Database for Mapping](#using-the-database-for-mapping).|
 
-### Named SQL Functions
+## Named SQL Functions
 
 `sqlFunctions` registers SQL templates with Hibernate under a name, so [HQL](../usage/querying.md#named-sql-functions) and [criteria paths](../usage/criteria.md#functions-in-paths) can call them like built-in functions:
 
@@ -51,7 +83,7 @@ A name that is not letters, digits and underscores (starting with a letter or un
 
 [ormGetSQLFunctions()](../reference/built-in-functions/orm/ORMGetSQLFunctions.md) returns the registered functions, and the `settings` of [ormDiagnostics()](../reference/built-in-functions/orm/ORMDiagnostics.md) list their names.
 
-### Using the Database for Mapping
+## Using the Database for Mapping
 
 `useDBForMapping` is for Adobe ColdFusion applications whose entities rely on the database to complete their mapping. It is `false` by default. With `useDBForMapping : true`, at startup the ORM reads each entity's existing table (JDBC metadata) and fills in:
 
@@ -75,19 +107,74 @@ A name that is not letters, digits and underscores (starting with a letter or un
 
 Other column types are left alone. Foreign keys are not inferred: declare relationships with their `fkcolumn`. A table that does not exist yet (for example, one `dbcreate` will create) is skipped, and a table whose metadata cannot be read is logged as a warning.
 
-### Dialects
+## Dialects
 
 By using the `ormsettings.dialect` you can tell Hibernate which specific database dialect to use for building queries.  By default, Hibernate tries to inspect the datasource and define it for you.  95% of the time, this works.  However, if you want a specific one, then you can use the following names or a fully qualified Java class name.
 
 > **Hibernate 7 note:** Hibernate 7 replaced the version-specific dialects (for example `MySQL5`, `Oracle10g`, `DerbyTenSeven`) with a single, version-detecting dialect per database. The legacy names in the table below are still accepted for backwards compatibility: bx-orm maps each to the current dialect for that database and logs a one-time deprecation warning, so you no longer need to pick a version. Databases such as SQLite, Derby, Firebird, Informix, Ingres, and CUBRID now come from the `hibernate-community-dialects` artifact, which bx-orm bundles. A few dialects for long-dead databases (FrontBase, McKoi, Pointbase, Progress, JDataStore, Interbase) were removed by Hibernate and are no longer supported. Prefer leaving `dialect` unset (auto-discovery) or using the plain database name.
 
-<table><thead><tr><th width="238">Dialect (short name)</th><th>Remarks</th></tr></thead><tbody><tr><td>Cache71</td><td>Support for the Caché database, version 2007.1.</td></tr><tr><td>CockroachDB192</td><td>Support for the CockroachDB database version 19.2.</td></tr><tr><td>CockroachDB201</td><td>Support for the CockroachDB database version 20.1.</td></tr><tr><td>CUBRID</td><td>Support for the CUBRID database, version 8.3. May work with later versions.</td></tr><tr><td>DB2</td><td>Support for the DB2 database, version 8.2.</td></tr><tr><td>DB297</td><td>Support for the DB2 database, version 9.7.</td></tr><tr><td>DB2390</td><td>Support for DB2 Universal Database for OS/390, also known as DB2/390.</td></tr><tr><td>DB2400</td><td>Support for DB2 Universal Database for iSeries, also known as DB2/400.</td></tr><tr><td>DB2400V7R3</td><td>Support for DB2 Universal Database for i, also known as DB2/400, version 7.3</td></tr><tr><td>DerbyTenFive</td><td>Support for the Derby database, version 10.5</td></tr><tr><td>DerbyTenSix</td><td>Support for the Derby database, version 10.6</td></tr><tr><td>DerbyTenSeven</td><td>Support for the Derby database, version 10.7</td></tr><tr><td>Firebird</td><td>Support for the Firebird database</td></tr><tr><td>FrontBase</td><td>Support for the Frontbase database</td></tr><tr><td>H2</td><td>Support for the H2 database</td></tr><tr><td>HANACloudColumnStore</td><td>Support for the SAP HANA Cloud database column store.</td></tr><tr><td>HANAColumnStore</td><td>Support for the SAP HANA database column store, version 2.x. This is the recommended dialect for the SAP HANA database. May work with SAP HANA, version 1.x</td></tr><tr><td>HANARowStore</td><td>Support for the SAP HANA database row store, version 2.x. May work with SAP HANA, version 1.x</td></tr><tr><td>HSQL</td><td>Support for the HSQL (HyperSQL) database</td></tr><tr><td>Informix</td><td>Support for the Informix database</td></tr><tr><td>Ingres</td><td>Support for the Ingres database, version 9.2</td></tr><tr><td>Ingres9</td><td>Support for the Ingres database, version 9.3. May work with newer versions</td></tr><tr><td>Ingres10</td><td>Support for the Ingres database, version 10. May work with newer versions</td></tr><tr><td>Interbase</td><td>Support for the Interbase database.</td></tr><tr><td>JDataStore</td><td>Support for the JDataStore database</td></tr><tr><td>McKoi</td><td>Support for the McKoi database</td></tr><tr><td>Mimer</td><td>Support for the Mimer database, version 9.2.1. May work with newer versions</td></tr><tr><td>MySQL5</td><td>Support for the MySQL database, version 5.x</td></tr><tr><td>MySQL5InnoDB</td><td>Support for the MySQL database, version 5.x preferring the InnoDB storage engine when exporting tables.</td></tr><tr><td>MySQL57InnoDB</td><td>Support for the MySQL database, version 5.7 preferring the InnoDB storage engine when exporting tables. May work with newer versions</td></tr><tr><td>MariaDB</td><td>Support for the MariaDB database. May work with newer versions</td></tr><tr><td>MariaDB53</td><td>Support for the MariaDB database, version 5.3 and newer.</td></tr><tr><td>Oracle8i</td><td>Support for the Oracle database, version 8i</td></tr><tr><td>Oracle9i</td><td>Support for the Oracle database, version 9i</td></tr><tr><td>Oracle10g</td><td>Support for the Oracle database, version 10g</td></tr><tr><td>Pointbase</td><td>Support for the Pointbase database</td></tr><tr><td>PostgresPlus</td><td>Support for the Postgres Plus database</td></tr><tr><td>PostgreSQL81</td><td>Support for the PostgrSQL database, version 8.1</td></tr><tr><td>PostgreSQL82</td><td>Support for the PostgreSQL database, version 8.2</td></tr><tr><td>PostgreSQL9</td><td>Support for the PostgreSQL database, version 9. May work with later versions.</td></tr><tr><td>Progress</td><td>Support for the Progress database, version 9.1C. May work with newer versions.</td></tr><tr><td>SAPDB</td><td>Support for the SAPDB/MAXDB database.</td></tr><tr><td>SQLite</td><td>Support for the SQLite database. Not auto-discovered from the datasource, so <code>dialect</code> must be set explicitly. You must also add a SQLite JDBC driver to your application yourself; bx-orm does not bundle one.</td></tr><tr><td>SQLServer</td><td>Support for the SQL Server 2000 database</td></tr><tr><td>SQLServer2005</td><td>Support for the SQL Server 2005 database</td></tr><tr><td>SQLServer2008</td><td>Support for the SQL Server 2008 database</td></tr><tr><td>Sybase11</td><td>Support for the Sybase database, up to version 11.9.2</td></tr><tr><td>SybaseAnywhere</td><td>Support for the Sybase Anywhere database</td></tr><tr><td>SybaseASE15</td><td>Support for the Sybase Adaptive Server Enterprise database, version 15</td></tr><tr><td>SybaseASE157</td><td>Support for the Sybase Adaptive Server Enterprise database, version 15.7. May work with newer versions.</td></tr><tr><td>Teradata</td><td>Support for the Teradata database</td></tr><tr><td>TimesTen</td><td>Support for the TimesTen database, version 5.1. May work with newer versions</td></tr></tbody></table>
+|Dialect (short name)|Remarks|
+|---|---|
+|`Cache71`|Support for the Caché database, version 2007.1.|
+|`CockroachDB192`|Support for CockroachDB version 19.2.|
+|`CockroachDB201`|Support for CockroachDB version 20.1.|
+|`CUBRID`|Support for CUBRID version 8.3. May work with later versions.|
+|`DB2`|Support for DB2 version 8.2.|
+|`DB297`|Support for DB2 version 9.7.|
+|`DB2390`|Support for DB2 Universal Database for OS/390, also known as DB2/390.|
+|`DB2400`|Support for DB2 Universal Database for iSeries, also known as DB2/400.|
+|`DB2400V7R3`|Support for DB2 Universal Database for i, also known as DB2/400, version 7.3.|
+|`DerbyTenFive`|Support for Derby version 10.5.|
+|`DerbyTenSix`|Support for Derby version 10.6.|
+|`DerbyTenSeven`|Support for Derby version 10.7.|
+|`Firebird`|Support for Firebird.|
+|`FrontBase`|Support for Frontbase.|
+|`H2`|Support for H2.|
+|`HANACloudColumnStore`|Support for the SAP HANA Cloud column store.|
+|`HANAColumnStore`|Support for the SAP HANA column store, version 2.x. May work with version 1.x.|
+|`HANARowStore`|Support for the SAP HANA row store, version 2.x. May work with version 1.x.|
+|`HSQL`|Support for HSQL (HyperSQL).|
+|`Informix`|Support for Informix.|
+|`Ingres`|Support for Ingres, version 9.2.|
+|`Ingres9`|Support for Ingres, version 9.3. May work with newer versions.|
+|`Ingres10`|Support for Ingres, version 10. May work with newer versions.|
+|`Interbase`|Support for Interbase.|
+|`JDataStore`|Support for JDataStore.|
+|`McKoi`|Support for McKoi.|
+|`Mimer`|Support for Mimer, version 9.2.1. May work with newer versions.|
+|`MySQL5`|Support for MySQL, version 5.x.|
+|`MySQL5InnoDB`|Support for MySQL, version 5.x, preferring the InnoDB storage engine.|
+|`MySQL57InnoDB`|Support for MySQL, version 5.7, preferring the InnoDB storage engine. May work with newer versions.|
+|`MariaDB`|Support for MariaDB. May work with newer versions.|
+|`MariaDB53`|Support for MariaDB, version 5.3 and newer.|
+|`Oracle8i`|Support for Oracle, version 8i.|
+|`Oracle9i`|Support for Oracle, version 9i.|
+|`Oracle10g`|Support for Oracle, version 10g.|
+|`Pointbase`|Support for Pointbase.|
+|`PostgresPlus`|Support for Postgres Plus.|
+|`PostgreSQL81`|Support for PostgreSQL, version 8.1.|
+|`PostgreSQL82`|Support for PostgreSQL, version 8.2.|
+|`PostgreSQL9`|Support for PostgreSQL, version 9. May work with later versions.|
+|`Progress`|Support for Progress, version 9.1C. May work with newer versions.|
+|`SAPDB`|Support for SAPDB/MAXDB.|
+|`SQLite`|Support for SQLite. It is not auto-discovered, so `dialect` must be set explicitly, and a SQLite JDBC driver must be added to the application.|
+|`SQLServer`|Support for SQL Server 2000.|
+|`SQLServer2005`|Support for SQL Server 2005.|
+|`SQLServer2008`|Support for SQL Server 2008.|
+|`Sybase11`|Support for Sybase up to version 11.9.2.|
+|`SybaseAnywhere`|Support for Sybase Anywhere.|
+|`SybaseASE15`|Support for Sybase Adaptive Server Enterprise, version 15.|
+|`SybaseASE157`|Support for Sybase Adaptive Server Enterprise, version 15.7. May work with newer versions.|
+|`Teradata`|Support for Teradata.|
+|`TimesTen`|Support for TimesTen, version 5.1. May work with newer versions.|
 
 {% hint style="info" %}
 See the Hibernate Dialect Section: [Hibernate\_User\_Guide.html#database-dialect](https://docs.jboss.org/hibernate/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#database-dialect)
 {% endhint %}
 
-#### SQLite
+### SQLite
+
+bx-orm automatically detects SQLite from the JDBC connection, so you do not need to configure `dialect: "SQLite"` explicitly.
 
 ```js
 this.datasources = {
@@ -97,27 +184,25 @@ this.datasources = {
 };
 
 this.ormSettings = {
-    datasource : "myDB",
-    dialect    : "SQLite"
+	datasource : "myDB"
 };
 ```
 
 {% hint style="warning" %}
-SQLite's dialect can't be auto-discovered, so `dialect: "SQLite"` must always be set explicitly. You'll also need a SQLite JDBC driver (e.g. `org.xerial:sqlite-jdbc`) on your application's classpath, as bx-orm does not bundle one.
+You'll need a SQLite JDBC driver (e.g. `org.xerial:sqlite-jdbc`) on your application's classpath, as bx-orm does not bundle one.
 {% endhint %}
 
-### Sample Config
+## Sample Config
 
 Here is an example configuration from the popular ContentBox Modular CMS application
 
-```cfscript
+```js
 // THE CONTENTBOX DATASOURCE NAME
 this.datasource  = "contentbox";
 // ORM SETTINGS
 this.ormEnabled  = true;
-// cfformat-ignore-start
 this.ormSettings = {
-	// ENTITY LOCATIONS, ADD MORE LOCATIONS AS YOU SEE FIT
+	// An array of paths where your entity classes are located
 	entityPaths           : [
 		// If you create your own app entities
 		"models",
@@ -130,18 +215,27 @@ this.ormSettings = {
 	],
 	// THE DIALECT OF YOUR DATABASE OR LET HIBERNATE FIGURE IT OUT, UP TO YOU TO CONFIGURE.
 	dialect              : request.$systemHelper.getSystemSetting( "ORM_DIALECT", "" ),
-	// DO NOT REMOVE THE FOLLOWING LINE OR AUTO-UPDATES MIGHT FAIL.
+    // The database creation strategy (e.g., "update", "create", "dropcreate")
 	dbcreate             : "update",
+    // Enable or disable the secondary cache
 	secondarycacheenabled: request.$systemHelper.getSystemSetting( "ORM_SECONDARY_CACHE", false ),
+    // The cache provider to use for the secondary cache
 	cacheprovider        : request.$systemHelper.getSystemSetting( "ORM_SECONDARY_CACHE", "ehCache" ),
-	logSQL               : request.$systemHelper.getSystemSetting( "ORM_LOGSQL", false ),
+	// Whether to log SQL statements
+    logSQL               : request.$systemHelper.getSystemSetting( "ORM_LOGSQL", false ),
+    // The SQL script to execute during ORM initialization
 	sqlScript            : request.$systemHelper.getSystemSetting( "ORM_SQL_SCRIPT", "" ),
+    // Whether to flush the session at the end of each request
 	flushAtRequestEnd    : false,
+    // Whether to automatically manage the session
 	autoManageSession    : false,
+    // Whether to enable event handling
 	eventHandling        : true,
-	eventHandler         : "cborm.models.EventHandler",
+    // The event handler class to use
+	eventHandler         : "cborm.models.BxEventHandler",
+    // Whether to ignore parse errors
 	ignoreParseErrors     : true,
 	// TURN ON FOR Debugging if ORM mappings are not working.
 	savemapping          : false
-};
+}
 ```
