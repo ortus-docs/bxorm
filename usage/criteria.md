@@ -1,5 +1,6 @@
 ---
-description: Build queries fluently with entityCriteria()
+description: "Build queries fluently with entityCriteria(): conditions, joins, projections, paging and bulk statements"
+icon: filter
 ---
 
 # Criteria Queries

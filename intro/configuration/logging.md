@@ -1,5 +1,6 @@
 ---
-description: How do Hibernate logs work in bx-orm?
+description: Where bx-orm, SQL and Hibernate logs go, and how to turn them on
+icon: file-lines
 ---
 
 # Logging

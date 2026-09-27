@@ -1,5 +1,6 @@
 ---
 description: How bx-orm manages Hibernate Sessions and SessionFactories behind the scenes
+icon: database
 ---
 
 # Session Management
@@ -81,7 +82,7 @@ This ordering means other requests keep using a valid `ORMApp` throughout the re
 ## Relevant Built-in Functions
 
 | Function | Purpose |
-|----------|---------|
+| ---------- | --------- |
 | [ORMGetSession](../reference/built-in-functions/orm/ORMGetSession.md) | Get the raw Hibernate `Session` for the current context and datasource |
 | [ORMGetSessionFactory](../reference/built-in-functions/orm/ORMGetSessionFactory.md) | Get the Hibernate `SessionFactory` for a datasource |
 | [ORMFlush](../reference/built-in-functions/orm/ORMFlush.md) / [ORMFlushAll](../reference/built-in-functions/orm/ORMFlushAll.md) | Flush one or all open sessions |

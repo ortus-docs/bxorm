@@ -1,5 +1,6 @@
 ---
 description: Migrating to BoxLang ORM from Adobe ColdFusion and Lucee
+icon: right-left
 ---
 
 # BX-ORM Migration Guide
@@ -13,7 +14,7 @@ There are several ORM settings which have been renamed OR the default value chan
 ### Renamed Settings
 
 | Setting name (ACF/Lucee) | Setting name (BoxLang) |
-|--------------------------|------------------------|
+| --- | --- |
 | `skipCFCWithError` | `ignoreParseErrors` |
 | `cfcLocation` | `entityPaths` |
 
@@ -22,7 +23,7 @@ Both of these settings are supported in `bx-compat-cfml` for compatibility with 
 ### Changed Defaults
 
 | Setting | Lucee Default | ACF Default | BoxLang Default |
-|---------|---------------|-------------|-----------------|
+| --- | --- | --- | --- |
 | `ignoreParseErrors` (formerly `skipCFCWithError`) | `true` | `true` | `false` |
 | `autoManageSession` | `true` | `true` | `false` |
 | `flushAtRequestEnd` | `true` | `true` | `false` |

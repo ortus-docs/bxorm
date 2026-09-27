@@ -1,5 +1,6 @@
 ---
-description: Easily configure Hibernate with BL
+description: "Every ORM setting for Application.bx: datasource, entity paths, dialects, SQL functions and more"
+icon: gear
 ---
 
 # Configuration
@@ -23,12 +24,12 @@ The full list of available properties you can use to configure the ORM are the f
 
 |Setting Name|Default|Description|
 |---|---|---|
-|`generateMappings`|`true`|Automatically generate entity mappings for persistent classes. When `false`, provide `{entityName}.orm.xml` mapping files beside the entity (see `savemapping`).|
+|`generateMappings`|`true`|Automatically generate entity mappings for persistent classes. When `false`, bx-orm reads pre-generated `{entityName}.orm.xml` files beside each entity; keep `savemapping : true` so it looks there.|
 |`autoGenMap`|`true`|Backwards-compatible alias for `generateMappings`. Deprecated.|
 |`autoManageSession`|`false`|Allows the engine to manage the Hibernate session. Use `transaction` blocks to demarcate transaction regions. See [Transactions](../usage/transactions.md).|
-|`cacheConfig`|*empty*|Location of the secondary cache provider configuration file. Used only when `secondaryCacheEnabled=true`. See [Secondary Cache](configuration.md#secondary-cache).|
-|`cacheConfigProperties`|*empty struct*|Struct alternative to `cacheConfig` for defining secondary cache region settings. See [Secondary Cache](configuration.md#secondary-cache).|
-|`cacheProvider`|`"BoxCacheProvider"`|Secondary cache provider. This can be a BoxLang cache provider name, a legacy alias such as `ehcache`, `ConcurrentHashMap`, or `HashTable`, or a fully qualified JCache provider class. See [Secondary Cache](configuration.md#secondary-cache).|
+|`cacheConfig`|*empty*|Location of the secondary cache provider configuration file. Used only when `secondaryCacheEnabled=true`. See [Secondary Cache](configuration/secondary-caches.md).|
+|`cacheConfigProperties`|*empty struct*|Struct alternative to `cacheConfig` for defining secondary cache region settings. See [Secondary Cache](configuration/secondary-caches.md).|
+|`cacheProvider`|`"BoxCacheProvider"`|Secondary cache provider. This can be a BoxLang cache provider name, a legacy alias such as `ehcache`, `ConcurrentHashMap`, or `HashTable`, or a fully qualified JCache provider class. See [Secondary Cache](configuration/secondary-caches.md).|
 |`catalog`||Default database catalog.|
 |`entityPaths`|*empty*|Directory or array of directories searched for persistent classes. Specify this to avoid a startup performance cost.|
 |`datasource`|`application.datasource`|Datasource used by the ORM. Defaults to `this.datasource` in `Application.bx` when not specified.|

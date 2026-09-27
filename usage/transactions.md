@@ -1,5 +1,6 @@
 ---
-description: Learn transaction management with bx-orm
+description: "How ORM work shares the BoxLang transaction: commit, rollback, locking and read-only loads"
+icon: code-commit
 ---
 
 # Transactions

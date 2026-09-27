@@ -1,5 +1,6 @@
 ---
-description: More info on this documentation gitbook for bx-orm
+description: "About this book: notice of liability, how to contribute and where the proceeds go"
+icon: book
 ---
 
 # About This Book

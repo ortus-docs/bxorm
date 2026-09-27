@@ -1,3 +1,8 @@
+---
+description: Speed up ORM startup with the boot cache, and tune queries and fetching at runtime
+icon: gauge-high
+---
+
 # Performance
 
 bx-orm is designed to be as fast as possible, but there are some factors that can affect performance. Let's look at a few key areas where you can optimize performance in your application.
@@ -6,7 +11,8 @@ bx-orm is designed to be as fast as possible, but there are some factors that ca
 
 You want the short answer?
 
-* Commit your XML mapping files to disk and set `this.ormSettings.generateMappings = false` to eliminate the XML mapping generation time on startup.
+* Turn on the [boot cache](#boot-cache): `ormManifest : "auto"` in development and `ormManifest : "trust"` in production. A trusted boot skips entity discovery, parsing, mapping generation and facade code generation.
+* Or commit your XML mapping files to disk and set `this.ormSettings.generateMappings = false` (with `savemapping = true`) to eliminate the XML mapping generation time on startup.
 * Fine-tune `this.ormSettings.entityPaths` to minimize the number of candidate files that need to be parsed for entity discovery.
 
 See also [Startup Metrics Logs](../intro/configuration/logging.md#startup-metrics) for consolidated examples of the debug log output for ORM startup performance metrics.
@@ -28,17 +34,50 @@ ORM startup metric - entity metadata parsing: 310ms (23 persistent entities foun
 
 Once persistent entities are located and metadata is collected, bx-orm generates XML mapping files for each entity. This process can be time-consuming, especially if you have a large number of entities.
 
-This startup penalty can be mostly eliminated by committing your hbm.xml mappings to disk and setting `this.ormSettings.generateMappings = false`.
+This startup penalty can be mostly eliminated by committing your `.orm.xml` mappings to disk (write them with `savemapping : true`) and setting `this.ormSettings.generateMappings = false`.
 
 Note that for any ORM entity changes, you will need to regenerate the XML mapping files by setting `this.ormSettings.generateMappings = true` and running `ormReload()` or restarting your application. This will regenerate the XML mappings to pick up any changes.
 
-You can also pre-generate `.hbm.xml` files from the command line, without booting a full application, using the [GenerateMappings CLI tool](../reference/cli-tools.md).
+You can also pre-generate `.orm.xml` files from the command line, without booting a full application, using the [GenerateMappings CLI tool](../reference/cli-tools.md).
 
 Enable debug mode to see the time taken for XML mapping generation in the logs:
 
 ```bash
 ORM startup metric - XML mapping generation: 88ms (23 mapping files written)
 ```
+
+### Boot Cache
+
+The boot cache stores everything bx-orm works out at startup in a `.bxorm/` folder: the resolved entity metadata, the generated Hibernate mappings (`manifest.json`) and the generated entity facade classes (`facades.jar`). The `ormManifest` setting picks the mode:
+
+| Mode | What happens at startup | Use it for |
+| --- | --- | --- |
+| `off` (default) | Discover, parse and map every entity on every boot. | Anything, the classic behavior |
+| `auto` | Boot normally, then write the `.bxorm/` cache. bx-orm also watches the entity paths: edit an entity and the ORM reloads on the next request. | Development |
+| `trust` | Boot straight from the `.bxorm/` cache: no discovery, parsing, mapping generation or facade code generation. | Production |
+
+```js
+this.ormSettings = {
+    entityPaths : [ "models" ],
+    // "auto" on your machine and in CI, "trust" in production
+    ormManifest : getSystemSetting( "ORM_MANIFEST", "auto" )
+};
+```
+
+A `trust` boot fails closed. It refuses to start, naming what changed, when:
+
+* The `.bxorm/` cache is missing, or its checksum does not match (it was edited or corrupted).
+* A key ORM setting changed since the cache was written: dialect, datasource, naming strategy, application name, `dbcreate`, `quoteIdentifiers` or `entityPaths`.
+* The bx-orm version changed.
+* An entity source file changed since the cache was written.
+
+`trust` mode does no discovery, so a newly added entity file is not picked up. Boot once with `auto` after changing entities to refresh the cache, then deploy the `.bxorm/` folder with your application.
+
+By default the `.bxorm/` folder lives in the application root. `ormManifestLocation` moves it: a relative path resolves against the application root, an absolute path is used as is, and the folder is always named `.bxorm`.
+
+The gain grows with the number of entities: the work `trust` removes scales with your entity count, while Hibernate's own `SessionFactory` build (below) is a fixed cost either way.
+
+Use the [`bxorm` CLI](../reference/cli-tools.md#bxorm-boot-cache-cli) to inspect, validate or clear the cache.
 
 ### SessionFactory Build
 
@@ -151,4 +190,4 @@ Enable SQL logging temporarily and inspect:
 * slow statements in the database execution plan;
 * flushes or unexpected updates before a query.
 
-See [Querying](querying.md), [Session Management](session-management.md), and [Caching](caching.md) for bx-orm-specific behavior. For the underlying fetch and batching rules, see Hibernate's [Fetching](https://docs.hibernate.org/orm/5.6/userguide/html_single/Hibernate_User_Guide.html#fetching), [Batching](https://docs.hibernate.org/orm/5.6/userguide/html_single/Hibernate_User_Guide.html#batch), and [Querying](https://docs.hibernate.org/orm/5.6/userguide/html_single/Hibernate_User_Guide.html#hql) chapters.
+See [Querying](querying.md), [Session Management](session-management.md), and [Caching](caching.md) for bx-orm-specific behavior. For the underlying fetch and batching rules, see Hibernate's [Fetching](https://docs.hibernate.org/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#fetching), [Batching](https://docs.hibernate.org/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#batch), and [Querying](https://docs.hibernate.org/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#hql) chapters.

@@ -1,5 +1,6 @@
 ---
 description: Improve your database performance with secondary caching in Hibernate ORM.
+icon: memory
 ---
 
 # Caching

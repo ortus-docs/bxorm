@@ -1,5 +1,6 @@
 ---
 description: What bx-orm errors look like, how to catch them, what each one means, and how to inspect the ORM with ormDiagnostics().
+icon: stethoscope
 ---
 
 # Errors and Diagnostics

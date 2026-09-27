@@ -3,18 +3,21 @@
 * [Introduction](README.md)
   * [About This Book](intro/about-this-book.md)
 * [Release History](release-history/readme.md)
+  * [What's New in 2.0.0](release-history/whats-new-2.0.0.md)
+  * [Upgrading to 2.0.0](release-history/upgrading-to-2.0.0.md)
+  * [2.x](release-history/2x.md)
   * [1.x](release-history/1x.md)
 
 ## Getting Started
 
 * [Installation](intro/installation.md)
+* [Quick Start](intro/quick-start.md)
 * [Configuration](intro/configuration.md)
   * [Custom Hibernate Config](intro/configuration/custom-hibernate-config.md)
   * [Secondary Caches](intro/configuration/secondary-caches.md)
   * [Logging](intro/configuration/logging.md)
   * [Naming Strategies](intro/configuration/naming-strategies.md)
 * [ACF/Lucee Migration Guide](intro/migration-from-cfml.md)
-* [Performance](usage/performance.md)
 
 ## Modeling
 
@@ -24,15 +27,20 @@
 * [Relationships](modeling/relationships.md)
 * [Type Conversion](modeling/type-conversion.md)
 
-## Usage
+## Working with Entities
 
+* [Working with Entities](usage/working-with-entities.md)
 * [Queries and HQL](usage/querying.md)
 * [Criteria Queries](usage/criteria.md)
 * [Entities as Structs](usage/structs.md)
-* [Events](usage/events.md)
-* [Session Management](usage/session-management.md)
 * [Transactions](usage/transactions.md)
+* [Events](usage/events.md)
+
+## Advanced
+
+* [Session Management](usage/session-management.md)
 * [Caching](usage/caching.md)
+* [Performance](usage/performance.md)
 * [Errors and Diagnostics](usage/errors-and-diagnostics.md)
 
 ## Reference

@@ -2,6 +2,7 @@
 description: >-
   The BoxLang ORM module allows your BoxLang application to integrate with the
   powerful Hibernate ORM
+icon: house
 ---
 
 # Introduction
@@ -20,8 +21,8 @@ class entityName="Auto" persistent="true" {
 	property name="make" type="string";
 	property name="model" type="string";
 
-    function onPreInsert(){
-        log.info( "Inserting new Auto: #getMake()# #getModel()#" );
+    function preInsert( entity ){
+        writeLog( "Inserting new Auto: #getMake()# #getModel()#" );
     }
 }
 ```
@@ -58,33 +59,20 @@ bx-orm is an open source BoxLang module with no license purchase necessary. If y
 
 ### Features In A Nutshell
 
-* Add Object Relational Mapping to any boxlang app with Hibernate ORM
-* Use native built-in-functions (BIFs) to update and persist entities to the database (`entityNew()`, `entitySave()`, `ormFlush()`, etc.)
-* Supports 80+ database dialects, from `SQLServer2005` to `MySQL8` and `PostgreSQL`
-* Generate your mapping XML once and never again with the `autoGenMap=false` ORM configuration setting
-* React to entity changes with pre and post event listeners such as `onPreInsert()`, `onPreUpdate()` and `onPreDelete()`
-* Over 20 native BIFs:
-  * `EntityDelete()`
-  * `EntityLoad()`
-  * `EntityLoadByExample()`
-  * `EntityLoadByPK()`
-  * `EntityMerge()`
-  * `EntityNameArray()`
-  * `EntityNameList()`
-  * `EntityNew()`
-  * `EntityReload()`
-  * `EntitySave()`
-  * `EntityToQuery()`
-  * `ORMClearSession()`
-  * `ORMCloseAllSessions()`
-  * `ORMEvictCollection()`
-  * `ORMEvictEntity()`
-  * `ORMEvictQueries()`
-  * `ORMExecuteQuery()`
-  * `ORMFlush()`
-  * `ORMGetSession()`
-  * `ORMGetSessionFactory()`
-  * `ORMReload()`
+* Map BoxLang classes to database tables and work with rows as objects, with generated getters and setters.
+* 47 built-in functions (BIFs) to create, load, save, delete, query and inspect entities (`entityNew()`, `entitySave()`, `entityLoad()`, `ormExecuteQuery()`, ...).
+* A fluent query builder, `entityCriteria()`, with automatic joins, projections, paging and bulk statements.
+* Entities as structs for JSON APIs with `entityToStruct()`, compatible with mementifier's `this.memento`.
+* ORM work shares BoxLang's `transaction{}`, so ORM writes and plain SQL commit or roll back together.
+* Soft delete, automatic timestamps, pessimistic locking, read-only loads and a second-level cache.
+* Entity events (`preInsert()`, `postUpdate()`, `postCommit()`, ...) with the power to veto a write.
+* Clear `orm.*` errors that name your entities and say how to fix the problem, plus `ormDiagnostics()`.
+* A boot cache that lets production start without parsing a single entity.
+* Supports every database Hibernate supports, from MySQL, MariaDB and PostgreSQL to SQL Server, Oracle and SQLite.
+
+{% hint style="success" %}
+New to bx-orm? Start with the [Quick Start](intro/quick-start.md). Upgrading from 1.x? Read [What's New in 2.0.0](release-history/whats-new-2.0.0.md) and [Upgrading to 2.0.0](release-history/upgrading-to-2.0.0.md).
+{% endhint %}
 
 ### Support
 

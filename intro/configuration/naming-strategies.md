@@ -1,3 +1,8 @@
+---
+description: Control how entity and property names become table and column names
+icon: signature
+---
+
 # Naming Strategies
 
 Boxlang ORM provides flexible naming strategies to control how entity and property names are mapped to database tables and columns. This allows you to easily customize schema, table, column and other physical names to match your database conventions without having to change your source code.
@@ -26,8 +31,8 @@ this.ormSettings = {
 
 The naming strategy may implement [the `INamingStrategy` interface](https://github.com/ortus-boxlang/bx-orm/blob/development/src/main/bx/models/INamingStrategy.bx#L23), or you may omit the declaration and simply provide a class with the appropriate methods. The following methods are supported:
 
-* `public string function getTableName( string tableName )`
-* `public string function getColumnName( string columnName )`
-* `public string function getCatalogName( string catalogName )`
-* `public string function getSchemaName( string schemaName )`
-* `public string function getSequenceName( string sequenceName )`
+- `public string function getTableName( string tableName )`
+- `public string function getColumnName( string columnName )`
+- `public string function getCatalogName( string catalogName )`
+- `public string function getSchemaName( string schemaName )`
+- `public string function getSequenceName( string sequenceName )`

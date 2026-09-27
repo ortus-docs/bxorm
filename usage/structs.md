@@ -1,5 +1,6 @@
 ---
 description: Turn entities into structs for JSON APIs and views, with or without loading them
+icon: table-list
 ---
 
 # Entities as Structs

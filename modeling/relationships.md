@@ -1,5 +1,6 @@
 ---
 description: Entity relationships let you define an association between two entity types.
+icon: diagram-project
 ---
 
 # Modeling Relationships
@@ -122,7 +123,7 @@ property name         = "Authors"
 The `lazy` attribute controls **when** Hibernate fetches the related data — immediately when the owning entity is loaded, or deferred until the data is actually accessed. Choosing the right strategy can have a significant impact on performance.
 
 | Value | Applies to | Behaviour |
-|-------|-----------|-----------|
+| --- | --- | --- |
 | `false` | all | Related data is fetched immediately in the same SQL query (eager loading). |
 | `true` | all | Related data is fetched lazily; Hibernate issues a separate SQL query only when the association is first accessed. |
 | `proxy` | to-one (`many-to-one`, `one-to-one`) | Like `true`, but the related entity is replaced with a lightweight proxy object. The real entity is loaded only when a non-identifier getter is called. |
@@ -188,7 +189,7 @@ Use `lazy=extra` when you frequently need collection metadata (e.g. counts) but 
 The `proxyLazyLoading` boolean in your `Application.bx` ORM settings controls whether `lazy=true` is automatically promoted to `lazy=proxy` for **to-one** relationships at mapping time.
 
 | Setting | Default |
-|---------|---------|
+| --- | --- |
 | `proxyLazyLoading = false` | `lazy=true` on a to-one stays as Hibernate `lazy=true` (standard lazy fetch) |
 | `proxyLazyLoading = true` | `lazy=true` on a to-one is rewritten to `lazy=proxy` (proxy-based lazy fetch) |
 
@@ -206,7 +207,7 @@ this.ormSettings = {
 The `cascade` attribute controls which persistence operations performed on the owning entity are automatically propagated to the associated entity or collection. Without a cascade setting, you must explicitly save, delete, or update each related entity yourself.
 
 | Value | Behaviour |
-|-------|-----------|
+| --- | --- |
 | `none` | No operations are cascaded. Each entity must be persisted independently. (Default) |
 | `all` | All operations below are cascaded. |
 | `save-update` | `EntitySave()` on the owner also saves or updates the related entity. |
@@ -238,7 +239,7 @@ With `cascade="save-update,delete"`, calling `EntitySave( user )` will automatic
 The `fetch` attribute controls *how* Hibernate retrieves the association when it does load — as a SQL JOIN in the same query, or as a separate SELECT:
 
 | Value | Behaviour |
-|-------|-----------|
+| --- | --- |
 | `select` | Hibernate issues a separate SELECT query to load the association. (Default) |
 | `join` | Hibernate uses a SQL JOIN to load the association in the same query as the parent. |
 
@@ -337,7 +338,7 @@ When no per-property `batchsize` is set, Hibernate falls back to the application
 When you define a relationship property, a number of methods are automatically generated in each relationship entity instance which allow you to access and manipulate the relationship data.
 
 | Method | Description | Relationship types |
-|--------|-------------|-------|
+| --- | --- | --- |
 | `has<PropertyName>()` | Returns true if the relationship contains any items. | All |
 | `add<PropertyName>( entity1 )` | Add an entity instance to the relationship. | `one-to-many`, `many-to-many` |
 | `remove<PropertyName>( entity1 )` | Removes one or more entities from the relationship. | `one-to-many`, `many-to-many` |
@@ -361,6 +362,7 @@ property name="Contact"
     fieldtype="one-to-one"
     class="Contact";
 ```
+
 Since this is a one-to-one relationship, *only the `hasContact()` method is generated*:
 
 * `hasContact()`

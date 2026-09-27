@@ -1,5 +1,6 @@
 ---
-description: Easily run actions on entity insertion, update, and more with event listeners
+description: React to entity inserts, updates, deletes and commits with entity and global event handlers
+icon: bell
 ---
 
 # Events

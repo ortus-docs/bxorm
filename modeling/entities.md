@@ -1,5 +1,6 @@
 ---
-description: Learn the basics of modeling ORM entities
+description: Turn BoxLang classes into ORM entities, with tables, row filters, default sorting and soft delete
+icon: cube
 ---
 
 # Entities
@@ -59,7 +60,7 @@ Here's the full list of available annotations for a persistent class:
 |`softDelete`|`string`||Mark rows deleted instead of removing them: `true` (also `yes` or `deleted`), `active` or `timestamp`. See [Soft delete](#soft-delete).|
 |`softDeleteColumn`|`string`||The column `softDelete` uses. Defaults to `deleted` (`active` for `softDelete="active"`).|
 
-### Sharing Properties with `mappedSuperClass`
+## Sharing Properties with `mappedSuperClass`
 
 Use `mappedSuperClass` when you want several entities to share a set of properties (like audit columns) without those properties living in their own database table:
 

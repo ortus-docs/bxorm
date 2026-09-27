@@ -1,10 +1,11 @@
 ---
-description: Get up and running in seconds!
+description: Install bx-orm with CommandBox or the BoxLang module installer
+icon: download
 ---
 
 # Installation
 
-### CommandBox
+## CommandBox
 
 If you're using CommandBox to manage your BoxLang server, it's as easy as running `install bx-orm`:
 
@@ -18,7 +19,7 @@ You may need to install `bx-compat-cfml` as well for backwards-compatible ORM be
 box install bx-orm bx-compat-cfml
 ```
 
-### install-bx-module
+## install-bx-module
 
 For miniserver usage outside of CommandBox, use the `install-bx-module` CLI command:
 

@@ -1,5 +1,6 @@
 ---
-description: Query your entities with HQL or simple filter-based lookups
+description: Query your entities with HQL, filter-based lookups and named SQL functions
+icon: magnifying-glass
 ---
 
 # Querying
@@ -43,7 +44,7 @@ ORMExecuteQuery(
 Pass a struct of options to control pagination, caching, and result shape:
 
 | Option | Description |
-|--------|-------------|
+| -------- | ------------- |
 | `unique` | Return a single object (or `null`) instead of an array |
 | `offset` | Skip this many results |
 | `maxResults` | Limit the number of results returned |

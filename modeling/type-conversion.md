@@ -1,5 +1,6 @@
 ---
 description: How BoxLang's dynamic types are bridged to JDBC column types
+icon: arrows-rotate
 ---
 
 # Type Conversion
@@ -11,7 +12,7 @@ BoxLang is dynamically typed, but JDBC and Hibernate expect a specific Java type
 When bx-orm generates the Hibernate mapping XML for a property, it normalizes the property's `ormType` value (folding aliases like `big_decimal`/`bigdecimal`, or `date`/`datetime`, down to a canonical name) and, for most properties, wires up a matching converter:
 
 | `ormType` values (aliases folded) | Canonical type | Converter used |
-|---|---|---|
+| --- | --- | --- |
 | `string`, `varchar`, `nvarchar` | `string` | `StringConverter` |
 | `bigdecimal`, `big_decimal`, `big-decimal` | `bigdecimal` | `BigDecimalConverter` |
 | `biginteger`, `big_integer`, `big-integer`, `bigint` | `biginteger` | `BigIntegerConverter` |
