@@ -32,6 +32,7 @@ The options struct can contain any of the following keys:
 * **`lock`** - Lock the rows the query returns until the transaction ends: `read`, `write` or `force` (see `entityLock()`). Needs `transaction{}`, otherwise an `orm.argument` error is raised.
 * **`lockTimeout`** - Seconds to wait for the lock. `0` means do not wait.
 * **`skipLocked`** - Skip rows another transaction has locked instead of waiting for them.
+* **`asStream`** - Return a Java `Stream` that reads the rows from the database as it is consumed, instead of an array. Consume it in the same request. Not allowed with `unique` or an update/delete (`orm.argument`). Default is false.
 
 ## Method Signature
 
