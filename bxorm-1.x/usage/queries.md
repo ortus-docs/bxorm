@@ -26,7 +26,7 @@ One row per entity, one column per **plain persistent property**:
 | Properties inherited from a persistent parent entity or mapped superclass |                                                                           |
 
 {% hint style="warning" %}
-**The result query will not contain any relation data.** Relationship properties do not appear as columns at all, not even as empty ones, and no association is loaded. This matches Adobe ColdFusion and Lucee. Before this was fixed, bx-orm added relationship columns that were always `null`.
+**The result query will not contain any relation data.** Relationship properties do not appear as columns at all, not even as empty ones, and no association is loaded. This matches Adobe ColdFusion and Lucee. Before 1.7.1, bx-orm added relationship columns that were always `null`.
 {% endhint %}
 
 Given this entity:
