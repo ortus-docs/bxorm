@@ -91,6 +91,8 @@ var toyotas = entityLoad( "Auto", { make: "Toyota" } );
 var qryToyotas = entityToQuery( toyotas );
 ```
 
+The query holds the entity's plain properties only, never relationship data. See [Entities as Queries](queries.md).
+
 ## Where Queries Run
 
 Both HQL and filter-based queries execute against the current request's Hibernate session - see [Session Management](session-management.md) for how that session is opened and when it flushes. If `secondaryCacheEnabled` is on for an entity, HQL queries respect the query cache automatically; see [Caching](caching.md).

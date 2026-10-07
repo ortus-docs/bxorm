@@ -32,6 +32,7 @@
 * [Queries and HQL](usage/querying.md)
 * [Criteria Queries](usage/criteria.md)
 * [Entities as Structs](usage/structs.md)
+* [Entities as Queries](usage/queries.md)
 * [Transactions](usage/transactions.md)
 * [Events](usage/events.md)
 

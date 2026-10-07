@@ -19,6 +19,8 @@ user  = entityLoadAsStruct( "User", 42, "role.name" );
 users = entityCriteria( "User" ).isEq( "active", true ).asStruct( "role.name" ).list();
 ```
 
+Need a `Query` object instead? See [Entities as Queries](queries.md).
+
 The rules follow [mementifier](https://forgebox.io/view/mementifier), so an entity's existing `this.memento` works as is.
 
 ## What goes in the struct

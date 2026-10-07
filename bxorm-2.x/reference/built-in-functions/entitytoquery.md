@@ -2,6 +2,12 @@
 
 Convert an entity or array of entities to a Query object.
 
+The query holds one row per entity and one column per id, column, version and timestamp property, inherited ones included.
+
+{% hint style="warning" %}
+The result query will not contain any relation data. Relationship properties (`one-to-one`, `one-to-many`, `many-to-one`, `many-to-many`) are not included as columns. See [Entities as Queries](../../usage/queries.md) for details and alternatives.
+{% endhint %}
+
 ## Method Signature
 
 ```
@@ -11,10 +17,10 @@ EntityToQuery(entity=[Any], name=[Any])
 ### Arguments
 
 
-| Argument | Type  | Required | Description                                               | Default |
-| -------- | ----- | -------- | --------------------------------------------------------- | ------- |
-| `entity` | `Any` | `true`   | An instance of an ORM entity or an array of entities.     |         |
-| `name`   | `Any` | `false`  | The name of the entity. Required if `entity` is an array. |         |
+| Argument | Type  | Required | Description                                                                                                        | Default |
+| -------- | ----- | -------- | ------------------------------------------------------------------------------------------------------------------ | ------- |
+| `entity` | `Any` | `true`   | An instance of an ORM entity or an array of entities. All entities in an array must be of the same type.           |         |
+| `name`   | `Any` | `false`  | The name of the entity. Inferred from the (first) entity when omitted. Useful to pick the entity with inheritance. |         |
 
 ## Examples
 
@@ -41,6 +47,8 @@ result = entityToQuery( entityLoadByPK( "Vehicle", "1HGCM82633A123456" ) );
 ```
 
 Note that for performance reasons we recommend passing the entity name explicitly.
+
+See [Entities as Queries](../../usage/queries.md) for the full guide.
 
 ## Related
 

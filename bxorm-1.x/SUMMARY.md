@@ -27,6 +27,7 @@
 ## Usage
 
 * [Queries and HQL](usage/querying.md)
+* [Entities as Queries](usage/queries.md)
 * [Events](usage/events.md)
 * [Session Management](usage/session-management.md)
 * [Transactions](usage/transactions.md)
