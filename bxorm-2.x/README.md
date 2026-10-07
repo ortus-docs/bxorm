@@ -63,6 +63,7 @@ bx-orm is an open source BoxLang module with no license purchase necessary. If y
 * 47 built-in functions (BIFs) to create, load, save, delete, query and inspect entities (`entityNew()`, `entitySave()`, `entityLoad()`, `ormExecuteQuery()`, ...).
 * A fluent query builder, `entityCriteria()`, with automatic joins, projections, paging and bulk statements.
 * Entities as structs for JSON APIs with `entityToStruct()`, compatible with mementifier's `this.memento`.
+* Entities as queries for reports, grids and exports with `entityToQuery()`. See [Entities as Queries](usage/queries.md).
 * ORM work shares BoxLang's `transaction{}`, so ORM writes and plain SQL commit or roll back together.
 * Soft delete, automatic timestamps, pessimistic locking, read-only loads and a second-level cache.
 * Entity events (`preInsert()`, `postUpdate()`, `postCommit()`, ...) with the power to veto a write.

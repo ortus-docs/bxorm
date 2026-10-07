@@ -168,8 +168,8 @@ See [Session Management](session-management.md) for how sessions open and close.
 
 ## Convert
 
-| BIF                                                                                                         | Returns                                                         |
-| ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [entityToStruct( entityOrArray, [options] )](../reference/built-in-functions/entitytostruct.md)             | Structs, ready for JSON. See [Entities as Structs](structs.md). |
-| [entityLoadAsStruct( name, idOrFilter, [includes] )](../reference/built-in-functions/entityloadasstruct.md) | The same structs, read without loading entities                 |
-| [entityToQuery( entityOrArray )](../reference/built-in-functions/entitytoquery.md)                          | A query object                                                  |
+| BIF                                                                                                         | Returns                                                           |
+| ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [entityToStruct( entityOrArray, [options] )](../reference/built-in-functions/entitytostruct.md)             | Structs, ready for JSON. See [Entities as Structs](structs.md).   |
+| [entityLoadAsStruct( name, idOrFilter, [includes] )](../reference/built-in-functions/entityloadasstruct.md) | The same structs, read without loading entities                   |
+| [entityToQuery( entityOrArray )](../reference/built-in-functions/entitytoquery.md)                          | A query, no relation data. See [Entities as Queries](queries.md). |

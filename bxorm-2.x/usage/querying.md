@@ -110,6 +110,8 @@ var toyotas = entityLoad( "Auto", { make: "Toyota" } );
 var qryToyotas = entityToQuery( toyotas );
 ```
 
+The query holds the entity's plain properties only, never relationship data. See [Entities as Queries](queries.md).
+
 ## Converting Results to Structs
 
 For JSON APIs and views, [entityToStruct()](../reference/built-in-functions/entitytostruct.md) turns entities into structs, and [entityLoadAsStruct()](../reference/built-in-functions/entityloadasstruct.md) reads the same structs without loading the entities. See [Entities as Structs](structs.md).
