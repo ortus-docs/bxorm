@@ -35,6 +35,7 @@
 * [Entities as Queries](usage/queries.md)
 * [Transactions](usage/transactions.md)
 * [Events](usage/events.md)
+* [Observability](usage/observability.md)
 
 ## Advanced
 

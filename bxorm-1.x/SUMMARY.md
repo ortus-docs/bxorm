@@ -29,6 +29,7 @@
 * [Queries and HQL](usage/querying.md)
 * [Entities as Queries](usage/queries.md)
 * [Events](usage/events.md)
+* [Observability](usage/observability.md)
 * [Session Management](usage/session-management.md)
 * [Transactions](usage/transactions.md)
 * [Caching](usage/caching.md)
