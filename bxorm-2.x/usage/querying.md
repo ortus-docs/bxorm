@@ -57,6 +57,7 @@ Pass a struct of options to control pagination, caching, and result shape:
 | `lock`        | Lock the returned rows until the transaction ends: `read`, `write` or `force`. Needs `transaction{}`. See [Locking](transactions.md#locking) |
 | `lockTimeout` | Seconds to wait for the `lock` (`0` means do not wait)                                                                                       |
 | `skipLocked`  | With `lock`, skip rows another transaction has locked instead of waiting                                                                     |
+| `asStream`    | Return a Java `Stream` read from the database as it is consumed, instead of an array. See [Streaming Results](#streaming-results)            |
 
 ### Named SQL Functions
 
@@ -100,6 +101,21 @@ Every key in the filter struct must be a valid persistent property name on the e
 var sample = entityNew( "Auto", { make: "Toyota" } );
 var toyotas = entityLoadByExample( sample );
 ```
+
+## Streaming Results
+
+Pass `asStream : true` to `ORMExecuteQuery()` or `EntityLoad()` to get a Java `Stream` instead of an array. The rows are read from the database as the stream is consumed, so a large result never sits in memory at once. BoxLang closures work with the stream methods:
+
+```js
+var names = ORMExecuteQuery( "from Auto where make = :make", { make : "Toyota" }, false, { asStream : true } )
+    .filter( ( auto ) => auto.getYear() > 2020 )
+    .map( ( auto ) => auto.getModel() )
+    .toList();
+
+var count = entityLoad( "Auto", { make : "Toyota" }, "model", { asStream : true } ).count();
+```
+
+The stream holds an open database cursor until it is exhausted or closed, so consume it in the same request (Hibernate closes it with the session at the latest). `asStream` cannot be combined with `unique`, or with an update or delete: those raise an `orm.argument` error. Criteria have the same with [`asStream()`](criteria.md).
 
 ## Converting Results to a Query Object
 

@@ -321,7 +321,7 @@ Without an `order()`, `list()`, `get()`, `first()` and `paginate()` return entit
 | `getOrFail( [uniqueFirst] )`               | Like `get()`, but no match is an `orm.notFound` error                                                                                     |
 | `first()`                                  | The first row in order, or null                                                                                                           |
 | `firstOrFail()`                            | Like `first()`, but no row is an `orm.notFound` error                                                                                     |
-| `paginate( page = 1, maxRows = 25 )`       | `{ results, pagination : { page, maxRows, totalRecords, totalPages } }`                                                                   |
+| `paginate( page = 1, maxRows = 25 )`       | `{ results, pagination : { page, maxRows, offset, totalRecords, totalPages } }`                                                           |
 | `simplePaginate( page = 1, maxRows = 25 )` | `{ results, pagination : { page, maxRows, hasMore } }`, without counting                                                                  |
 | `pluck( property )`                        | One property's values, in order                                                                                                           |
 | `sum`, `avg`, `min`, `max( property )`     | An aggregate                                                                                                                              |
