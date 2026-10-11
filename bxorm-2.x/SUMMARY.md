@@ -31,6 +31,7 @@
 * [Working with Entities](usage/working-with-entities.md)
 * [Queries and HQL](usage/querying.md)
 * [Criteria Queries](usage/criteria.md)
+* [Static Entity Methods](usage/static-methods.md)
 * [Entities as Structs](usage/structs.md)
 * [Transactions](usage/transactions.md)
 * [Events](usage/events.md)
