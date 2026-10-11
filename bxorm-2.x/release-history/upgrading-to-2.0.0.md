@@ -20,6 +20,8 @@ Coming from Adobe ColdFusion or Lucee instead of bx-orm 1.x? Start with the [ACF
 box install bx-orm@2
 ```
 
+Until 2.0.0 is final, `bx-orm@2` finds nothing to install: ask for a pre-release such as `box install bx-orm@2.0.0-beta.1` instead. See [Trying a Pre-Release](../getting-started/installation.md#trying-a-pre-release).
+
 ## Upgrade Checklist
 
 Work through these in order. Each item says what changed and what to do.
