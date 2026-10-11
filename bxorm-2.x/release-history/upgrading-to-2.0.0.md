@@ -13,12 +13,14 @@ Coming from Adobe ColdFusion or Lucee instead of bx-orm 1.x? Start with the [ACF
 
 ## Requirements
 
-* **BoxLang 1.17.5 or later.** 2.0.0 depends on runtime features added in that release.
+* **BoxLang 1.18.0 or later.** 2.0.0 depends on runtime features added in that release.
 * **Hibernate ORM 7.4.8** is bundled. Nothing to install.
 
 ```bash
 box install bx-orm@2
 ```
+
+Until 2.0.0 is final, `bx-orm@2` finds nothing to install: ask for a pre-release such as `box install bx-orm@2.0.0-beta.1` instead. See [Trying a Pre-Release](../getting-started/installation.md#trying-a-pre-release).
 
 ## Upgrade Checklist
 

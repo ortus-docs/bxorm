@@ -20,6 +20,7 @@ You can use either an array of binding parameters or a struct of named binding p
 * **`cachename`** - String. The query cache region to use. Implies `cacheable` unless `cacheable` is given.
 * **`timeout`** - Number. Specifies the timeout value (in seconds) for the query. No timeout by default.
 * **`readOnly`** - Boolean. Load the entities read-only: they are not dirty-checked and changes to them are never saved. Works for filter loads and loads by id. Default is `false`. See also `entityLoadReadOnly()`.
+* **`asStream`** - Boolean. Return a Java `Stream` that reads the entities from the database as it is consumed, instead of an array. Consume it in the same request. Not allowed with `unique` (`orm.argument`). Default is `false`.
 
 ## Method Signature
 

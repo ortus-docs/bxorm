@@ -44,7 +44,7 @@ page = entityCriteria( "Order" )
     .isGe( "createdDate", dateAdd( "d", -30, now() ) )
     .orderByDesc( "createdDate" )
     .paginate( page = 2, maxRows = 25 );
-// { results : [...], pagination : { page : 2, maxRows : 25, totalRecords : 130, totalPages : 6 } }
+// { results : [...], pagination : { page : 2, maxRows : 25, offset : 25, totalRecords : 130, totalPages : 6 } }
 ```
 
 Grouped totals as structs:
