@@ -33,18 +33,14 @@ For miniserver usage outside of CommandBox, use the `install-bx-module` CLI comm
 install-bx-module bx-orm
 ```
 
-Note that bx-orm currently only supports the web runtime.
+## Staying on 1.x
 
-## Trying a Pre-Release
-
-Before 2.0.0 is final, pre-releases are published for testing: `2.0.0-beta.1`, `2.0.0-beta.2`, and so on (later `2.0.0-rc.1`). A plain `install bx-orm` keeps installing the latest stable release, so you only get a pre-release by asking for its version:
+bx-orm 2.0 is a major upgrade. To keep an application on the 1.x line, pin the major version:
 
 ```bash
-# CommandBox
-box install bx-orm@2.0.0-beta.1
-
-# BoxLang module installer
-install-bx-module bx-orm@2.0.0-beta.1
+box install bx-orm@1
 ```
 
-The list of pre-releases, with their release notes, is on the [GitHub releases page](https://github.com/ortus-boxlang/bx-orm/releases). Pre-releases are for testing, not production. Please report what you find on the [issue tracker](https://ortussolutions.atlassian.net/browse/BLMODULES), and read [Upgrading to 2.0.0](../release-history/upgrading-to-2.0.0.md) before you start.
+Read [Upgrading to 2.0.0](../release-history/upgrading-to-2.0.0.md) before you move to 2.0.
+
+Future pre-releases are published from the `next` branch.

@@ -17,15 +17,10 @@ transaction{
 
 The transaction will automatically commit (persist) at the end of the transaction block.
 
-{% hint style="warning" %}
-**Transaction Scope:** Transaction events are persisted across **ALL** ORM datasources. This means that:
+{% hint style="info" %}
+**One transaction for ORM and SQL:** ORM work inside `transaction{}` uses that transaction's JDBC connection. ORM writes and `queryExecute()` calls on the same datasource commit together and roll back together. BoxLang does the real commit or rollback.
 
-* **Transaction begin** - begins a transaction on every ORM datasource referenced by an ORM entity
-* **Transaction commit** - commits changes on every ORM datasource
-* **Transaction rollback** - rolls back changes on every ORM datasource
-* **Transaction end** - ends the transaction on every ORM datasource
-
-When you initiate a transaction, it affects **all** datasources that have been referenced by ORM entities, not just a single datasource as in normal Boxlang transaction management.
+ORM sessions on other datasources are flushed on commit and cleared on rollback, but their SQL is not part of the transaction.
 {% endhint %}
 
 ## Transaction Rollback
@@ -131,27 +126,27 @@ The alternative syntax `action="commit"` is also supported.
 
 ### Named Transactions
 
-Named transactions allow you to commit or rollback specific transactions when dealing with nested transactions:
+Nested transactions are handled by BoxLang. With BoxLang's default setting (`enableNestedTransactions=false`), a nested `transaction{}` is part of the outer transaction. A commit inside the nested block commits the outer transaction too:
 
 ```js
 transaction name="outer" {
     var customer = entityNew( "Customer" );
     customer.setName( "Acme Corp" );
     entitySave( customer );
-    
+
     transaction name="inner" {
         var invoice = entityNew( "Invoice" );
         invoice.setCustomer( customer );
         invoice.setAmount( 1000.00 );
         entitySave( invoice );
-        
-        // Commit only the inner transaction
-        transactionCommit( "inner" );
+
+        // With the default setting, this also commits the customer
+        transactionCommit();
     }
-    
-    // Outer transaction commits automatically
 }
 ```
+
+A commit or rollback scoped to the nested block (with savepoints) needs BoxLang's experimental `enableNestedTransactions` runtime setting. bx-orm follows whatever BoxLang commits or rolls back.
 
 ## After the commit
 
@@ -195,9 +190,9 @@ When you only read entities (reports, exports), load them read-only. They are no
 
 ## Transaction Savepoint
 
-True database savepoints (`SAVEPOINT` / `ROLLBACK TO SAVEPOINT`) are not _currently_ supported on ORM transactions - you cannot partially roll back a transaction to an intermediate point.
+ORM work rides the BoxLang transaction, so savepoints are BoxLang's. They only exist when BoxLang's experimental `enableNestedTransactions` runtime setting is on. With the default setting, you cannot roll back part of a transaction.
 
-Nested `transaction` blocks are still tracked internally: when an inner (child) `transaction` block ends, bx-orm flushes the Hibernate session for each active datasource so that its changes are pushed to the database before the outer transaction continues. This keeps nested transaction blocks well-behaved, but it is not a substitute for real savepoint/rollback support.
+When a nested `transaction` block ends, bx-orm flushes the ORM session for each datasource, so the nested block's changes reach the database before the outer transaction continues.
 
 {% hint style="info" %}
 Looking for full ORM savepoint support? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).

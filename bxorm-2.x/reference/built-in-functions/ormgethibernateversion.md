@@ -1,3 +1,7 @@
+---
+description: The version of Hibernate in use
+---
+
 # ORMGetHibernateVersion
 
 Retrieve the installed Hibernate version.

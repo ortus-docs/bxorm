@@ -1,3 +1,7 @@
+---
+description: Load one entity by id or filter, or throw orm.notFound
+---
+
 # EntityLoadOrFail
 
 Load one entity by id or filter, or throw an `orm.notFound` error when none exists.

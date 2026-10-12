@@ -1,3 +1,7 @@
+---
+description: Create a new entity, optionally with a struct of properties
+---
+
 # EntityNew
 
 Instantiate a new entity, optionally with a struct of properties.
@@ -5,17 +9,16 @@ Instantiate a new entity, optionally with a struct of properties.
 ## Method Signature
 
 ```
-EntityNew(entityName=[String], properties=[Struct], ignoreExtras=[Boolean])
+EntityNew(entityName=[String], properties=[Struct])
 ```
 
 ### Arguments
 
 
-| Argument       | Type      | Required | Description                                                                                                    | Default |
-| -------------- | --------- | -------- | -------------------------------------------------------------------------------------------------------------- | ------- |
-| `entityName`   | `String`  | `true`   | The name of the entity to create.                                                                              |         |
-| `properties`   | `Struct`  | `false`  | A struct of properties to populate on the new entity.                                                          |         |
-| `ignoreExtras` | `Boolean` | `false`  | If false, an error will be thrown if properties are provided that do not exist on the entity. Not implemented. |         |
+| Argument     | Type     | Required | Description                                           | Default |
+| ------------ | -------- | -------- | ----------------------------------------------------- | ------- |
+| `entityName` | `String` | `true`   | The name of the entity to create.                     |         |
+| `properties` | `Struct` | `false`  | A struct of properties to populate on the new entity. |         |
 
 ## Examples
 
@@ -37,33 +40,22 @@ var myEntity = entityNew( "Auto", {
 } );
 ```
 
-### Ignoring Extra Properties
+### Extra Keys
 
-(Coming soon) By default, `ignoreExtra` is set to `false`, meaning that if you provide properties that do not exist on the entity, an error will be thrown.
-
-For example, this will throw an error if `Color` is not a defined property on the `Auto` entity:
-
-```java
-var myEntity = entityNew( "Auto", {
-    Make = "Toyota",
-    Model = "Camry",
-    Year = 2020,
-    Color = "Blue"
-}, true );
-```
-
-To change this behavior, you can set the `ignoreExtra` argument to `true`:
+Only keys that match a declared property of the entity (or of a parent class) are set, in any case. Other keys are
+skipped, without an error:
 
 ```java
-var myEntity = entityNew( "Auto", {
-    Make = "Toyota",
-    Model = "Camry",
-    Year = 2020,
-    Color = "Blue"
-}, true );
+// name is set, notAProperty is skipped
+var user = entityNew( "User", { name : "Ana", notAProperty : 1 } );
 ```
 
-This will create the entity and ignore the `Color` property if it does not exist on the `Auto` entity.
+Code written for Adobe ColdFusion that passes a third `ignoreExtras` argument keeps working: the argument is accepted and
+ignored.
+
+### The `postNew` Event
+
+When `eventHandling` is on, `entityNew()` fires the `postNew` event on the entity and on the global `eventHandler`.
 
 ## Related
 

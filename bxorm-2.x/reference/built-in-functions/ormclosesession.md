@@ -1,3 +1,7 @@
+---
+description: Close the ORM session for a datasource
+---
+
 # ORMCloseSession
 
 Close the Hibernate session for the current context and provided (or default) datasource

@@ -1,3 +1,7 @@
+---
+description: Load an entity by id or filter, or create and save a new one
+---
+
 # EntityLoadOrSave
 
 Load an entity by id or filter, or create and save a new one when none exists.

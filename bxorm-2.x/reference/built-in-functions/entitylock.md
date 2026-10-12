@@ -1,3 +1,7 @@
+---
+description: Lock an entity's row in the database until the current transaction ends
+---
+
 # EntityLock
 
 Lock an entity's row in the database until the current transaction ends.

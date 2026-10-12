@@ -1,3 +1,7 @@
+---
+description: Remove one entity, or an array of entities, from the ORM session
+---
+
 # EntityEvict
 
 Remove one entity, or an array of entities, from the ORM session. The session stops tracking them: later changes to an evicted entity are not saved, and loading it again reads it fresh from the database. Nothing is deleted.

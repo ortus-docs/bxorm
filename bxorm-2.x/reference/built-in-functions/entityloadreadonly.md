@@ -1,3 +1,7 @@
+---
+description: Load entities like entityLoad(), read-only
+---
+
 # EntityLoadReadOnly
 
 Load entities like [EntityLoad](entityload.md), read-only: they are not dirty-checked and changes to them are never saved. Takes the same arguments and options as `entityLoad()`, with the `readOnly` option always on.
@@ -12,12 +16,12 @@ EntityLoadReadOnly(entityName=[string], idOrFilter=[any], uniqueOrOrder=[any], o
 
 ### Arguments
 
-| Argument        | Type     | Required | Description                                                                                           | Default |
-| --------------- | -------- | -------- | ----------------------------------------------------------------------------------------------------- | ------- |
-| `entityName`    | `string` | `true`   | The name of the entity to load.                                                                       |         |
-| `idOrFilter`    | `any`    | `false`  | Either the ID of the entity to load, or a struct of filter criteria.                                  |         |
-| `uniqueOrOrder` | `any`    | `false`  | Either a boolean indicating whether to return a unique result, or a string/array of order by clauses. |         |
-| `options`       | `struct` | `false`  | A struct of options, as for `entityLoad()`. `readOnly` is always on.                                  |         |
+| Argument        | Type     | Required | Description                                                                                                                                  | Default |
+| --------------- | -------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `entityName`    | `string` | `true`   | The name of the entity to load.                                                                                                              |         |
+| `idOrFilter`    | `any`    | `false`  | Either the ID of the entity to load, or a struct of filter criteria.                                                                         |         |
+| `uniqueOrOrder` | `any`    | `false`  | A boolean (return one entity), or a comma-separated sort string such as `"lastName desc, firstName"`. A struct here is treated as `options`. |         |
+| `options`       | `struct` | `false`  | A struct of options, as for `entityLoad()`. `readOnly` is always on.                                                                         |         |
 
 Returns an array of read-only entities, or one entity (or `null`) for a unique load.
 

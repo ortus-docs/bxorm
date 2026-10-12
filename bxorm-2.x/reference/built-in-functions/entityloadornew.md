@@ -1,3 +1,7 @@
+---
+description: Load an entity by id or filter, or return a new unsaved one
+---
+
 # EntityLoadOrNew
 
 Load an entity by id or filter, or return a new, unsaved one when none exists.

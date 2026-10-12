@@ -1,6 +1,19 @@
+---
+description: Load entities matching an example entity
+---
+
 # EntityLoadByExample
 
 Load entities matching an example entity.
+
+Every property of the example that has a value becomes an equality match. These are left out of the match:
+
+* the id properties
+* the version property
+* associations
+* properties that are `null`
+
+With `unique=true`, the first match is returned (or `null`). Several matches do not raise a non-unique error.
 
 ## Method Signature
 
@@ -11,10 +24,10 @@ EntityLoadByExample(sampleEntity=[any], unique=[boolean])
 ### Arguments
 
 
-| Argument       | Type      | Required | Description                                                                     | Default |
-| -------------- | --------- | -------- | ------------------------------------------------------------------------------- | ------- |
-| `sampleEntity` | `any`     | `true`   | Instance of an ORM entity to use as an example for the query.                   |         |
-| `unique`       | `boolean` | `false`  | Whether to return a single unique result (true) or an array of results (false). | `false` |
+| Argument       | Type      | Required | Description                                                       | Default |
+| -------------- | --------- | -------- | ----------------------------------------------------------------- | ------- |
+| `sampleEntity` | `any`     | `true`   | Instance of an ORM entity to use as an example for the query.     |         |
+| `unique`       | `boolean` | `false`  | Return the first match (true) or an array of all matches (false). | `false` |
 
 ## Examples
 

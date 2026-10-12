@@ -1,3 +1,7 @@
+---
+description: Load an entity, or several entities, by primary key
+---
+
 # EntityLoadByPK
 
 Load an entity by its primary key.
@@ -30,8 +34,8 @@ The third argument is a struct of load options. They apply to every entity of an
 | Option       | Description                                                                                                                                                      |
 | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `lock`       | Lock the row while loading it: `read`, `write` or `force` (see [EntityLock](entitylock.md)). Needs `transaction{}`, otherwise an `orm.argument` error is raised. |
-| `timeout`    | Seconds to wait for the lock. `0` means do not wait.                                                                                                             |
-| `skipLocked` | Return `null` instead of waiting when the row is locked by someone else.                                                                                         |
+| `timeout`    | Seconds to wait for the lock. `0` means do not wait. Only applies together with `lock`.                                                                          |
+| `skipLocked` | Return `null` instead of waiting when the row is locked by someone else. Only applies together with `lock`.                                                      |
 | `readOnly`   | Load the entity read-only, so changes to it are never saved.                                                                                                     |
 
 ## Method Signature

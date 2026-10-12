@@ -1,3 +1,7 @@
+---
+description: Convert an entity or an array of entities to a query
+---
+
 # EntityToQuery
 
 Convert an entity or array of entities to a Query object.

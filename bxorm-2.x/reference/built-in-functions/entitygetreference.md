@@ -1,3 +1,7 @@
+---
+description: Get a reference to an entity by id without loading it from the database
+---
+
 # EntityGetReference
 
 Get a reference to an entity by id without loading it from the database.

@@ -1,3 +1,7 @@
+---
+description: The names of an entity's properties whose values differ from the stored ones
+---
+
 # EntityGetDirtyProperties
 
 The names of an entity's properties whose values differ from the stored ones.

@@ -22,8 +22,8 @@ The file is a simple list of `key=value` pairs, one Hibernate property per line:
 
 ```properties
 # hibernate.properties
-hibernate.connection.release_mode=on_close
 hibernate.use_sql_comments=true
+hibernate.jdbc.batch_size=25
 ```
 
 {% hint style="warning" %}
@@ -38,8 +38,8 @@ For settings you'd rather keep alongside the rest of your ORM config instead of 
 this.ormSettings = {
     // ...
     hibernateProperties = {
-        "hibernate.connection.release_mode" = "on_close",
-        "hibernate.use_sql_comments" = "true"
+        "hibernate.use_sql_comments" = "true",
+        "hibernate.jdbc.batch_size" = "25"
     }
 };
 ```
@@ -54,18 +54,11 @@ Both settings are applied **after** bx-orm's own internal defaults, so either ca
 2. `hibernateProperties` (the inline struct) is applied second, so it wins on a conflicting key.
 
 {% hint style="info" %}
-A handful of settings that are load-bearing for bx-orm's own correctness (JDBC connection provider wiring, classloaders, session context class, identifier quoting, and entity mode) are re-applied internally *after* `ormconfig` and `hibernateProperties` are processed, so neither can break those specific things no matter what you set.
+A few settings that bx-orm needs to work are re-applied internally *after* `ormconfig` and `hibernateProperties`. You cannot override them:
+
+* the JDBC connection provider
+* the connection handling mode
+* the classloaders
+* the session context class
+* identifier quoting (use the `quoteIdentifiers` setting)
 {% endhint %}
-
-## Example: Fixing Cross-Database "Statement Is Closed" Errors
-
-If your app runs against multiple database engines (e.g. MySQL, MSSQL, PostgreSQL) you may see Hibernate `"statement is closed"` errors on MSSQL or Postgres, caused by stale JDBC statements after per-save transaction commits. Setting `hibernate.connection.release_mode` per-app resolves this:
-
-```js
-this.ormSettings = {
-    // ...
-    hibernateProperties = {
-        "hibernate.connection.release_mode" = "on_close"
-    }
-};
-```

@@ -1,3 +1,7 @@
+---
+description: The entity name of an entity instance, lazy reference or name
+---
+
 # EntityGetName
 
 The entity name of an entity instance, lazy reference or name (a name comes back with its declared casing).

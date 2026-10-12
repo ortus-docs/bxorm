@@ -14,12 +14,12 @@ bx-orm 2.0.0 moves the module onto Hibernate ORM 7.4, adds a fluent query builde
 bx-orm now runs on Hibernate ORM `7.4.8.Final` (up from 5.6.15). You get Hibernate's modern query engine, current database dialects and years of fixes, while the BoxLang side (`entityNew()`, `entitySave()`, `entityLoad()`, `ormExecuteQuery()` and the rest) behaves as before.
 
 * Each entity maps to a generated Java class (a facade) that delegates to your BoxLang entity. This unlocks `uuid` and other id generators, composite primary keys, single-table and joined inheritance, `binary` properties and value collections (`fieldtype="collection"`).
-* Mappings use Hibernate's modern `mapping.xml` format and are handed to Hibernate in memory. `savemapping : true` writes them as `{entityName}.orm.xml` beside each entity for debugging.
-* Legacy dialect names such as `MySQL57` or `Oracle10g` still work: they map to the current dialect with a one-time warning. See [Dialects](../getting-started/configuration/README.md#dialects).
+* Mappings use Hibernate's modern `mapping.xml` format and are handed to Hibernate in memory. `savemapping : true` writes them beside each entity for debugging. Each file is named after the entity's source file: `User.bx` gives `User.orm.xml`.
+* Legacy dialect names such as `MySQL57` or `Oracle10g`, and Hibernate 5 dialect classes such as `org.hibernate.dialect.MySQL5InnoDBDialect`, still work: they map to the current dialect with a one-time warning. See [Dialects](../getting-started/configuration/README.md#dialects).
 
 ### Boot Cache
 
-Large applications can now skip most of their ORM startup work. `ormManifest : "auto"` writes the resolved model and the generated classes to a `.bxorm/` folder, and `ormManifest : "trust"` boots straight from it in production. In `auto` mode, bx-orm also watches your entity files and reloads the ORM on the next request after you edit one.
+Applications can now skip entity discovery, parsing and code generation at startup. On a 250-entity model, this cuts the boot time about in half. `ormManifest : "auto"` writes the resolved model and the generated classes to a `.bxorm/` folder, and `ormManifest : "trust"` boots straight from it in production. In `auto` mode, bx-orm also watches your entity files and reloads the ORM on the next request after you edit one.
 
 ```js
 this.ormSettings = {
@@ -29,6 +29,19 @@ this.ormSettings = {
 ```
 
 The new [`bxorm` CLI](../reference/cli-tools.md#bxorm-boot-cache-cli) (`boxlang module:orm info`) inspects, validates and clears the cache. See [Boot Cache](../getting-started/performance.md#boot-cache).
+
+* `ormManifestLocation` moves the `.bxorm/` folder. A relative path resolves against the application root.
+* Several applications can share one `.bxorm/` folder. Each application's files carry its name (`manifest-{app}.json`), and the CLI picks one with `--app=<name>`.
+
+### Faster Boot
+
+Startup also does less work, without any setting:
+
+* Generated ids (`native`, `identity`, `increment`, `uuid`, `sequence` and the like) tell Hibernate that a `null` id means "not saved yet". Hibernate no longer creates a throwaway instance of every entity at startup.
+* The new `unsavedValue` id annotation sets the value that marks a new entity, for example `unsavedValue="0"` on an assigned numeric id. See [Unsaved Value](../modeling/identifiers.md#unsaved-value).
+* The per-entity mappings are joined in memory, and apps with more than 20 entities add the static entity methods in parallel.
+
+See [Performance](../getting-started/performance.md#measured-boot-times) for measured boot times.
 
 ### Transactions Ride BoxLang
 
@@ -68,9 +81,24 @@ ormExecuteQuery( "from User u where nameLen( u.lastName ) > 10" );
 
 See [Named SQL Functions](../getting-started/configuration/README.md#named-sql-functions).
 
+### Streaming and Unique Results
+
+* `asStream : true` on `ormExecuteQuery()` and `entityLoad()` returns a Java `Stream` that reads rows as you consume it, instead of an array. See [Streaming Results](../usage/querying.md#streaming-results).
+* `unique` is now strict: more than one match raises `orm.query.nonUnique`. `uniqueFirst : true` takes the first row of a multi-row result, as 1.x did.
+* Criteria `paginate()` includes `offset` (the rows skipped before the page) in its `pagination` struct.
+
 ### Default Sort Order
 
 `defaultSort="lastName, firstName desc"` on an entity sets the order `entityLoad()` and `entityCriteria()` use when you don't give one. See [Default sort order](../modeling/entities.md#default-sort-order).
+
+## Static Entity Methods
+
+Every entity class gets static methods that call the matching BIF: `User::get( 1 )`, `User::findWhere( { email : email } )`, `User::count()`, `User::list()` and more. Instances reach them too (`user.count()`). They are on by default; set `staticMethods : false` in `ormSettings` to turn them off. See [Static Entity Methods](../usage/static-methods.md).
+
+```js
+var user  = User::getOrFail( id );
+var total = User::count( { active : true } );
+```
 
 ## Entities as Structs
 
@@ -116,6 +144,32 @@ See [Working with Entities](../usage/working-with-entities.md) for the whole tou
 
 See [Events](../usage/events.md).
 
+## Observability
+
+Tools can listen to ORM activity without reaching into Hibernate:
+
+* `onORMQuery` is announced after each SQL statement, with the SQL, timing, row count, datasource and entity. `announceQueryParams : true` adds the bound values.
+* `onORMFlush` reports insert, update and delete counts per flush, and `onORMException` reports failures.
+* `generateStatistics : true` turns on Hibernate statistics.
+* `ORMPreConfigLoad` and `ORMPostConfigLoad` are announced before and after bx-orm reads an application's `ormSettings`.
+
+See [Observability](../usage/observability.md).
+
+## Second-Level Cache on BoxCache
+
+The second-level cache now runs on BoxLang's own BoxCache. Every cache region is a BoxLang cache: tune all of them or each
+one with `cacheConfig`, keep using an old `ehcache.xml` (it is read and mapped), put a region on a cache you define in
+`boxlang.json` (any BoxLang provider, including distributed ones), and cache collections with `cacheUse`:
+
+```js
+this.ormSettings = {
+    secondaryCacheEnabled : true,
+    cacheConfig           : { maxObjects : 1000, regions : { "countries" : { defaultTimeout : 0 } } }
+};
+```
+
+See [Caching](../usage/caching.md).
+
 ## Errors and Diagnostics
 
 Every error bx-orm raises is now an `orm.*` typed exception with a message in BoxLang terms, a fix in `detail`, and "Did you mean" suggestions for misspelled entity and property names:
@@ -132,4 +186,5 @@ Startup checks catch duplicate entity names and unknown `ormtype` values, and `o
 
 ## Fixes
 
-2.0.0 also fixes a long list of 1.x issues, among them optimistic-locking `version` columns, `text` columns mapping to `TEXT`, `binary` properties, inverse one-to-many without `fkcolumn`, millisecond date precision, `ormFlush( datasource )`, and the `cacheable`, `cacheName` and `timeout` query options. See the [2.x release notes](2x.md) for the complete list.
+2.0.0 also fixes a long list of 1.x issues, among them optimistic-locking `version` columns, `text` columns mapping to `TEXT`, `binary` properties, inverse one-to-many without `fkcolumn`, millisecond date precision, `ormFlush( datasource )`, the `cacheable`, `cacheName` and `timeout` query options, and the `sqlScript` setting. `native` ids use a sequence again on
+PostgreSQL and Oracle, as in 1.x. See the [2.x release notes](2x.md) for the complete list.

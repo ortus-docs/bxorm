@@ -1,3 +1,7 @@
+---
+description: Evict an entity collection's data from the second-level cache
+---
+
 # ORMEvictCollection
 
 Evict all entity data for a given collection on a given entity type from the second-level cache.

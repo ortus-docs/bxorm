@@ -97,11 +97,12 @@ There are several options for the `fieldtype` value:
 * `one-to-many` - Denote a [one-to-many relationship](relationships.md#one-to-many)
 * `many-to-one` - Denote a [many-to-one relationship](relationships.md#many-to-one)
 * `many-to-many` - Denote a [many-to-many relationship](relationships.md#many-to-many)
-* `primary` - Not currently used.
+
+Any other value, such as the old `primary`, stops the ORM from starting with an `orm.config` error.
 
 ## ORM Type
 
-The `ormType` attribute allows you to define the database type of the property. This is important for ensuring that data is properly converted when being persisted or retrieved from the database. The `ormType` values are based on Hibernate types, and are documented in the [Hibernate 3.3 Mapping Documentation](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-types).
+The `ormType` attribute allows you to define the database type of the property. This is important for ensuring that data is properly converted when being persisted or retrieved from the database. The `ormType` values are based on Hibernate types, and are documented in the [Hibernate 7.4 User Guide](https://docs.hibernate.org/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#basic).
 
 While not an exhaustive list, here are some of the more common `ormType` values:
 
@@ -127,10 +128,11 @@ See [Type Conversion](type-conversion.md) for exactly how each `ormType` value i
 | Attribute   | Type               | Description                                                                                                                                                                                                                                           |
 | ----------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `generator` | `string`           | One of the built-in generators: `assigned`, `foreign`, `guid`, `identity`, `increment`, `native`, `select`, `sequence`, `sequence-identity`, `uuid`, `uuid2`. Any other value is treated as a fully-qualified Java class name for a custom generator. |
-| `params`    | `struct`, `string` | `{ "table: "uuid_table", column: "uuid_value_column" }`                                                                                                                                                                                               |
+| `params`    | `struct`, `string` | Generator parameters, as a struct or a JSON string: `'{ "table" : "uuid_table", "column" : "uuid_value_column" }'`                                                                                                                                    |
 | `sequence`  | `string`           | Specify the database sequence key name to use for value generation. Use with `generator="sequence"`                                                                                                                                                   |
 | `selectkey` | `string`           | Only used with `generator=select`. Specify the select key to use when selecting sequence values from the database.                                                                                                                                    |
-| `generated` | `string`           | Specify whether this property should generate values upon entity save. One of `always`, `insert`, `never`.                                                                                                                                            |
+| `property`  | `string`           | Only used with `generator="foreign"`. The property whose related entity provides the id.                                                                                                                                                              |
+| `generated` | `string`           | Only applies on an id property, where it is passed to the generator as a parameter. One of `always`, `insert`, `never`.                                                                                                                               |
 
 ```js
 property name      = "userID"
@@ -149,26 +151,27 @@ See [Identifiers and Generators](identifiers.md#common-generator-types) for more
 
 ## Validation
 
-| Attribute        | Type      | Description                                                                                                  |
-| ---------------- | --------- | ------------------------------------------------------------------------------------------------------------ |
-| `notnull`        | `boolean` | Specify a not-null constraint.                                                                               |
-| `insert`         | `boolean` | Allow inserting values to new rows.                                                                          |
-| `update`         | `boolean` | Allow value updates on existing rows.                                                                        |
-| `uniquekey`      | `string`  | Specify a key name for a unique constraint. Useful for defining a unique constraint across multiple columns. |
-| `unique`         | `boolean` | Specify a unique constraint. Default `false`.                                                                |
-| `validateParams` | `string`  | *Not currently supported*                                                                                    |
-| `validate`       | `string`  | *Not currently supported*                                                                                    |
+| Attribute        | Type      | Description                                                                                                                                                                     |
+| ---------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `notnull`        | `boolean` | Specify a not-null constraint.                                                                                                                                                  |
+| `insert`         | `boolean` | Allow inserting values to new rows.                                                                                                                                             |
+| `update`         | `boolean` | Allow value updates on existing rows.                                                                                                                                           |
+| `uniquekey`      | `string`  | A name for a unique constraint. Properties with the same name form one multi-column constraint. Takes a comma-separated list of names. Works on `many-to-one` foreign keys too. |
+| `unique`         | `boolean` | Specify a unique constraint. Default `false`.                                                                                                                                   |
+| `validateParams` | `string`  | *Not currently supported*                                                                                                                                                       |
+| `validate`       | `string`  | *Not currently supported*                                                                                                                                                       |
 
 ## Collection Modifiers
 
 These property annotations are used when setting `fieldtype="collection"` and `collectiontype` is either `struct` or `map`.
 
-| Attribute         | Type     | Description                                                           |
-| ----------------- | -------- | --------------------------------------------------------------------- |
-| `structkeycolumn` | `string` | Specify the column name to use as the key in the collection struct.   |
-| `structkeytype`   | `string` | Specify the ORM type of the key column.                               |
-| `elementcolumn`   | `string` | Specify the column name to use as the value in the collection struct. |
-| `elementtype`     | `string` | Specify the value type of the collection values.                      |
+| Attribute          | Type     | Description                                                                                                           |
+| ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------- |
+| `structkeycolumn`  | `string` | Specify the column name to use as the key in the collection struct.                                                   |
+| `structkeytype`    | `string` | Specify the ORM type of the key column.                                                                               |
+| `structKeyFormula` | `string` | A SQL formula for the struct key, used in place of the `structkeycolumn` column. `structkeycolumn` is still required. |
+| `elementcolumn`    | `string` | Specify the column name to use as the value in the collection struct.                                                 |
+| `elementtype`      | `string` | Specify the value type of the collection values.                                                                      |
 
 ```js
 property name            = "yearlyEarnings"
@@ -186,7 +189,7 @@ property name            = "yearlyEarnings"
 | Attribute           | Type                | Description                                                                                                                                                                                                                    |
 | ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `table`             | `string`            | Define the table where the foreign items are stored.                                                                                                                                                                           |
-| `lazy`              | `boolean`, `string` | Define a lazy association retrieval type. One of `true`, `false`, `extra`.                                                                                                                                                     |
+| `lazy`              | `boolean`, `string` | Define a lazy association retrieval type. One of `true`, `false`, `proxy`, `no-proxy` or `extra` (same as `true`).                                                                                                             |
 | `inverse`           | `boolean`           | Specify that the association "owner" is referenced and managed on the opposite entity - not this current entity.                                                                                                               |
 | `inversejoincolumn` | `string`            | Specify the join column on the associated entity. For `inverse` associations only.                                                                                                                                             |
 | `linkschema`        | `string`            | Specify the schema name of the link table                                                                                                                                                                                      |
@@ -197,11 +200,10 @@ property name            = "yearlyEarnings"
 | `orderby`           | `string`            | Specify the order by clause for the association                                                                                                                                                                                |
 | `fetch`             | `string`            | Specify the fetch strategy for the association. One of `join`, `select`.                                                                                                                                                       |
 | `cascade`           | `string`            | Specify the cascade operation(s) to use upon manipulation of this entity or association. One of `all`,`none`,`save-update`,`delete`,`all-delete-orphan`,`delete-orphan`,`create`,`merge`,`lock`,`refresh`,`evict`,`replicate`. |
-| `constrained`       | `boolean`           | Only valid for `one-to-one` relationships. [See Hibernate 3.3 Mapping Documentation](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-onetoone)                                    |
-| `optimisticLock`    | `boolean`           | Enable optimistic locking on this association. One of `all`, `dirty`, `version`, `none`.                                                                                                                                       |
+| `constrained`       | `boolean`           | Only valid for `one-to-one` relationships. [See the Hibernate 7.4 User Guide](https://docs.hibernate.org/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#associations-one-to-one)                                      |
 | `mappedby`          | `string`            | Specify the property on the association that maps to this entity.                                                                                                                                                              |
 | `class`             | `string`            | Specify the location of the foreign entity.                                                                                                                                                                                    |
-| `joinColumn`        | `string`            | Join the foreign entity on this column in this entity.                                                                                                                                                                         |
+| `cfc`               | `string`            | Alias of `class`.                                                                                                                                                                                                              |
 | `where`             | `string`            | Arbitrary SQL where clause for the relation.                                                                                                                                                                                   |
 | `singularname`      | `string`            | Singular name to use when generating accessor methods for the relationship: `addPost()`, `removePost()`                                                                                                                        |
 
@@ -220,18 +222,17 @@ See [Modeling Relationships](relationships.md) for more details on modeling an O
 
 ## Other
 
-| Attribute       | Type      | Description                                                                                                                                            |
-| --------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `scale`         | `integer` | Decimal scale                                                                                                                                          |
-| `precision`     | `integer` | Decimal precision                                                                                                                                      |
-| `length`        | `integer` | String length                                                                                                                                          |
-| `formula`       | `string`  | Define this property as a computed property by using a SQL query to determine the property value. Formula properties cannot be modified.               |
-| `index`         | `string`  | Key name for a property value index.                                                                                                                   |
-| `cacheUse`      | `string`  | Define a cache type to use for this property. One of `read-only`, `nonstrict-read-write`, `read-write`, or `transactional`.                            |
-| `cacheName`     | `string`  | Set the name of the cache to use for this property.                                                                                                    |
-| `cacheInclude`  | `string`  | Set to `non-lazy` to exclude this property from the secondary cache entry when lazy-loaded. Defaults to `all`.                                         |
-| `unSavedValue`  | `string`  | On the id property: the id value that marks a new (unsaved) entity. See [Unsaved Value](identifiers.md#unsaved-value).                                 |
-| `autoTimestamp` | `string`  | Set the property to the current time on insert (`create`) or on every insert and update (`update`). See [Automatic Timestamps](#automatic-timestamps). |
+| Attribute          | Type      | Description                                                                                                                                                                               |
+| ------------------ | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scale`            | `integer` | Decimal scale                                                                                                                                                                             |
+| `precision`        | `integer` | Decimal precision                                                                                                                                                                         |
+| `length`           | `integer` | String length                                                                                                                                                                             |
+| `formula`          | `string`  | Define this property as a computed property by using a SQL query to determine the property value. Formula properties cannot be modified.                                                  |
+| `index`            | `string`  | A name for an index on this property's column. Properties with the same name form one multi-column index. Takes a comma-separated list of names. Works on `many-to-one` foreign keys too. |
+| `unSavedValue`     | `string`  | On the id property: the id value that marks a new (unsaved) entity. See [Unsaved Value](identifiers.md#unsaved-value).                                                                    |
+| `autoTimestamp`    | `string`  | Set the property to the current time on insert (`create`) or on every insert and update (`update`). See [Automatic Timestamps](#automatic-timestamps).                                    |
+| `optimisticLock`   | `boolean` | Set to `false` to leave this property's column out of the version check. Default `true`.                                                                                                  |
+| `datatype`         | `string`  | On a `version` property: the version type, such as `integer` or `timestamp`. Same as `ormType`.                                                                                           |
 
 ## Formula Property
 
@@ -246,6 +247,13 @@ property name="totalPosts"
 ```
 
 ## Unsupported Attributes
+
+These property annotations are read, but have no effect in bx-orm 2.0:
+
+* `foreignKey` and `foreignKeyName`: the foreign key constraint name is not applied.
+* `readOnly`: a property cannot be made read-only. Use `insert="false"` and `update="false"` instead.
+
+`joinColumn` is not read on a property. Use `fkcolumn` to name the foreign key column.
 
 {% hint style="info" %}
 Looking for better support of a specific persistent attribute? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).

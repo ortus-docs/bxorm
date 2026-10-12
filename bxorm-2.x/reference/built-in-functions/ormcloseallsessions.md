@@ -1,3 +1,7 @@
+---
+description: Close all ORM sessions of the current request
+---
+
 # ORMCloseAllSessions
 
 Close all Hibernate sessions for the current context on all datasources.

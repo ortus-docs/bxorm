@@ -1,3 +1,7 @@
+---
+description: Run a closure with every entity it loads read-only
+---
+
 # ORMReadOnly
 
 Run a closure with every entity it loads read-only, and return what the closure returns.

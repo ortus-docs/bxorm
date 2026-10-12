@@ -1,3 +1,7 @@
+---
+description: Flush the ORM session to the database
+---
+
 # ORMFlush
 
 Flush the Hibernate session - synchronizing the in-memory state with the database.

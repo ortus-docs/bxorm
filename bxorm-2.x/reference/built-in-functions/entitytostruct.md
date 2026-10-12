@@ -1,3 +1,7 @@
+---
+description: Turn an entity, or an array of entities, into structs
+---
+
 # EntityToStruct
 
 Turn an entity, or an array of entities, into a struct (or an array of structs), for JSON APIs and views.

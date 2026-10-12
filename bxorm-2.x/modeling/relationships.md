@@ -32,7 +32,7 @@ This one-to-one relationship can be visualized as follows:
 
 ### Constrained (`constrained`)
 
-The `constrained` attribute is specific to `one-to-one` relationships. When set to `true`, it declares that the owning entity's primary key has a foreign-key constraint pointing to the associated entity's primary key — in other words, the associated record must exist:
+The `constrained` attribute is specific to `one-to-one` relationships. When set to `true`, it declares that the owning entity's primary key has a foreign-key constraint pointing to the associated entity's primary key. In other words, the associated record must exist:
 
 ```js
 property name        = "userProfile"
@@ -120,18 +120,18 @@ property name         = "Authors"
 
 ### Lazy Loading
 
-The `lazy` attribute controls **when** Hibernate fetches the related data — immediately when the owning entity is loaded, or deferred until the data is actually accessed. Choosing the right strategy can have a significant impact on performance.
+The `lazy` attribute controls **when** Hibernate fetches the related data: immediately when the owning entity is loaded, or later, when the data is first accessed. Choosing the right strategy can have a significant impact on performance.
 
-| Value   | Applies to                              | Behaviour                                                                                                                                               |
-| ------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `false` | all                                     | Related data is fetched immediately in the same SQL query (eager loading).                                                                              |
-| `true`  | all                                     | Related data is fetched lazily; Hibernate issues a separate SQL query only when the association is first accessed.                                      |
-| `proxy` | to-one (`many-to-one`, `one-to-one`)    | Like `true`, but the related entity is replaced with a lightweight proxy object. The real entity is loaded only when a non-identifier getter is called. |
-| `extra` | to-many (`one-to-many`, `many-to-many`) | Like `true`, but even more granular — aggregate operations (`size()`, `contains()`, etc.) are resolved without loading the full collection.             |
+| Value               | Applies to                              | Behaviour                                                                                                                                    |
+| ------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `false`             | all                                     | Related data is fetched immediately with the owning entity (eager loading).                                                                  |
+| `true`              | all                                     | Related data is fetched lazily; Hibernate issues a separate SQL query only when the association is first accessed. A to-one is a lazy proxy. |
+| `proxy`, `no-proxy` | to-one (`many-to-one`, `one-to-one`)    | Same as `true`: the related entity is a lazy proxy.                                                                                          |
+| `extra`             | to-many (`one-to-many`, `many-to-many`) | Accepted, and the same as `true`. Hibernate 7 has no extra-lazy collections.                                                                 |
 
-#### `lazy=false` — Eager Loading
+#### `lazy=false`: Eager Loading
 
-Eager loading fetches the association in the same query as the parent entity. This is most useful for to-one relationships where the related data is almost always needed:
+Eager loading fetches the association together with the parent entity. This is most useful for to-one relationships where the related data is almost always needed:
 
 ```js
 property name      = "Address"
@@ -140,9 +140,9 @@ property name      = "Address"
          lazy      = "false";
 ```
 
-Avoid using `lazy=false` on to-many collections — fetching large collections eagerly can significantly inflate query result sets.
+Avoid using `lazy=false` on to-many collections. Fetching large collections eagerly can make query results much larger.
 
-#### `lazy=true` — Lazy Loading
+#### `lazy=true`: Lazy Loading
 
 Related data is not fetched until you first access it. A separate SQL query is issued at that point:
 
@@ -154,9 +154,9 @@ property name      = "posts"
          fkcolumn  = "author_id";
 ```
 
-For to-one relationships, `lazy=true` behaves identically to `lazy=proxy` when the application-level `proxyLazyLoading` setting is enabled (see below).
+On a to-one relationship, `lazy=true` gives a lazy proxy, the same as `lazy=proxy`.
 
-#### `lazy=proxy` — Proxy-Based Lazy Loading
+#### `lazy=proxy`: Proxy-Based Lazy Loading
 
 Only valid on to-one relationships (`many-to-one`, `one-to-one`). Hibernate returns a proxy object in place of the real entity. The proxy holds the primary key so that identity checks work without hitting the database; the real entity is loaded only when you call a non-identifier getter:
 
@@ -168,57 +168,31 @@ property name      = "manufacturer"
          lazy      = "proxy";
 ```
 
-This is the most efficient lazy strategy for to-one associations. When the `proxyLazyLoading` application setting is `true`, BoxLang ORM automatically upgrades `lazy=true` to `lazy=proxy` for all to-one properties (see below).
+#### `lazy=extra`
 
-#### `lazy=extra` — Extra Lazy Collection Loading
-
-A more granular form of lazy loading for to-many collections. Aggregate operations on the collection (checking `size()`, calling `contains()`, etc.) are resolved with targeted SQL without loading the full collection into memory:
-
-```js
-property name      = "posts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         lazy      = "extra"
-         fkcolumn  = "author_id";
-```
-
-Use `lazy=extra` when you frequently need collection metadata (e.g. counts) but rarely iterate over the full set.
+`lazy="extra"` is accepted for compatibility. It works the same as `lazy="true"`: Hibernate 7 has no extra-lazy collections, so `size()` or `contains()` load the whole collection.
 
 #### `proxyLazyLoading` Application Setting
 
-The `proxyLazyLoading` boolean in your `Application.bx` ORM settings controls whether `lazy=true` is automatically promoted to `lazy=proxy` for **to-one** relationships at mapping time.
-
-| Setting                    | Default                                                                       |
-| -------------------------- | ----------------------------------------------------------------------------- |
-| `proxyLazyLoading = false` | `lazy=true` on a to-one stays as Hibernate `lazy=true` (standard lazy fetch)  |
-| `proxyLazyLoading = true`  | `lazy=true` on a to-one is rewritten to `lazy=proxy` (proxy-based lazy fetch) |
-
-```js
-// Application.bx
-this.ormSettings = {
-    proxyLazyLoading : true
-};
-```
-
-> **Note:** `proxyLazyLoading` defaults to `false` in BoxLang ORM to match Adobe ColdFusion and Lucee behaviors. If you are migrating from ACF or Lucee and rely on proxy-based lazy loading, you must explicitly set `proxyLazyLoading = true`, or install `bx-compat-cfml` which restores the legacy default.
+`proxyLazyLoading` has no effect in bx-orm 2.0: on a to-one, `lazy=true`, `lazy=proxy` and `lazy=no-proxy` are all lazy proxies.
 
 ### Cascade
 
 The `cascade` attribute controls which persistence operations performed on the owning entity are automatically propagated to the associated entity or collection. Without a cascade setting, you must explicitly save, delete, or update each related entity yourself.
 
-| Value         | Behaviour                                                                          |
-| ------------- | ---------------------------------------------------------------------------------- |
-| `none`        | No operations are cascaded. Each entity must be persisted independently. (Default) |
-| `all`         | All operations below are cascaded.                                                 |
-| `save-update` | `EntitySave()` on the owner also saves or updates the related entity.              |
-| `persist`     | JPA-style alias for `save-update`.                                                 |
-| `merge`       | Merging the owner into the session also merges the related entity.                 |
-| `delete`      | Deleting the owner also deletes the related entity.                                |
-| `remove`      | JPA-style alias for `delete`.                                                      |
-| `refresh`     | Refreshing the owner from the database also refreshes the related entity.          |
-| `evict`       | Evicting the owner from the session cache also evicts the related entity.          |
-| `lock`        | Locking the owner into the session also locks the related entity.                  |
-| `replicate`   | Replicating the owner also replicates the related entity.                          |
+| Value         | Behaviour                                                                                                              |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `none`        | No operations are cascaded. Each entity must be persisted independently. (Default)                                     |
+| `all`         | All operations below are cascaded.                                                                                     |
+| `save-update` | Cascades both persist and merge: `EntitySave()` on the owner also saves new related entities and merges detached ones. |
+| `persist`     | Cascades persist only: saving a new owner also saves new related entities.                                             |
+| `merge`       | Merging the owner into the session also merges the related entity.                                                     |
+| `delete`      | Deleting the owner also deletes the related entity.                                                                    |
+| `remove`      | JPA-style alias for `delete`.                                                                                          |
+| `refresh`     | Refreshing the owner from the database also refreshes the related entity.                                              |
+| `evict`       | Evicting the owner from the session cache also evicts the related entity.                                              |
+| `lock`        | Locking the owner into the session also locks the related entity.                                                      |
+| `replicate`   | Replicating the owner also replicates the related entity.                                                              |
 
 You can combine multiple values as a comma-separated string:
 
@@ -236,7 +210,7 @@ With `cascade="save-update,delete"`, calling `EntitySave( user )` will automatic
 
 ### Fetch Strategy
 
-The `fetch` attribute controls *how* Hibernate retrieves the association when it does load — as a SQL JOIN in the same query, or as a separate SELECT:
+The `fetch` attribute controls *how* Hibernate retrieves the association when it does load: as a SQL JOIN in the same query, or as a separate SELECT:
 
 | Value    | Behaviour                                                                          |
 | -------- | ---------------------------------------------------------------------------------- |
@@ -290,14 +264,14 @@ When you model a relationship from both sides (e.g. `User` has `posts` and `Post
 Use `inverse=true` to mark a collection as the non-owning side:
 
 ```js
-// User.bx — inverse side
+// User.bx: inverse side
 property name      = "posts"
          fieldtype = "one-to-many"
          class     = "Post"
          fkcolumn  = "author_id"
          inverse   = "true";
 
-// Post.bx — owning side (holds the FK column)
+// Post.bx: owning side (holds the FK column)
 property name      = "author"
          fieldtype = "many-to-one"
          class     = "User"
@@ -331,7 +305,23 @@ property name      = "posts"
 
 If you load 100 `User` entities and then access each one's `posts`, Hibernate will fetch them in batches of 50 rather than issuing 100 individual SELECT queries.
 
-When no per-property `batchsize` is set, Hibernate falls back to the application-wide `defaultBatchSize` ORM setting (see [Configuration](../getting-started/configuration/README.md)). BoxLang ORM defaults `defaultBatchSize` to `25`, while Adobe ColdFusion and Lucee both historically default to `16`. If you are migrating from ACF/Lucee and want matching batch-fetch behavior, set `defaultBatchSize=16` in your `this.ormSettings`, or install `bx-compat-cfml` which restores the legacy default.
+When no per-property `batchsize` is set, Hibernate falls back to the application-wide `defaultBatchSize` ORM setting (see [Configuration](../getting-started/configuration/README.md)), which defaults to `16`, the same as Adobe ColdFusion and Lucee.
+
+### Caching a Collection (`cacheUse`)
+
+With the second-level cache on, `cacheUse` (and optionally `cacheName`) on a `one-to-many`, `many-to-many` or `collection`
+property caches the collection across sessions:
+
+```js
+property name      = "roles"
+         fieldtype = "many-to-many"
+         cfc       = "Role"
+         linktable = "user_roles"
+         cacheUse  = "read-write"
+         cacheName = "userRoles";
+```
+
+The collection cache stores the ids of its elements, so cache the element entity too. See [Caching](../usage/caching.md#collections).
 
 ## Relationship Methods
 

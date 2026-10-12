@@ -1,3 +1,7 @@
+---
+description: Save one entity, or an array of entities
+---
+
 # EntitySave
 
 Save one entity, or an array of entities: a new entity is inserted, a detached one merged, and a managed one needs nothing (its changes are written when the session flushes, at the end of the `transaction{}`). Pass `{ flush : true }` to flush right away.

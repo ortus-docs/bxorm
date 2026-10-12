@@ -1,3 +1,7 @@
+---
+description: Statistics of the ORM session for a datasource
+---
+
 # ORMGetSessionStatistics
 
 Statistics of the ORM session for a datasource: how many entities and collections it holds, and which.

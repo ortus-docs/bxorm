@@ -1,3 +1,7 @@
+---
+description: The mapping metadata of an entity, as a struct
+---
+
 # EntityGetMetadata
 
 The mapping metadata of an entity, as a struct. Built once per entity and cached for the life of the ORM application; each call returns a copy you may change.

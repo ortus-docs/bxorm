@@ -1,5 +1,6 @@
 ---
 description: Listen to ORM queries, flushes and failures from interceptors, and read Hibernate statistics
+icon: chart-line
 ---
 
 # Observability
@@ -12,26 +13,26 @@ payloads are built lazily.
 
 ## Events
 
-| Event | Fires | Payload |
-| --- | --- | --- |
-| `onORMQuery` | After each JDBC statement. Selects fire when the result set is closed, once the row count is known. | See below |
-| `onORMFlush` | After each Hibernate session flush. | `inserts`, `updates`, `deletes`, `elapsedNanos`, `datasource`, `appName` |
-| `onORMException` | When a statement fails. | `error`, `sql`, `datasource`, `appName` |
+| Event            | Fires                                                                                               | Payload                                                                  |
+| ---------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `onORMQuery`     | After each JDBC statement. Selects fire when the result set is closed, once the row count is known. | See below                                                                |
+| `onORMFlush`     | After each Hibernate session flush.                                                                 | `inserts`, `updates`, `deletes`, `elapsedNanos`, `datasource`, `appName` |
+| `onORMException` | When a statement fails.                                                                             | `error`, `sql`, `datasource`, `appName`                                  |
 
 ### `onORMQuery` payload
 
-| Key | Description |
-| --- | --- |
-| `sql` | The SQL text sent to the driver. |
-| `kind` | `select`, `insert`, `update`, `delete`, `ddl` or `other`. |
-| `elapsedNanos` | Execution time in nanoseconds. Excludes time spent reading rows. |
-| `rows` | Rows returned for selects, rows affected for DML, `-1` when unknown (for example DDL). |
-| `datasource` | The datasource name. |
-| `appName` | The unique ORM application name, as used by `ORMService.getORMApp()`. |
-| `hql` | The HQL being run, when the statement came from `ormExecuteQuery()`. Otherwise `null`. |
-| `entityName` | The entity being loaded, when the statement came from `entityLoad()` or `entityLoadByPK()`. Otherwise `null`. |
-| `error` | The `Throwable` when the statement failed, otherwise `null`. |
-| `params` | Ordered array of bound parameter values. Only present when `announceQueryParams` is `true`. |
+| Key            | Description                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------- |
+| `sql`          | The SQL text sent to the driver.                                                                              |
+| `kind`         | `select`, `insert`, `update`, `delete`, `ddl` or `other`.                                                     |
+| `elapsedNanos` | Execution time in nanoseconds. Excludes time spent reading rows.                                              |
+| `rows`         | Rows returned for selects, rows affected for DML, `-1` when unknown (for example DDL).                        |
+| `datasource`   | The datasource name.                                                                                          |
+| `appName`      | The unique ORM application name, as used by `ORMService.getORMApp()`.                                         |
+| `hql`          | The HQL being run, when the statement came from `ormExecuteQuery()`. Otherwise `null`.                        |
+| `entityName`   | The entity being loaded, when the statement came from `entityLoad()` or `entityLoadByPK()`. Otherwise `null`. |
+| `error`        | The `Throwable` when the statement failed, otherwise `null`.                                                  |
+| `params`       | Ordered array of bound parameter values. Only present when `announceQueryParams` is `true`.                   |
 
 A failed statement announces `onORMQuery` with `error` set, and `onORMException`. This includes SQL the database rejects while the statement is
 being prepared.
@@ -76,10 +77,10 @@ boxRegisterInterceptor(
 
 Set these in `this.ormSettings`. Both default to `false`.
 
-| Setting | Description |
-| --- | --- |
+| Setting               | Description                                                                                                          |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `announceQueryParams` | Include bound parameter values in `onORMQuery`. Values can be sensitive, so they are never announced unless you ask. |
-| `generateStatistics` | Collect Hibernate statistics at startup, for `ORMService.getStatistics()`. Collection has a small cost. |
+| `generateStatistics`  | Collect Hibernate statistics at startup, for `ORMService.getStatistics()`. Collection has a small cost.              |
 
 ## Statistics
 
@@ -97,4 +98,10 @@ Enabled entries contain: `enabled`, `startTime`, `sessionOpenCount`, `sessionClo
 
 ## Other ORM events
 
-`ORMPreConfigLoad` and `ORMPostConfigLoad` are now registered as interception points as well. `post_new` is announced when an entity is created.
+| Event               | When                                                | Payload                           |
+| ------------------- | --------------------------------------------------- | --------------------------------- |
+| `ORMPreConfigLoad`  | Before bx-orm reads an application's `ormSettings`. | `properties`, `context`           |
+| `ORMPostConfigLoad` | After bx-orm reads an application's `ormSettings`.  | `properties`, `context`           |
+| `post_new`          | When `entityNew()` creates an entity.               | `entityName`, `entity`, `context` |
+
+`properties` is the `ormSettings` struct of the application.

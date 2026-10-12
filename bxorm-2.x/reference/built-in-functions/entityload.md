@@ -1,19 +1,18 @@
+---
+description: Load an entity or an array of entities by id or filter
+---
+
 # EntityLoad
 
 Load an entity or array of entities from the database.
 
 You can pass a struct of query options, including pagination, caching, and sort options.
 
-## Parameters
-
-The `parameters` argument can be used to bind parameters to the SQL query.
-You can use either an array of binding parameters or a struct of named binding parameters.
-
 ## Options
 
 * **`unique`** - Boolean. Specifies whether to retrieve a single, unique item. Default is `false`. If more than one entity matches the filter, an `orm.query.nonUnique` error is raised.
 * **`uniqueFirst`** - Boolean. Return the first match even when several entities match (implies `unique`). Default is `false`.
-* **`ignorecase`** - Boolean. Sorts text properties without regard to case. Number and date properties are sorted as-is. Use only if you specify the sortorder parameter. Defaults to `false`.
+* **`ignorecase`** - Boolean. Sorts text properties without regard to case. Number and date properties are sorted as-is. Use it with a sort string in `uniqueOrOrder`. Defaults to `false`.
 * **`offset`** - Number. Specifies the pagination offset. Defaults to 0.
 * **`maxresults`** - Number. Specifies the maximum number of objects to be retrieved.
 * **`cacheable`** - Boolean. Whether the result has to be cached in the second-level query cache (needs `secondaryCacheEnabled`). Default is `false`.
@@ -21,6 +20,8 @@ You can use either an array of binding parameters or a struct of named binding p
 * **`timeout`** - Number. Specifies the timeout value (in seconds) for the query. No timeout by default.
 * **`readOnly`** - Boolean. Load the entities read-only: they are not dirty-checked and changes to them are never saved. Works for filter loads and loads by id. Default is `false`. See also `entityLoadReadOnly()`.
 * **`asStream`** - Boolean. Return a Java `Stream` that reads the entities from the database as it is consumed, instead of an array. Consume it in the same request. Not allowed with `unique` (`orm.argument`). Default is `false`.
+
+For a load by id, only `readOnly` and `asStream` apply. The other options are for filter loads.
 
 ## Method Signature
 
@@ -31,12 +32,12 @@ EntityLoad(entityName=[string], idOrFilter=[any], uniqueOrOrder=[any], options=[
 ### Arguments
 
 
-| Argument        | Type     | Required | Description                                                                                           | Default |
-| --------------- | -------- | -------- | ----------------------------------------------------------------------------------------------------- | ------- |
-| `entityName`    | `string` | `true`   | The name of the entity to load.                                                                       |         |
-| `idOrFilter`    | `any`    | `false`  | Either the ID of the entity to load, or a struct of filter criteria.                                  |         |
-| `uniqueOrOrder` | `any`    | `false`  | Either a boolean indicating whether to return a unique result, or a string/array of order by clauses. |         |
-| `options`       | `struct` | `false`  | A struct of options to modify the load operation. See below for supported options.                    |         |
+| Argument        | Type     | Required | Description                                                                                                                                  | Default |
+| --------------- | -------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `entityName`    | `string` | `true`   | The name of the entity to load.                                                                                                              |         |
+| `idOrFilter`    | `any`    | `false`  | Either the ID of the entity to load, or a struct of filter criteria.                                                                         |         |
+| `uniqueOrOrder` | `any`    | `false`  | A boolean (return one entity), or a comma-separated sort string such as `"lastName desc, firstName"`. A struct here is treated as `options`. |         |
+| `options`       | `struct` | `false`  | A struct of options to modify the load operation. See below for supported options.                                                           |         |
 
 ## Examples
 
@@ -67,7 +68,7 @@ We can also load single, unique entity results by passing `true` in the third ar
 var myEntity = entityLoad( "Auto", 123, true );
 ```
 
-This will retrieve the entity from the database and populate the `myEntity` variable with its data. If the entity is not found, an error will be thrown.
+This will retrieve the entity from the database and populate the `myEntity` variable with its data. If the entity is not found, `null` is returned.
 
 You can also use the `entityLoad()` function to load an entity by its unique properties, even if they are not the primary key. For example, to load an `Auto` entity with a specific `VIN`, you could do the following:
 
@@ -76,6 +77,18 @@ var myEntity = entityLoad( "Auto", { VIN = "1HGCM82633A123456" }, true );
 ```
 
 This will search for the `Auto` entity with the specified `VIN` and return it if found.
+
+### When Nothing Matches
+
+`entityLoad()` does not throw when nothing is found. A unique load returns `null`, and any other load returns an empty array. Use [EntityLoadOrFail](entityloadorfail.md) to get an `orm.notFound` error instead.
+
+### Sorting
+
+Pass a comma-separated sort string as the third argument:
+
+```java
+var people = entityLoad( "Person", { active = true }, "lastName desc, firstName" );
+```
 
 ### Loading Read-Only Entities
 

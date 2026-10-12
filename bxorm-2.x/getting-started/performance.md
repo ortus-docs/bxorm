@@ -19,7 +19,7 @@ See also [Startup Metrics Logs](configuration/logging.md#startup-metrics) for co
 
 ### Entity Discovery
 
-The initial step in ORM startup is to discover ORM entities and parse the entity metadata into internal structures. The time will be proportional to the number of entities found and the number of candidate files that need to be parsed to find those entities. By default, bx-orm will scan all CFC files in the specified entity paths, which can lead to a large number of candidate files and increased startup time.
+The initial step in ORM startup is to discover ORM entities and parse the entity metadata into internal structures. The time will be proportional to the number of entities found and the number of candidate files that need to be parsed to find those entities. By default, bx-orm will scan all `.bx` and `.cfc` files in the specified entity paths, which can lead to a large number of candidate files and increased startup time.
 
 This can be minimized by fine-tuning `this.ormSettings.entityPaths` [in your orm configuration](configuration/README.md).
 
@@ -28,6 +28,12 @@ Enable debug logging to see the time taken for entity discovery and metadata par
 ```bash
 ORM startup metric - entity file discovery: 42ms (187 candidate files found)
 ORM startup metric - entity metadata parsing: 310ms (23 persistent entities found, sequential mode)
+```
+
+After the mapping step (below), a summary line gives the total time spent before Hibernate starts:
+
+```bash
+ORM startup metric - total entity discovery, parsing and meta collection: 455ms
 ```
 
 ### XML Mapping Generation
@@ -43,7 +49,7 @@ You can also pre-generate `.orm.xml` files from the command line, without bootin
 Enable debug mode to see the time taken for XML mapping generation in the logs:
 
 ```bash
-ORM startup metric - XML mapping generation: 88ms (23 mapping files written)
+ORM startup metric - XML mapping generation: 88ms (23 mapping files generated)
 ```
 
 ### Boot Cache
@@ -92,19 +98,39 @@ Sub-applications deployed under the same root can share one `.bxorm/` folder. Ea
 
 The `{app}` part is the application's `this.name` run through BoxLang's [`slugify()`](https://boxlang.ortusbooks.com/boxlang-language/reference/built-in-functions/string/slugify): `this.name = "My Shop"` writes `manifest-my-shop.json`. Deploy the whole folder; each application boots from its own files.
 
-The gain grows with the number of entities: the work `trust` removes scales with your entity count, while Hibernate's own `SessionFactory` build (below) is a fixed cost either way.
+The gain grows with the number of entities: the work `trust` removes scales with your entity count. Hibernate's own `SessionFactory` build (below) still runs in every mode.
 
 Use the [`bxorm` CLI](../reference/cli-tools.md#bxorm-boot-cache-cli) to inspect, validate or clear the cache.
 
 ### SessionFactory Build
 
-The bulk of this time is spent in hibernate startup itself. You can minimize this by investigating and applying standard Hibernate performance optimizations.
+Building the Hibernate `SessionFactory` is the largest remaining cost of a boot, in every mode. It grows with the number of entities. The boot cache cannot skip it.
 
 Enable debug mode to see the time taken for SessionFactory building in the logs:
 
 ```bash
 ORM startup metric - Hibernate SessionFactory build time [myDatasource]: 1243ms
 ```
+
+### Measured Boot Times
+
+These are median boot times in seconds, measured on synthetic models (entities with associations) against a local MariaDB database. Your numbers will differ with your hardware, database and model.
+
+| Entities | `off` | `auto` | `trust` | bx-orm 1.7.1 |
+| -------- | ----- | ------ | ------- | ------------ |
+| 25       | 5.23  | 5.10   | 3.86    | 3.13         |
+| 250      | 13.48 | 14.14  | 7.12    | 8.46         |
+
+* On a large model, `trust` cuts boot time by about a third to a half. At 250 entities a `trust` boot is faster than a bx-orm 1.7.1 boot.
+* Small applications (10 to 25 entities) boot about 1.5 to 2 seconds slower than 1.7.1, in every mode. This is a fixed cost per JVM: Hibernate 7 and its libraries load more Java classes. The boot cache cannot remove it.
+
+### Automatic Speedups
+
+bx-orm 2.0 also does less work at startup, without any setting:
+
+* Generated ids (`native`, `identity`, `increment`, `uuid`, `sequence` and the like) tell Hibernate that a `null` id means "not saved yet". Hibernate no longer creates a throwaway instance of every entity at startup to find out. Use the `unsavedValue` annotation for other cases, such as an assigned numeric id.
+* The per-entity mappings are joined in memory and handed to Hibernate without a temporary file.
+* With `enableThreadedMapping` on (the default) and more than 20 entities, the static entity methods are added on parallel threads.
 
 ## Runtime Performance
 

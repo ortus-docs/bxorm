@@ -1,6 +1,12 @@
+---
+description: Reload the ORM application
+---
+
 # ORMReload
 
 Reload the ORM application.
+
+Returns the default Hibernate `SessionFactory` of the reloaded application.
 
 ## Method Signature
 
@@ -14,6 +20,11 @@ This function does not accept any arguments
 
 ## Examples
 
+Reload the ORM after changing an entity:
+
+```java
+ormReload();
+```
 
 ## Related
 

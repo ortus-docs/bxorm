@@ -1,6 +1,16 @@
+---
+description: Get the Hibernate SessionFactory for a datasource
+---
+
 # ORMGetSessionFactory
 
 Retrieve the Hibernate SessionFactory configured for this datasource or default datasource.
+
+{% hint style="info" %}
+The returned SessionFactory is a wrapper that knows about BoxLang entities. You can pass BoxLang entity names and instances to its Hibernate API, such as `getCache()` and `getMetamodel()`. The API is Hibernate 7, not Hibernate 5.
+
+A call on an entity the session does not hold still throws `org.hibernate.TransientObjectException`, as Hibernate 5 did, so existing code that checks for new entities keeps working.
+{% endhint %}
 
 ## Method Signature
 
