@@ -1,3 +1,7 @@
+---
+description: The name of the datasource an entity is stored in
+---
+
 # EntityGetDatasource
 
 The name of the datasource an entity is stored in.

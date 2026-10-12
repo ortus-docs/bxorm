@@ -1,3 +1,7 @@
+---
+description: Load entities straight into structs with projection queries
+---
+
 # EntityLoadAsStruct
 
 Load entities straight into structs, without loading the entities: one projection query for the plain values and to-one associations (left joins), plus one query per to-many association, limited to the ids just read. The structs match what `entityToStruct()` builds for the same includes: the entity's `this.memento`, includes, excludes, mappers, defaults, profiles and ISO 8601 dates.

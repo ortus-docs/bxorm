@@ -25,7 +25,7 @@ property name      = "id"
 
 The Assigned generator is the default identifier generator type, and simply allows the application (your boxlang code) to assign identifier values prior to insertion. You can think of this as `generator=none`.
 
-> lets the application assign an identifier to the object before save() is called. This is the default strategy if no element is specified. - [_Hibernate 3.3 mapping reference docs_](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-id-generator)
+The application must set the id before the entity is saved.
 
 ```js
 property name      = "id"
@@ -46,7 +46,7 @@ function preInsert( entity ){
 
 A select generator will attempt to select the next identifier value from the specified `selectKey` column:
 
-> retrieves a primary key, assigned by a database trigger, by selecting the row by some unique key and retrieving the primary key value. - [_Hibernate 3.3 mapping reference docs_](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-id-generator)
+Use it when a database trigger assigns the primary key. After the insert, Hibernate selects the row by a unique key and reads its primary key.
 
 ```js
 property name      = "userID"
@@ -58,9 +58,7 @@ property name      = "userID"
 
 ### UUID Generator
 
-The UUID generator uses Hibernate's uuid generator under the hood:
-
-> uses a 128-bit UUID algorithm to generate identifiers of type string that are unique within a network (the IP address is used). The UUID is encoded as a string of 32 hexadecimal digits in length. - [_Hibernate 3.3 mapping reference docs_](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-id-generator)
+The UUID generator uses Hibernate's uuid generator under the hood. The id is a string of 32 hexadecimal characters, so use a string id column. `uuid2` and `guid` work the same way in bx-orm 2.0.
 
 ```js
 property name      = "userID"
@@ -73,7 +71,7 @@ property name      = "userID"
 
 The Increment generator uses a simple incrementing value to create identifiers. Do not use in concurrent applications, as the values may no longer be unique.
 
-> Generates identifiers of type long, short or int that are unique only when no other process is inserting data into the same table. Do not use in a cluster. - [_Hibernate 3.3 mapping reference docs_](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-id-generator)
+The ids are numbers. They are unique only when no other process inserts rows into the same table, so do not use it in a cluster.
 
 ```js
 property name      = "userID"
@@ -90,19 +88,18 @@ There are several lesser-known identifier generator types, including:
 * `sequence` - use a database sequence (name it with the `sequence` attribute); replaces the legacy `seqhilo` generator name
 * `sequence-identity` - use a database sequence, then retrieve the generated value via `INSERT ... RETURNING` (supported databases only)
 * `identity` - use an identity column from the database (auto-increment)
-* `native` - use identity, sequence, or an optimized algorithm depending on the underlying database capabilities
+* `native` - the same as `identity` in bx-orm 2.0
 * `select` - select the next value from the column denoted in `selectKey`
-* `uuid` / `uuid2` - use Hibernate's UUID generation
-* `guid` - use the database's native GUID generation
+* `uuid`, `uuid2` and `guid` - a UUID as a 32-character hexadecimal string
 
-The full list of built-in generator names is: `assigned`, `foreign`, `guid`, `identity`, `increment`, `native`, `select`, `sequence`, `sequence-identity`, `uuid`, `uuid2`. Any other value is treated as the fully-qualified Java class name of a custom generator on the classpath; an unrecognized value throws a `BoxRuntimeException` at mapping time.
+The full list of built-in generator names is: `assigned`, `foreign`, `guid`, `identity`, `increment`, `native`, `select`, `sequence`, `sequence-identity`, `uuid`, `uuid2`. Any other value is used as the fully-qualified Java class name of a custom generator. If no class with that name is on the classpath, the ORM does not start and raises an `orm.config` error.
 
 {% hint style="warning" %}
 The legacy CFML/Lucee generator name `seqhilo` is **not** a recognized built-in generator in bx-orm. Use `generator="sequence"` with a `sequence` attribute naming your database sequence instead.
 {% endhint %}
 
 {% hint style="info" %}
-See the [Hibernate 3.3 Mapping Reference Documentation](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-id-generator) for more information on these and other generator types.
+See the [Hibernate 7.4 User Guide](https://docs.hibernate.org/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators) for more information on identifier generators.
 {% endhint %}
 
 ## Unsaved Value

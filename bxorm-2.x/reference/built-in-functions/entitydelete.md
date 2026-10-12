@@ -1,3 +1,7 @@
+---
+description: Delete one entity, or an array of entities, from the database
+---
+
 # EntityDelete
 
 Delete one entity, or an array of entities, from the database.

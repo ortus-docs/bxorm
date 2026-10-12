@@ -1,3 +1,7 @@
+---
+description: Whether an entity has changes that are not saved yet
+---
+
 # EntityIsDirty
 
 Whether an entity has changes that are not saved yet.

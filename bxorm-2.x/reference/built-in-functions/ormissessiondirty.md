@@ -1,3 +1,7 @@
+---
+description: Whether the ORM session for a datasource has unflushed changes
+---
+
 # ORMIsSessionDirty
 
 Whether the ORM session for a datasource has changes that are not flushed to the database yet.

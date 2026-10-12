@@ -1,3 +1,7 @@
+---
+description: Flush all open ORM sessions of the current request
+---
+
 # ORMFlushAll
 
 Flush all open Hibernate sessions in the current request.

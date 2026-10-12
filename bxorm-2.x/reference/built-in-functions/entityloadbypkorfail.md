@@ -1,8 +1,12 @@
+---
+description: Load an entity by primary key, or throw orm.notFound
+---
+
 # EntityLoadByPKOrFail
 
 Load an entity by its primary key, or throw an `orm.notFound` error when no row has that id.
 
-Takes the same options as [EntityLoadByPK](entityloadbypk.md): `lock`, `timeout`, `skipLocked` and `readOnly`.
+Takes the same options as [EntityLoadByPK](entityloadbypk.md): `lock`, `timeout`, `skipLocked` and `readOnly`. `timeout` and `skipLocked` only apply together with `lock`.
 
 ## Method Signature
 

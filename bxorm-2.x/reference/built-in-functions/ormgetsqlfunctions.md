@@ -1,3 +1,7 @@
+---
+description: The named SQL functions registered with the sqlFunctions setting
+---
+
 # ORMGetSQLFunctions
 
 The named SQL functions the application registered with the [`sqlFunctions`](../../getting-started/configuration/README.md#named-sql-functions) ORM setting, which HQL and `entityCriteria()` paths can call by name.

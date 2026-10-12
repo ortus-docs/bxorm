@@ -1,13 +1,17 @@
+---
+description: Run an HQL query with optional parameters and query options
+---
+
 # ORMExecuteQuery
 
 Execute an HQL query with (optional) parameters and specific query options.
 
 ## Parameters
 
-The `parameters` argument can be used to bind parameters to the SQL query.
-You can use either an array of binding parameters or a struct of named binding parameters.
+The `params` argument binds parameters to the HQL query.
+Use an array of positional parameters or a struct of named parameters.
 
-The SQL must have the parameters bound using the syntax `?` for positional parameters or `:name` for named parameters.
+In the HQL, write `?` for a positional parameter and `:name` for a named parameter.
 
 Example:
 
@@ -32,7 +36,19 @@ The options struct can contain any of the following keys:
 * **`lock`** - Lock the rows the query returns until the transaction ends: `read`, `write` or `force` (see `entityLock()`). Needs `transaction{}`, otherwise an `orm.argument` error is raised.
 * **`lockTimeout`** - Seconds to wait for the lock. `0` means do not wait.
 * **`skipLocked`** - Skip rows another transaction has locked instead of waiting for them.
+* **`fetchSize`** - The JDBC fetch size: how many rows the driver reads per round trip.
+* **`comment`** - A comment added to the generated SQL. It shows up in the SQL when `hibernate.use_sql_comments` is on.
+* **`hints`** - A struct of query hints, passed to Hibernate as name/value pairs (for example `{ "org.hibernate.fetchSize" : 50 }`).
 * **`asStream`** - Return a Java `Stream` that reads the rows from the database as it is consumed, instead of an array. Consume it in the same request. Not allowed with `unique` or an update/delete (`orm.argument`). Default is false.
+
+### Shorter Forms
+
+The arguments can be shifted to the left:
+
+* `params` may be a boolean. It then means `unique`: `ormExecuteQuery( "FROM Auto WHERE id = 1", true )`.
+* `unique` may be the options struct: `ormExecuteQuery( hql, params, { maxResults : 10 } )`.
+
+`unique` given inside the options struct is honored too.
 
 ## Method Signature
 
@@ -43,12 +59,12 @@ ORMExecuteQuery(hql=[String], params=[Any], unique=[Any], options=[Struct])
 ### Arguments
 
 
-| Argument  | Type     | Required | Description                                                                                                                                                                                         | Default |
-| --------- | -------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `hql`     | `String` | `true`   | The HQL query string to execute.                                                                                                                                                                    |         |
-| `params`  | `Any`    | `false`  | Optional parameters for the HQL query. Can be a struct of named parameters or an array of positional parameters.                                                                                    |         |
-| `unique`  | `Any`    | `false`  | Optional boolean indicating whether to return a unique result (true) or a list of results (false). If true, the query will return<br>                  a single object or null if no results found. |         |
-| `options` | `Struct` | `false`  | Optional struct of additional query options.                                                                                                                                                        |         |
+| Argument  | Type     | Required | Description                                                                                                                                                 | Default |
+| --------- | -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `hql`     | `String` | `true`   | The HQL query string to execute.                                                                                                                            |         |
+| `params`  | `Any`    | `false`  | Parameters to bind to the HQL query: a struct of named parameters or an array of positional parameters. A boolean here means `unique`.                      |         |
+| `unique`  | `Any`    | `false`  | Return one result (`true`) or an array (`false`). A unique query returns one object, or `null` when nothing matches. A struct here is treated as `options`. |         |
+| `options` | `Struct` | `false`  | Optional struct of additional query options.                                                                                                                |         |
 
 ## Examples
 

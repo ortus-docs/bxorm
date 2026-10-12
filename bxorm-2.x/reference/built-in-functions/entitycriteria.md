@@ -1,3 +1,7 @@
+---
+description: Start a fluent criteria query on an entity
+---
+
 # EntityCriteria
 
 Start a fluent query on an entity. Chain conditions, joins, projections, ordering and options, then run it with a terminal method such as list(), count(), get(), first(), paginate() or each(). The updateAll() and deleteAll() terminals change every matching row with one statement, and lock() locks the rows a query returns.

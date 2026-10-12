@@ -1,6 +1,10 @@
+---
+description: An array of the entity names in this ORM application
+---
+
 # EntityNameArray
 
-Retrieve an array of entity names for this ORM application.
+Retrieve an array of entity names for this ORM application, sorted by name.
 
 ## Method Signature
 
@@ -13,7 +17,7 @@ EntityNameArray(delimiter=[String], datasource=[String])
 
 | Argument     | Type     | Required | Description                                                                                                          | Default |
 | ------------ | -------- | -------- | -------------------------------------------------------------------------------------------------------------------- | ------- |
-| `delimiter`  | `String` | `false`  | The delimiter to use between entity names.                                                                           | `,`     |
+| `delimiter`  | `String` | `false`  | Only used by `entityNameList()`. `entityNameArray()` ignores it.                                                     | `,`     |
 | `datasource` | `String` | `false`  | The name of the datasource to filter on. If provided, only entities configured for this datasource will be returned. |         |
 
 ## Examples

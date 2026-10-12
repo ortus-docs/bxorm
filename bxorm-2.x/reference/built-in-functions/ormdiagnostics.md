@@ -1,3 +1,7 @@
+---
+description: A snapshot of the ORM state for this application
+---
+
 # ORMDiagnostics
 
 A snapshot of the ORM for this application: the first thing to check when something is wrong. It never throws.

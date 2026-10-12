@@ -1,3 +1,7 @@
+---
+description: Check whether an entity is attached to the current ORM session
+---
+
 # EntityIsAttached
 
 Check whether an entity is attached to the current ORM session.
@@ -5,15 +9,15 @@ Check whether an entity is attached to the current ORM session.
 ## Method Signature
 
 ```
-EntityIsAttached(entity=[Any])
+EntityIsAttached(entity=[class])
 ```
 
 ### Arguments
 
 
-| Argument | Type  | Required | Description                   | Default |
-| -------- | ----- | -------- | ----------------------------- | ------- |
-| `entity` | `Any` | `true`   | The entity instance to check. |         |
+| Argument | Type    | Required | Description                   | Default |
+| -------- | ------- | -------- | ----------------------------- | ------- |
+| `entity` | `class` | `true`   | The entity instance to check. |         |
 
 ## Examples
 
@@ -23,7 +27,7 @@ Check whether a loaded entity is still attached to its datasource's session:
 manufacturer = entityLoadByPK( "Manufacturer", 1 );
 isAttached   = entityIsAttached( manufacturer );
 
-ormEvictEntity( "Manufacturer" );
+entityEvict( manufacturer );
 isAttached   = entityIsAttached( manufacturer ); // false
 ```
 

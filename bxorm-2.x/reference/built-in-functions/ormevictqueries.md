@@ -1,6 +1,10 @@
+---
+description: Evict cached queries from a query cache region
+---
+
 # ORMEvictQueries
 
-Evict all queries from the named or default cache on the named or default datasource.
+Evict all queries from the named or default query cache region on the named or default datasource.
 
 ## Method Signature
 
@@ -18,9 +22,9 @@ ORMEvictQueries(cacheName=[String], datasource=[String])
 
 ## Examples
 
-### Evict All Query Caches
+### Evict the Default Query Cache
 
-Call with no arguments to clear all query cache regions.
+Call with no arguments to clear the default query cache region. Named regions are not cleared.
 
 ```java
 ormEvictQueries();

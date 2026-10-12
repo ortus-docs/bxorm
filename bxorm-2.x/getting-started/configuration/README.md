@@ -22,42 +22,41 @@ class{
 
 The full list of available properties you can use to configure the ORM are the following:
 
-| Setting Name            | Default                  | Description                                                                                                                                                                                                                                               |
-| ----------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `announceQueryParams`   | `false`                  | Includes bound parameter values in the `onORMQuery` event. Values can be sensitive, so they are never announced unless you ask. See [Observability](../../usage/observability.md).                                                                        |
-| `generateMappings`      | `true`                   | Automatically generate entity mappings for persistent classes. When `false`, bx-orm reads pre-generated `{entityName}.orm.xml` files beside each entity; keep `savemapping : true` so it looks there.                                                     |
-| `autoGenMap`            | `true`                   | Backwards-compatible alias for `generateMappings`. Deprecated.                                                                                                                                                                                            |
-| `autoManageSession`     | `false`                  | Allows the engine to manage the Hibernate session. Use `transaction` blocks to demarcate transaction regions. See [Transactions](../../usage/transactions.md).                                                                                            |
-| `cacheConfig`           | *empty*                  | Location of the secondary cache provider configuration file. Used only when `secondaryCacheEnabled=true`. See [Secondary Cache](secondary-caches.md).                                                                                                     |
-| `cacheConfigProperties` | *empty struct*           | Struct alternative to `cacheConfig` for defining secondary cache region settings. See [Secondary Cache](secondary-caches.md).                                                                                                                             |
-| `cacheProvider`         | `"BoxCacheProvider"`     | Secondary cache provider. This can be a BoxLang cache provider name, a legacy alias such as `ehcache`, `ConcurrentHashMap`, or `HashTable`, or a fully qualified JCache provider class. See [Secondary Cache](secondary-caches.md).                       |
-| `catalog`               |                          | Default database catalog.                                                                                                                                                                                                                                 |
-| `entityPaths`           | *empty*                  | Directory or array of directories searched for persistent classes. Specify this to avoid a startup performance cost.                                                                                                                                      |
-| `datasource`            | `application.datasource` | Datasource used by the ORM. Defaults to `this.datasource` in `Application.bx` when not specified.                                                                                                                                                         |
-| `defaultBatchSize`      | `16`                     | Default batch size Hibernate uses when fetching lazy collections or proxies.                                                                                                                                                                              |
-| `dbcreate`              | `none`                   | Schema strategy: `update` creates incremental updates, `dropcreate` recreates the database on reload, and `none` leaves the database unchanged.                                                                                                           |
-| `dialect`               | `autodiscover`           | Database dialect. Hibernate introspects the datasource by default, or you can provide a fully qualified Java class name. See [Dialects](#dialects).                                                                                                       |
-| `eventHandling`         | `false`                  | Must be `true` for any ORM event to fire: entity event methods, the global `eventHandler` and `postNew`. See [Events](../../usage/events.md).                                                                                                             |
-| `eventHandler`          |                          | Path to the `.bx` class that manages global ORM events.                                                                                                                                                                                                   |
-| `enableThreadedMapping` | `true`                   | Runs entity mapping generation across multiple threads at startup. Set to `false` to force single-threaded generation.                                                                                                                                    |
-| `flushAtRequestEnd`     | `false`                  | Automatically flushes the ORM at the end of a request. Persistence should generally be done through `transaction` blocks.                                                                                                                                 |
-| `generateStatistics`    | `false`                  | Collects Hibernate statistics at startup, for `ORMService.getStatistics()`. Collection has a small cost. See [Observability](../../usage/observability.md).                                                                                               |
-| `hibernateProperties`   | `empty`                  | Flat struct of raw Hibernate property name/value pairs applied directly to Hibernate configuration. Applied last, so it overrides ORM defaults and `ormconfig`. See [Custom Hibernate Config](custom-hibernate-config.md).                                |
-| `logSQL`                | `false`                  | Logs SQL queries to the console.                                                                                                                                                                                                                          |
-| `namingstrategy`        | `default`                | Naming convention used for table and column names. See [Naming Strategies](naming-strategies.md).                                                                                                                                                         |
-| `ormconfig`             |                          | Path to a flat `hibernate.properties` file. Applied before `hibernateProperties`; matching keys in `hibernateProperties` take precedence. The XML `hibernate.cfg.xml` format is not supported. See [Custom Hibernate Config](custom-hibernate-config.md). |
-| `proxyLazyLoading`      | `false`                  | Wraps lazy-loaded relationship properties in a proxy instead of triggering an immediate load. See [Relationships](../../modeling/relationships.md).                                                                                                       |
-| `quoteIdentifiers`      | `false`                  | Quotes generated table and column identifiers in the Hibernate mapping.                                                                                                                                                                                   |
-| `ormManifest`           | `off`                    | Boot cache mode: `off`, `auto` (write the `.bxorm/` boot cache on every boot and reload on entity changes) or `trust` (boot straight from the cache). See [Boot Cache](../performance.md#boot-cache).                                                     |
-| `ormManifestLocation`   | *empty*                  | Parent folder for the `.bxorm/` boot cache. Blank uses the application root; a relative path resolves against it. See [Boot Cache](../performance.md#boot-cache).                                                                                         |
-| `savemapping`           | `false`                  | Writes each generated Hibernate mapping as `{entityName}.orm.xml` beside the entity, for debugging.                                                                                                                                                       |
-| `schema`                |                          | Default database schema.                                                                                                                                                                                                                                  |
-| `secondaryCacheEnabled` | `false`                  | Enables the secondary cache. See [Caching](../../usage/caching.md).                                                                                                                                                                                       |
-| `ignoreParseErrors`     | `false`                  | Ignores classes with compile-time errors when `true`; otherwise throws exceptions.                                                                                                                                                                        |
-| `sqlScript`             |                          | Path to a SQL script executed after ORM initialization.                                                                                                                                                                                                   |
-| `staticMethods`         | `true`                   | Adds static helper methods such as `User::get( 1 )` and `User::findWhere( filter )` to every entity class. Set `false` to leave entity classes untouched. See [Static Entity Methods](../../usage/static-methods.md).                                     |
-| `sqlFunctions`          | *empty struct*           | Named SQL functions that HQL and `entityCriteria()` paths can call. See [Named SQL Functions](#named-sql-functions).                                                                                                                                      |
-| `useDBForMapping`       | `false`                  | Adobe ColdFusion compatibility: fill in untyped property types and missing ids from the existing tables at startup. Foreign keys are not inferred. See [Using the Database for Mapping](#using-the-database-for-mapping).                                 |
+| Setting Name            | Default                  | Description                                                                                                                                                                                                                                                                                                                          |
+| ----------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `announceQueryParams`   | `false`                  | Includes bound parameter values in the `onORMQuery` event. Values can be sensitive, so they are never announced unless you ask. See [Observability](../../usage/observability.md).                                                                                                                                                   |
+| `generateMappings`      | `true`                   | Automatically generate entity mappings for persistent classes. When `false`, bx-orm reads pre-generated `.orm.xml` files beside each entity; keep `savemapping : true` so it looks there. Each file is named after the entity's source file: `User.bx` gives `User.orm.xml`.                                                         |
+| `autoGenMap`            | `true`                   | Backwards-compatible alias for `generateMappings`. Deprecated.                                                                                                                                                                                                                                                                       |
+| `autoManageSession`     | `false`                  | Allows the engine to manage the Hibernate session. Use `transaction` blocks to demarcate transaction regions. See [Transactions](../../usage/transactions.md).                                                                                                                                                                       |
+| `cacheConfig`           | *empty*                  | Secondary cache configuration. Used only when `secondaryCacheEnabled=true`. A struct holds the properties of the BoxLang caches that back the cache regions, when `cacheProvider` names a BoxLang cache provider. A file path is passed to the cache provider, but the file is not read. See [Secondary Cache](secondary-caches.md). |
+| `cacheProvider`         | `"BoxCacheProvider"`     | Secondary cache provider: `BoxCacheProvider` (the default), the legacy aliases `ConcurrentHashMap` or `HashTable` (same as the default), or the name of a registered BoxLang cache provider. Resolved on first cache access. See [Secondary Cache](secondary-caches.md).                                                             |
+| `catalog`               |                          | Default database catalog.                                                                                                                                                                                                                                                                                                            |
+| `entityPaths`           | *empty*                  | Directory or array of directories searched for persistent classes. Specify this to avoid a startup performance cost.                                                                                                                                                                                                                 |
+| `datasource`            | `application.datasource` | Datasource used by the ORM. Defaults to `this.datasource` in `Application.bx` when not specified.                                                                                                                                                                                                                                    |
+| `defaultBatchSize`      | `16`                     | Default batch size Hibernate uses when fetching lazy collections or proxies.                                                                                                                                                                                                                                                         |
+| `dbcreate`              | `none`                   | Schema strategy: `update` creates incremental updates, `dropcreate` recreates the database on reload, and `none` leaves the database unchanged. Hibernate `hbm2ddl.auto` values are accepted too, such as `create`, `create-drop`, `create-only`, `drop`, `validate` and `truncate`.                                                 |
+| `dialect`               | `autodiscover`           | Database dialect. Hibernate introspects the datasource by default, or you can provide a fully qualified Java class name. See [Dialects](#dialects).                                                                                                                                                                                  |
+| `eventHandling`         | `false`                  | Must be `true` for any ORM event to fire: entity event methods, the global `eventHandler` and `postNew`. See [Events](../../usage/events.md).                                                                                                                                                                                        |
+| `eventHandler`          |                          | Path to the `.bx` class that manages global ORM events.                                                                                                                                                                                                                                                                              |
+| `enableThreadedMapping` | `true`                   | With more than 20 entities, parses entity metadata and adds the static entity methods on parallel threads at startup. Set to `false` to force single-threaded startup.                                                                                                                                                               |
+| `flushAtRequestEnd`     | `false`                  | Automatically flushes the ORM at the end of a request. Persistence should generally be done through `transaction` blocks.                                                                                                                                                                                                            |
+| `generateStatistics`    | `false`                  | Collects Hibernate statistics at startup, for `ORMService.getStatistics()`. Collection has a small cost. See [Observability](../../usage/observability.md).                                                                                                                                                                          |
+| `hibernateProperties`   | `empty`                  | Flat struct of raw Hibernate property name/value pairs applied directly to Hibernate configuration. Applied last, so it overrides ORM defaults and `ormconfig`. See [Custom Hibernate Config](custom-hibernate-config.md).                                                                                                           |
+| `logSQL`                | `false`                  | Logs SQL queries to the console.                                                                                                                                                                                                                                                                                                     |
+| `namingstrategy`        | `default`                | Naming convention used for table and column names. See [Naming Strategies](naming-strategies.md).                                                                                                                                                                                                                                    |
+| `ormconfig`             |                          | Path to a flat `hibernate.properties` file. Applied before `hibernateProperties`; matching keys in `hibernateProperties` take precedence. The XML `hibernate.cfg.xml` format is not supported. See [Custom Hibernate Config](custom-hibernate-config.md).                                                                            |
+| `proxyLazyLoading`      | `false`                  | Accepted for compatibility, but has no effect in bx-orm 2.0. Every lazy to-one relationship is loaded through a lazy proxy. See [Relationships](../../modeling/relationships.md).                                                                                                                                                    |
+| `quoteIdentifiers`      | `false`                  | Quotes generated table and column identifiers in the Hibernate mapping.                                                                                                                                                                                                                                                              |
+| `ormManifest`           | `off`                    | Boot cache mode: `off`, `auto` (write the `.bxorm/` boot cache on every boot and reload on entity changes) or `trust` (boot straight from the cache). See [Boot Cache](../performance.md#boot-cache).                                                                                                                                |
+| `ormManifestLocation`   | *empty*                  | Parent folder for the `.bxorm/` boot cache. Blank uses the application root; a relative path resolves against it. See [Boot Cache](../performance.md#boot-cache).                                                                                                                                                                    |
+| `savemapping`           | `false`                  | Writes each generated Hibernate mapping beside the entity, for debugging. The file is named after the entity's source file: `User.bx` gives `User.orm.xml`.                                                                                                                                                                          |
+| `schema`                |                          | Default database schema.                                                                                                                                                                                                                                                                                                             |
+| `secondaryCacheEnabled` | `false`                  | Enables the secondary cache. See [Caching](../../usage/caching.md).                                                                                                                                                                                                                                                                  |
+| `ignoreParseErrors`     | `false`                  | Ignores classes with compile-time errors when `true`; otherwise throws exceptions.                                                                                                                                                                                                                                                   |
+| `sqlScript`             |                          | Path to a SQL script executed after ORM initialization.                                                                                                                                                                                                                                                                              |
+| `staticMethods`         | `true`                   | Adds static helper methods such as `User::get( 1 )` and `User::findWhere( filter )` to every entity class. Set `false` to leave entity classes untouched. See [Static Entity Methods](../../usage/static-methods.md).                                                                                                                |
+| `sqlFunctions`          | *empty struct*           | Named SQL functions that HQL and `entityCriteria()` paths can call. See [Named SQL Functions](#named-sql-functions).                                                                                                                                                                                                                 |
+| `useDBForMapping`       | `false`                  | Adobe ColdFusion compatibility: fill in untyped property types and missing ids from the existing tables at startup. Foreign keys are not inferred. See [Using the Database for Mapping](#using-the-database-for-mapping).                                                                                                            |
 
 ## Named SQL Functions
 
@@ -117,63 +116,59 @@ By using the `ormsettings.dialect` you can tell Hibernate which specific databas
 
 > **Hibernate 7 note:** Hibernate 7 replaced the version-specific dialects (for example `MySQL5`, `Oracle10g`, `DerbyTenSeven`) with a single, version-detecting dialect per database. The legacy names in the table below are still accepted for backwards compatibility: bx-orm maps each to the current dialect for that database and logs a one-time deprecation warning, so you no longer need to pick a version. Databases such as SQLite, Derby, Firebird, Informix, Ingres, and CUBRID now come from the `hibernate-community-dialects` artifact, which bx-orm bundles. A few dialects for long-dead databases (FrontBase, McKoi, Pointbase, Progress, JDataStore, Interbase) were removed by Hibernate and are no longer supported. Prefer leaving `dialect` unset (auto-discovery) or using the plain database name.
 
-| Dialect (short name)   | Remarks                                                                                                                                        |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Cache71`              | Support for the Caché database, version 2007.1.                                                                                                |
-| `CockroachDB192`       | Support for CockroachDB version 19.2.                                                                                                          |
-| `CockroachDB201`       | Support for CockroachDB version 20.1.                                                                                                          |
-| `CUBRID`               | Support for CUBRID version 8.3. May work with later versions.                                                                                  |
-| `DB2`                  | Support for DB2 version 8.2.                                                                                                                   |
-| `DB297`                | Support for DB2 version 9.7.                                                                                                                   |
-| `DB2390`               | Support for DB2 Universal Database for OS/390, also known as DB2/390.                                                                          |
-| `DB2400`               | Support for DB2 Universal Database for iSeries, also known as DB2/400.                                                                         |
-| `DB2400V7R3`           | Support for DB2 Universal Database for i, also known as DB2/400, version 7.3.                                                                  |
-| `DerbyTenFive`         | Support for Derby version 10.5.                                                                                                                |
-| `DerbyTenSix`          | Support for Derby version 10.6.                                                                                                                |
-| `DerbyTenSeven`        | Support for Derby version 10.7.                                                                                                                |
-| `Firebird`             | Support for Firebird.                                                                                                                          |
-| `FrontBase`            | Support for Frontbase.                                                                                                                         |
-| `H2`                   | Support for H2.                                                                                                                                |
-| `HANACloudColumnStore` | Support for the SAP HANA Cloud column store.                                                                                                   |
-| `HANAColumnStore`      | Support for the SAP HANA column store, version 2.x. May work with version 1.x.                                                                 |
-| `HANARowStore`         | Support for the SAP HANA row store, version 2.x. May work with version 1.x.                                                                    |
-| `HSQL`                 | Support for HSQL (HyperSQL).                                                                                                                   |
-| `Informix`             | Support for Informix.                                                                                                                          |
-| `Ingres`               | Support for Ingres, version 9.2.                                                                                                               |
-| `Ingres9`              | Support for Ingres, version 9.3. May work with newer versions.                                                                                 |
-| `Ingres10`             | Support for Ingres, version 10. May work with newer versions.                                                                                  |
-| `Interbase`            | Support for Interbase.                                                                                                                         |
-| `JDataStore`           | Support for JDataStore.                                                                                                                        |
-| `McKoi`                | Support for McKoi.                                                                                                                             |
-| `Mimer`                | Support for Mimer, version 9.2.1. May work with newer versions.                                                                                |
-| `MySQL5`               | Support for MySQL, version 5.x.                                                                                                                |
-| `MySQL5InnoDB`         | Support for MySQL, version 5.x, preferring the InnoDB storage engine.                                                                          |
-| `MySQL57InnoDB`        | Support for MySQL, version 5.7, preferring the InnoDB storage engine. May work with newer versions.                                            |
-| `MariaDB`              | Support for MariaDB. May work with newer versions.                                                                                             |
-| `MariaDB53`            | Support for MariaDB, version 5.3 and newer.                                                                                                    |
-| `Oracle8i`             | Support for Oracle, version 8i.                                                                                                                |
-| `Oracle9i`             | Support for Oracle, version 9i.                                                                                                                |
-| `Oracle10g`            | Support for Oracle, version 10g.                                                                                                               |
-| `Pointbase`            | Support for Pointbase.                                                                                                                         |
-| `PostgresPlus`         | Support for Postgres Plus.                                                                                                                     |
-| `PostgreSQL81`         | Support for PostgreSQL, version 8.1.                                                                                                           |
-| `PostgreSQL82`         | Support for PostgreSQL, version 8.2.                                                                                                           |
-| `PostgreSQL9`          | Support for PostgreSQL, version 9. May work with later versions.                                                                               |
-| `Progress`             | Support for Progress, version 9.1C. May work with newer versions.                                                                              |
-| `SAPDB`                | Support for SAPDB/MAXDB.                                                                                                                       |
-| `SQLite`               | Support for SQLite. It is not auto-discovered, so `dialect` must be set explicitly, and a SQLite JDBC driver must be added to the application. |
-| `SQLServer`            | Support for SQL Server 2000.                                                                                                                   |
-| `SQLServer2005`        | Support for SQL Server 2005.                                                                                                                   |
-| `SQLServer2008`        | Support for SQL Server 2008.                                                                                                                   |
-| `Sybase11`             | Support for Sybase up to version 11.9.2.                                                                                                       |
-| `SybaseAnywhere`       | Support for Sybase Anywhere.                                                                                                                   |
-| `SybaseASE15`          | Support for Sybase Adaptive Server Enterprise, version 15.                                                                                     |
-| `SybaseASE157`         | Support for Sybase Adaptive Server Enterprise, version 15.7. May work with newer versions.                                                     |
-| `Teradata`             | Support for Teradata.                                                                                                                          |
-| `TimesTen`             | Support for TimesTen, version 5.1. May work with newer versions.                                                                               |
+Hibernate 5 dialect class names, such as `org.hibernate.dialect.MySQL5InnoDBDialect`, are mapped the same way. bx-orm logs a one-time warning for each.
+
+| Dialect (short name)   | Database                                                    |
+| ---------------------- | ----------------------------------------------------------- |
+| `Cache71`              | InterSystems Caché.                                         |
+| `CockroachDB192`       | CockroachDB.                                                |
+| `CockroachDB201`       | CockroachDB.                                                |
+| `CUBRID`               | CUBRID.                                                     |
+| `DB2`                  | DB2.                                                        |
+| `DB297`                | DB2.                                                        |
+| `DB2390`               | DB2 for z/OS, also known as DB2/390.                        |
+| `DB2400`               | DB2 for i, also known as DB2/400.                           |
+| `DB2400V7R3`           | DB2 for i, also known as DB2/400.                           |
+| `DerbyTenFive`         | Apache Derby.                                               |
+| `DerbyTenSix`          | Apache Derby.                                               |
+| `DerbyTenSeven`        | Apache Derby.                                               |
+| `Firebird`             | Firebird.                                                   |
+| `H2`                   | H2.                                                         |
+| `HANACloudColumnStore` | SAP HANA (Cloud column store).                              |
+| `HANAColumnStore`      | SAP HANA (column store).                                    |
+| `HANARowStore`         | SAP HANA (row store).                                       |
+| `HSQL`                 | HSQL (HyperSQL).                                            |
+| `Informix`             | Informix.                                                   |
+| `Ingres`               | Ingres.                                                     |
+| `Ingres9`              | Ingres.                                                     |
+| `Ingres10`             | Ingres.                                                     |
+| `MimerSQL`             | Mimer SQL.                                                  |
+| `MySQL5`               | MySQL.                                                      |
+| `MySQL5InnoDB`         | MySQL.                                                      |
+| `MySQL57InnoDB`        | MySQL.                                                      |
+| `MariaDB`              | MariaDB.                                                    |
+| `MariaDB53`            | MariaDB.                                                    |
+| `Oracle8i`             | Oracle.                                                     |
+| `Oracle9i`             | Oracle.                                                     |
+| `Oracle10g`            | Oracle.                                                     |
+| `PostgresPlus`         | Postgres Plus (EDB).                                        |
+| `PostgreSQL81`         | PostgreSQL.                                                 |
+| `PostgreSQL82`         | PostgreSQL.                                                 |
+| `PostgreSQL9`          | PostgreSQL.                                                 |
+| `SAPDB`                | SAP DB / MaxDB.                                             |
+| `SQLite`               | SQLite. Detected automatically. Needs a SQLite JDBC driver. |
+| `SQLServer`            | Microsoft SQL Server.                                       |
+| `SQLServer2005`        | Microsoft SQL Server.                                       |
+| `SQLServer2008`        | Microsoft SQL Server.                                       |
+| `Sybase11`             | Sybase Adaptive Server Enterprise.                          |
+| `SybaseAnywhere`       | SAP SQL Anywhere (Sybase Anywhere).                         |
+| `SybaseASE15`          | Sybase Adaptive Server Enterprise.                          |
+| `SybaseASE157`         | Sybase Adaptive Server Enterprise.                          |
+| `Teradata`             | Teradata.                                                   |
+| `TimesTen`             | Oracle TimesTen.                                            |
 
 {% hint style="info" %}
-See the Hibernate Dialect Section: [Hibernate\_User\_Guide.html#database-dialect](https://docs.jboss.org/hibernate/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#database-dialect)
+See the Hibernate Dialect Section: [Hibernate\_User\_Guide.html#database-dialect](https://docs.hibernate.org/orm/7.4/userguide/html_single/Hibernate_User_Guide.html#database-dialect)
 {% endhint %}
 
 ### SQLite
@@ -195,6 +190,17 @@ this.ormSettings = {
 {% hint style="warning" %}
 You'll need a SQLite JDBC driver (e.g. `org.xerial:sqlite-jdbc`) on your application's classpath, as bx-orm does not bundle one.
 {% endhint %}
+
+### PostgreSQL
+
+With an explicit PostgreSQL `dialect`, bx-orm tells Hibernate to read generated keys from the JDBC driver, as auto-detection does. This keeps `generator="identity"` working on tables whose names are reserved words, such as `comment` or `user`. To override it, set `hibernate.jdbc.use_get_generated_keys` in `hibernateProperties`:
+
+```js
+this.ormSettings = {
+    dialect             : "PostgreSQL",
+    hibernateProperties : { "hibernate.jdbc.use_get_generated_keys" : false }
+};
+```
 
 ## Sample Config
 
@@ -224,7 +230,7 @@ this.ormSettings = {
     // Enable or disable the secondary cache
 	secondarycacheenabled: request.$systemHelper.getSystemSetting( "ORM_SECONDARY_CACHE", false ),
     // The cache provider to use for the secondary cache
-	cacheprovider        : request.$systemHelper.getSystemSetting( "ORM_SECONDARY_CACHE", "ehCache" ),
+	cacheprovider        : "BoxCacheProvider",
 	// Whether to log SQL statements
     logSQL               : request.$systemHelper.getSystemSetting( "ORM_LOGSQL", false ),
     // The SQL script to execute during ORM initialization

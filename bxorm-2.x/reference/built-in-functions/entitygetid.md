@@ -1,3 +1,7 @@
+---
+description: The primary key of an entity
+---
+
 # EntityGetId
 
 The primary key of an entity. A lazy reference answers without being loaded. When given an entity name, there is no instance to read, so an `orm.argument` error is raised.

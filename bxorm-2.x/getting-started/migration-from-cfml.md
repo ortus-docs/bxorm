@@ -9,7 +9,7 @@ BoxLang ORM is designed to be compatible with existing CFML ORM code, but there 
 
 ## Configuration Differences
 
-There are several ORM settings which have been renamed OR the default value changed in `bx-orm`. You will need to either rename these in your configuration, or install `bx-compat-cfml` to provide compatibility with the old settings names.
+There are several ORM settings which have been renamed OR the default value changed in `bx-orm`. Rename these settings in your configuration.
 
 ### Renamed Settings
 
@@ -18,18 +18,18 @@ There are several ORM settings which have been renamed OR the default value chan
 | `skipCFCWithError`       | `ignoreParseErrors`    |
 | `cfcLocation`            | `entityPaths`          |
 
-Both of these settings are supported in `bx-compat-cfml` for compatibility with existing code, but you should update your configuration to use the new names to avoid confusion and ensure future compatibility.
+bx-orm does not read the old names. A setting under its old name is ignored, so rename it in your configuration.
 
 ### Changed Defaults
 
-| Setting                                           | Lucee Default | ACF Default | BoxLang Default |
-| ------------------------------------------------- | ------------- | ----------- | --------------- |
-| `ignoreParseErrors` (formerly `skipCFCWithError`) | `true`        | `true`      | `false`         |
-| `autoManageSession`                               | `true`        | `true`      | `false`         |
-| `flushAtRequestEnd`                               | `true`        | `true`      | `false`         |
-| `proxyLazyLoading`                                | `true`        | `true`      | `false`         |
+| Setting                                           | Lucee Default | ACF Default | BoxLang Default            |
+| ------------------------------------------------- | ------------- | ----------- | -------------------------- |
+| `ignoreParseErrors` (formerly `skipCFCWithError`) | `true`        | `true`      | `false`                    |
+| `autoManageSession`                               | `true`        | `true`      | `false`                    |
+| `flushAtRequestEnd`                               | `true`        | `true`      | `false`                    |
+| `proxyLazyLoading`                                | `true`        | `true`      | `false` (no effect in 2.0) |
 
-Again, each of these settings are reverted to the ACF/Lucee defaults in `bx-compat-cfml`.
+Set these explicitly if your application relies on the ACF/Lucee defaults.
 
 ### Database Inspection (`useDBForMapping`)
 
@@ -71,18 +71,14 @@ var myAuto = entityLoadByPK( "Automobile", "1HGCM82633A123456" );
 
 ### `EntityNew()`
 
-In ACF, a third argument `ignoreExtras` is implemented which allows you to ignore struct keys that do not match properties on the entity. In Lucee, this argument is called `ignoreNotExisting` but is not properly implemented and is always `true`. In BoxLang, this argument is not supported and any extra keys will cause an error. To achieve similar functionality in BoxLang, you can filter the struct of values before passing it to `EntityNew` to remove any keys that do not match properties on the entity.
+In ACF, a third argument `ignoreExtras` lets you ignore struct keys that do not match properties on the entity. In Lucee, this argument is called `ignoreNotExisting`.
 
-ACF, Lucee, and BoxLang will all error if you attempt to set a property that does not exist on the entity:
+In BoxLang, `ignoreExtras` is not implemented, and passing it throws an error. Extra keys do not cause an error: every key in the struct is set on the entity, without a check.
 
 ```js
 var entityProps = { nonExistentKey: "Blue" };
+// no error: nonExistentKey is set on the entity
 var myNewEntity = entityNew( "Automobile", entityProps );
 ```
 
-ACF does allow ignoring keys that do not match an entity property:
-
-```js
-var entityProps = { nonExistentKey: "Blue" };
-var myNewEntity = entityNew( "Automobile", entityProps, true );
-```
+To keep extra keys off the entity, filter the struct before you pass it to `entityNew()`.

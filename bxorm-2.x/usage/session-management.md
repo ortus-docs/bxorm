@@ -52,7 +52,7 @@ An `ORMApp` represents one BoxLang Application's ORM state, and is built once an
 2. Builds one Hibernate `SessionFactory` per datasource, via `SessionFactoryBuilder`
 3. Tracks which datasource is the default (from `this.ormSettings.datasource`)
 
-Everything expensive - entity discovery, XML mapping generation, and Hibernate bootstrapping - happens here, once per application, not per request. This is why `ormSettings.entityPaths` and `generateMappings=false` matter so much for startup performance; see [Performance](../getting-started/performance.md).
+Everything expensive - entity discovery, XML mapping generation, and Hibernate bootstrapping - happens here, once per application, not per request. This is why `ormSettings.entityPaths`, `generateMappings=false` and the boot cache matter so much for startup performance. The boot cache (`ormManifest : "trust"`) skips entity discovery, parsing and code generation, and boots from the `.bxorm/` folder. See [Boot Cache](../getting-started/performance.md#boot-cache) and [Performance](../getting-started/performance.md).
 
 ## ORMContext and Hibernate Sessions
 

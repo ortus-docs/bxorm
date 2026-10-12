@@ -1,3 +1,7 @@
+---
+description: Evict an entity's data from the second-level cache
+---
+
 # ORMEvictEntity
 
 Evict all entity data for this entity name from the second-level cache.

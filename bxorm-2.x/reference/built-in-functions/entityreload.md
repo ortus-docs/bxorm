@@ -1,3 +1,7 @@
+---
+description: Reload an entity from the database
+---
+
 # EntityReload
 
 Reload an entity from the database.
@@ -13,9 +17,9 @@ EntityReload(entity=[Any])
 ### Arguments
 
 
-| Argument | Type  | Required | Description                    | Default |
-| -------- | ----- | -------- | ------------------------------ | ------- |
-| `entity` | `Any` | `true`   | The entity instance to reload. |         |
+| Argument | Type  | Required | Description                                                             | Default |
+| -------- | ----- | -------- | ----------------------------------------------------------------------- | ------- |
+| `entity` | `Any` | `true`   | The entity instance to reload, or the name of a variable that holds it. |         |
 
 ## Examples
 
@@ -26,12 +30,14 @@ manufacturer = entityLoadByPK( "Manufacturer", 1 );
 reloaded = entityReload( manufacturer );
 ```
 
-Reload all in-session entities by entity name:
+A string is the name of a variable that holds the entity. Only that entity is reloaded:
 
 ```java
 manufacturer = entityLoadByPK( "Manufacturer", 1 );
-reloaded = entityReload( "manufacturer" );
+reloaded = entityReload( "manufacturer" ); // reloads the entity in the manufacturer variable
 ```
+
+If no variable has that name, an `orm.argument` error is raised.
 
 ## Related
 

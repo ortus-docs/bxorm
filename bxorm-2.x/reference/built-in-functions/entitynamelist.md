@@ -1,6 +1,10 @@
+---
+description: The entity names in this ORM application as a delimited string
+---
+
 # EntityNameList
 
-Retrieve an array of entity names for this ORM application.
+Retrieve the entity names for this ORM application as a delimited string, sorted by name.
 
 ## Method Signature
 
@@ -18,6 +22,17 @@ EntityNameList(delimiter=[String], datasource=[String])
 
 ## Examples
 
+Get a comma-separated list of all entity names:
+
+```java
+names = entityNameList();
+```
+
+Use another delimiter:
+
+```java
+names = entityNameList( "|" );
+```
 
 ## Related
 

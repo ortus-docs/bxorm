@@ -17,77 +17,31 @@ this.ormSettings = {
 };
 ```
 
-To configure the caching, specify the path to an XML cache configuration file in `cacheConfig`:
+Each cache region is backed by a BoxLang cache. To set the properties of those caches, pass a struct in `cacheConfig`. The struct is used when `cacheProvider` names a registered BoxLang cache provider:
 
 ```js
 this.ormSettings = {
-    secondaryCacheEnabled: true,
-    cacheConfig          : "./config/ehcache.xml"
+    secondaryCacheEnabled : true,
+    cacheProvider         : "myProvider",
+    cacheConfig           : { maxObjects : 5000, evictionPolicy : "LRU" }
 };
 ```
 
-This `ehcache.xml` cache configuration then should look something like this:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<ehcache
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true" name="default">
-    <diskStore path="java.io.tmpdir"/>
-        <defaultCache
-            maxElementsInMemory="10000" eternal="false"
-            timeToIdleSeconds="120" timeToLiveSeconds="120"
-            maxElementsOnDisk="10000000" diskExpiryThreadIntervalSeconds="120"
-            memoryStoreEvictionPolicy="LRU">
-            <persistence strategy="localTempSwap"/>
-        </defaultCache>
-        <cache
-            name="Autos"
-            maxElementsInMemory="20"
-            overflowToDisk="false"
-            eternal="true">
-        </cache>
-</ehcache>
-```
+{% hint style="warning" %}
+`cacheConfig` also accepts a file path, for compatibility. The path is passed to the cache provider, but the file is not read. EHCache XML files (`ehcache.xml`) have no effect in bx-orm 2.0.
+{% endhint %}
 
 ## Configure Each Entity Cache
 
-Notice how our `ehcache.xml` defines a default cache configuration?
-
-```xml
-<defaultCache
-    maxElementsInMemory="10000" eternal="false"
-    timeToIdleSeconds="120" timeToLiveSeconds="120"
-    maxElementsOnDisk="10000000" diskExpiryThreadIntervalSeconds="120"
-    memoryStoreEvictionPolicy="LRU">
-    <persistence strategy="localTempSwap"/>
-</defaultCache>
-```
-
-We highly recommend adding a cache configuration for each cacheable entity. This will help you optimize caching, and will silence error logs like the below:
-
-```
-WARN: HHH90001006: Missing cache[default-update-timestamps-region] was created on-the-fly. The created cache will use a provider-specific default configuration: make sure you defined one. You can disable this warning by setting 'hibernate.cache.ehcache.missing_cache_strategy' to 'create'
-```
-
-Here's a quick example. Say we have an `Autos.bx` persistent class with caching enabled:
+Turn on caching per entity with the `cacheUse` annotation. `cacheName` sets the cache region, and `cacheInclude` (`all` or `non-lazy`) sets whether lazy properties are cached too:
 
 ```js
-class persistent="true" cacheUse="read-write"{
+class persistent="true" cacheUse="read-write" cacheName="autos" {
     // persistent properties...
 }
 ```
 
-For this entity, we'll want to create a `<cache></cache>` entry with a `name` attribute that matches the entity name OR our `cacheName` class annotation:
-
-```xml
-<cache
-    name="Autos"
-    maxElementsInMemory="20"
-    overflowToDisk="false"
-    eternal="true">
-</cache>
-```
+Only entity-level caching is supported. The `cacheUse`, `cacheName` and `cacheInclude` annotations on a property are read, but not applied.
 
 ### How the Cache Provider Setting Works
 
@@ -103,5 +57,5 @@ this.ormSettings = {
 
 - The default, `"BoxCacheProvider"`, uses BoxLang's built-in in-memory cache.
 - `"ConcurrentHashMap"` and `"HashTable"` are legacy aliases kept for CFML/Lucee compatibility; both simply resolve to the default BoxLang cache provider.
-- Any other value must be the name of a cache provider already registered with BoxLang's `CacheService` (e.g. via CacheBox). If no provider with that name is found, ORM startup throws an error.
-- `cacheConfigProperties` lets you pass secondary-cache settings as a BoxLang struct instead of (or alongside) an XML `cacheConfig` file.
+- Any other value must be the name of a cache provider already registered with BoxLang's `CacheService` (e.g. via CacheBox).
+- The provider is resolved the first time a cache region is used, not at startup. An unknown provider name raises an error at that point.

@@ -69,10 +69,13 @@ In debug mode, bx-orm will log the time taken for each step of the startup proce
 ```bash
 ORM startup metric - entity file discovery: 42ms (187 candidate files found)
 ORM startup metric - entity metadata parsing: 310ms (23 persistent entities found, sequential mode)
-ORM startup metric - XML mapping generation: 88ms (23 mapping files written)
+ORM startup metric - XML mapping generation: 88ms (23 mapping files generated)
+ORM startup metric - total entity discovery, parsing and meta collection: 455ms
 ORM startup metric - Hibernate SessionFactory build time [myDatasource]: 1243ms
 ORM startup metric - Hibernate SessionFactory build time [defaultDatasource]: 987ms
 ```
+
+The mapping line says `generated` when bx-orm generates the mappings, or `pre-generated` when `generateMappings` is `false` and existing `.orm.xml` files are read. The `total entity discovery, parsing and meta collection` line is the sum of the steps before Hibernate starts.
 
 {% hint style="info" %}
 Only available in bx-orm@1.6.4 and later.

@@ -1,6 +1,12 @@
+---
+description: Merge the state of an entity into the current ORM session
+---
+
 # EntityMerge
 
 Merge the state of the given entity into the current persistence context (session).
+
+Returns the managed instance. Use the returned entity after the merge.
 
 ## Method Signature
 
@@ -22,7 +28,7 @@ vehicle = entityLoadByPK( "Vehicle", "1HGCM82633A123456" );
 ormGetSession().detach( vehicle );
 
 vehicle.setModel( "Accord EX" );
-entityMerge( vehicle );
+vehicle = entityMerge( vehicle );
 ormFlush();
 ```
 

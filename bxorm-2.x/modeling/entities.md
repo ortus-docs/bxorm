@@ -21,6 +21,23 @@ class persistent="true" entityname="Author" {
 }
 ```
 
+The `entity` annotation does both in one step. It marks the class as persistent, and a value sets the entity name:
+
+```js
+@entity
+class {
+
+}
+```
+
+```js
+class entity="Author" {
+
+}
+```
+
+With no value, the entity name is the class file name.
+
 And the table name via the `table` annotation:
 
 ```js
@@ -34,6 +51,7 @@ Here's the full list of available annotations for a persistent class:
 | Attribute             | Type      | Default | Description                                                                                                                                                            |
 | --------------------- | --------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `persistent`          | `boolean` | `false` | Mark this class as an ORM entity                                                                                                                                       |
+| `entity`              | `string`  |         | Mark this class as an ORM entity, like `persistent="true"`. A value also sets the entity name, and wins over `entityname`.                                             |
 | `entityname`          | `string`  |         | Set a custom entity name which is different than the boxlang class name                                                                                                |
 | `table`               | `string`  |         | Specify the database table name                                                                                                                                        |
 | `schema`              | `string`  |         | Specify the database schema name.                                                                                                                                      |
@@ -44,13 +62,10 @@ Here's the full list of available annotations for a persistent class:
 | `selectbeforeupdate`  | `boolean` |         | Specify whether Hibernate should perform an SQL `UPDATE` only when an object is actually modified.                                                                     |
 | `optimisticlock`      | `string`  |         | Determines the locking strategy: `all`, `dirty`, `version`, or `none`.                                                                                                 |
 | `batchsize`           | `integer` |         | Number of records to retrieve at a single instance.                                                                                                                    |
-| `lazy`                | `boolean` | `true`  | Whether loading is done lazily.                                                                                                                                        |
-| `rowid`               | `string`  |         | Specify the row ID.                                                                                                                                                    |
 | `discriminatorColumn` | `string`  |         | Define the discriminator column used in inheritance mapping.                                                                                                           |
 | `discriminatorValue`  | `string`  |         | Define the discriminator value used in inheritance mapping.                                                                                                            |
 | `joinColumn`          | `string`  |         | Define a join column for inheritance mapping.                                                                                                                          |
 | `mappedSuperClass`    | `boolean` | `false` | Mark a non-persistent parent class as a mapped superclass. Its properties are folded into each persistent subclass's table.                                            |
-| `embedded`            | `boolean` |         | Mark the class as embedded so its properties are persisted with the parent's data.                                                                                     |
 | `cacheUse`            | `string`  |         | Caching strategy: `read-only`, `nonstrict-read-write`, `read-write`, or `transactional`.                                                                               |
 | `cacheName`           | `string`  |         | Specify the name of the secondary cache.                                                                                                                               |
 | `cacheInclude`        | `string`  | `all`   | Set to `non-lazy` to exclude lazy-loaded properties from the secondary cache entry.                                                                                    |

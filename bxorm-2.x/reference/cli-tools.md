@@ -94,7 +94,7 @@ Run it with both `boxlang.jar` and the bx-orm module jar on the classpath:
 java -cp "boxlang.jar:bx-orm-2.0.0.jar" ortus.boxlang.modules.orm.cli.GenerateMappings --path models
 ```
 
-This generates a `{entityName}.orm.xml` file alongside each entity class file found under `models`.
+This generates an `.orm.xml` file alongside each entity class file found under `models`, named after the source file (`User.bx` gives `User.orm.xml`).
 
 ### Options
 
@@ -103,7 +103,7 @@ This generates a `{entityName}.orm.xml` file alongside each entity class file fo
 | `--path PATH`         | **Required** (repeatable). Relative path to a directory of entity files to scan. Pass it multiple times to scan more than one directory.                          |
 | `--mapping NAME:PATH` | Registers a BoxLang module/directory mapping (equivalent to a runtime mapping) before scanning, so entity paths that reference it resolve correctly. Repeatable.  |
 | `--failFast`          | Abort mapping generation on the first entity that fails to parse. Without this flag, unparseable entities are skipped (equivalent to `ignoreParseErrors = true`). |
-| `--debug`             | Enable debug-level logging for the `orm` log category.                                                                                                            |
+| `--debug`             | Accepted, but currently has no effect.                                                                                                                            |
 
 ### Example
 
@@ -111,8 +111,7 @@ This generates a `{entityName}.orm.xml` file alongside each entity class file fo
 java -cp "boxlang.jar:bx-orm-2.0.0.jar" ortus.boxlang.modules.orm.cli.GenerateMappings \
     --path models \
     --path modules/contentbox/models \
-    --failFast \
-    --debug
+    --failFast
 ```
 
 {% hint style="warning" %}

@@ -1,6 +1,12 @@
+---
+description: Clear the ORM session for a datasource
+---
+
 # ORMClearSession
 
-Clear the Hibernate session for the current context and provided (or default) datasource
+Clear the Hibernate session for the current context and provided (or default) datasource.
+
+Returns `true`, or `false` when the application has no ORM app.
 
 ## Method Signature
 

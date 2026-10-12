@@ -1,3 +1,7 @@
+---
+description: Create a new entity, optionally with a struct of properties
+---
+
 # EntityNew
 
 Instantiate a new entity, optionally with a struct of properties.
@@ -11,11 +15,11 @@ EntityNew(entityName=[String], properties=[Struct], ignoreExtras=[Boolean])
 ### Arguments
 
 
-| Argument       | Type      | Required | Description                                                                                                    | Default |
-| -------------- | --------- | -------- | -------------------------------------------------------------------------------------------------------------- | ------- |
-| `entityName`   | `String`  | `true`   | The name of the entity to create.                                                                              |         |
-| `properties`   | `Struct`  | `false`  | A struct of properties to populate on the new entity.                                                          |         |
-| `ignoreExtras` | `Boolean` | `false`  | If false, an error will be thrown if properties are provided that do not exist on the entity. Not implemented. |         |
+| Argument       | Type      | Required | Description                                           | Default |
+| -------------- | --------- | -------- | ----------------------------------------------------- | ------- |
+| `entityName`   | `String`  | `true`   | The name of the entity to create.                     |         |
+| `properties`   | `Struct`  | `false`  | A struct of properties to populate on the new entity. |         |
+| `ignoreExtras` | `Boolean` | `false`  | Not implemented; passing it throws.                   |         |
 
 ## Examples
 
@@ -37,33 +41,13 @@ var myEntity = entityNew( "Auto", {
 } );
 ```
 
-### Ignoring Extra Properties
+### Extra Keys
 
-(Coming soon) By default, `ignoreExtra` is set to `false`, meaning that if you provide properties that do not exist on the entity, an error will be thrown.
+Every key in `properties` is set on the new entity. Keys that are not properties of the entity are set too, without an error.
 
-For example, this will throw an error if `Color` is not a defined property on the `Auto` entity:
+### The `postNew` Event
 
-```java
-var myEntity = entityNew( "Auto", {
-    Make = "Toyota",
-    Model = "Camry",
-    Year = 2020,
-    Color = "Blue"
-}, true );
-```
-
-To change this behavior, you can set the `ignoreExtra` argument to `true`:
-
-```java
-var myEntity = entityNew( "Auto", {
-    Make = "Toyota",
-    Model = "Camry",
-    Year = 2020,
-    Color = "Blue"
-}, true );
-```
-
-This will create the entity and ignore the `Color` property if it does not exist on the `Auto` entity.
+When `eventHandling` is on, `entityNew()` fires the `postNew` event on the entity and on the global `eventHandler`.
 
 ## Related
 
