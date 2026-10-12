@@ -73,12 +73,11 @@ var myAuto = entityLoadByPK( "Automobile", "1HGCM82633A123456" );
 
 In ACF, a third argument `ignoreExtras` lets you ignore struct keys that do not match properties on the entity. In Lucee, this argument is called `ignoreNotExisting`.
 
-In BoxLang, `ignoreExtras` is not implemented, and passing it throws an error. Extra keys do not cause an error: every key in the struct is set on the entity, without a check.
+In BoxLang, extra keys are always skipped: only keys that match a declared property are set, and other keys cause no
+error. A third argument is accepted and ignored, so ACF and Lucee code keeps working.
 
 ```js
-var entityProps = { nonExistentKey: "Blue" };
-// no error: nonExistentKey is set on the entity
-var myNewEntity = entityNew( "Automobile", entityProps );
+var entityProps = { color: "Blue", nonExistentKey: "Blue" };
+// no error: color is set, nonExistentKey is skipped
+var myNewEntity = entityNew( "Automobile", entityProps, true );
 ```
-
-To keep extra keys off the entity, filter the struct before you pass it to `entityNew()`.

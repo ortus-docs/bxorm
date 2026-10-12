@@ -115,6 +115,26 @@ If you call the Hibernate API directly through `ormGetSession()` or `ormGetSessi
 
 `proxyLazyLoading` is accepted but has no effect: every lazy to-one relationship is a lazy proxy. `lazy="extra"` is accepted and works like `lazy="true"`, because Hibernate 7 has no extra-lazy collections. **Check it if** you relied on `size()` of an `extra` collection not loading the collection. See [Lazy Loading](../modeling/relationships.md#lazy-loading).
 
+### 13. `entityNew()` Skips Keys That Are Not Properties
+
+`entityNew( "User", data )` only sets keys that match a declared property of the entity (or a parent class). Other keys
+are skipped without an error; 1.x copied every key onto the entity. A third `ignoreExtras` argument is accepted and
+ignored. **Check it if** you passed extra keys to `entityNew()` and read them back from the entity.
+
+### 14. `native` Ids Use a Sequence on PostgreSQL and Oracle
+
+`generator="native"` uses the database's own strategy, as bx-orm 1.x did: an identity column on MySQL, MariaDB, SQL Server
+and Derby, and the shared `hibernate_sequence` (increment 1) on PostgreSQL and Oracle, or the sequence named by the
+`sequence` attribute. Databases created by bx-orm 1.x need no change. **Check it if** you created PostgreSQL or Oracle
+tables with an earlier 2.0 pre-release, where `native` meant `identity`: switch those ids to `generator="identity"`, or
+create `hibernate_sequence` starting above the highest existing id.
+
+### 15. The Second-Level Cache Is BoxCache
+
+Every cache region is now a BoxLang cache, and `cacheConfig` sets its BoxCache properties. An `ehcache.xml` from Adobe
+ColdFusion or Lucee is read and mapped to BoxCache properties; EHCache itself is not used. **Check it if** you tuned the
+cache with EHCache-specific settings (disk stores, clustering): those are ignored. See [Caching](../usage/caching.md).
+
 ## Things You Don't Need to Change
 
 * BIF names, arguments and return values, apart from the items above.

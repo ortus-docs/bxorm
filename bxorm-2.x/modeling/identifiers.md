@@ -88,7 +88,7 @@ There are several lesser-known identifier generator types, including:
 * `sequence` - use a database sequence (name it with the `sequence` attribute); replaces the legacy `seqhilo` generator name
 * `sequence-identity` - use a database sequence, then retrieve the generated value via `INSERT ... RETURNING` (supported databases only)
 * `identity` - use an identity column from the database (auto-increment)
-* `native` - the same as `identity` in bx-orm 2.0
+* `native` - the database's own strategy: an identity column on MySQL, MariaDB, SQL Server and Derby, and a sequence on PostgreSQL and Oracle. The sequence is the shared `hibernate_sequence` with an increment of 1, as in bx-orm 1.x, or the one named by the `sequence` attribute
 * `select` - select the next value from the column denoted in `selectKey`
 * `uuid`, `uuid2` and `guid` - a UUID as a 32-character hexadecimal string
 

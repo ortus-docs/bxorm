@@ -305,7 +305,23 @@ property name      = "posts"
 
 If you load 100 `User` entities and then access each one's `posts`, Hibernate will fetch them in batches of 50 rather than issuing 100 individual SELECT queries.
 
-When no per-property `batchsize` is set, Hibernate falls back to the application-wide `defaultBatchSize` ORM setting (see [Configuration](../getting-started/configuration/README.md)). BoxLang ORM defaults `defaultBatchSize` to `25`, while Adobe ColdFusion and Lucee both historically default to `16`. If you are migrating from ACF/Lucee and want matching batch-fetch behavior, set `defaultBatchSize=16` in your `this.ormSettings`, or install `bx-compat-cfml` which restores the legacy default.
+When no per-property `batchsize` is set, Hibernate falls back to the application-wide `defaultBatchSize` ORM setting (see [Configuration](../getting-started/configuration/README.md)), which defaults to `16`, the same as Adobe ColdFusion and Lucee.
+
+### Caching a Collection (`cacheUse`)
+
+With the second-level cache on, `cacheUse` (and optionally `cacheName`) on a `one-to-many`, `many-to-many` or `collection`
+property caches the collection across sessions:
+
+```js
+property name      = "roles"
+         fieldtype = "many-to-many"
+         cfc       = "Role"
+         linktable = "user_roles"
+         cacheUse  = "read-write"
+         cacheName = "userRoles";
+```
+
+The collection cache stores the ids of its elements, so cache the element entity too. See [Caching](../usage/caching.md#collections).
 
 ## Relationship Methods
 

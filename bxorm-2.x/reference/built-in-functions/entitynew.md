@@ -9,17 +9,16 @@ Instantiate a new entity, optionally with a struct of properties.
 ## Method Signature
 
 ```
-EntityNew(entityName=[String], properties=[Struct], ignoreExtras=[Boolean])
+EntityNew(entityName=[String], properties=[Struct])
 ```
 
 ### Arguments
 
 
-| Argument       | Type      | Required | Description                                           | Default |
-| -------------- | --------- | -------- | ----------------------------------------------------- | ------- |
-| `entityName`   | `String`  | `true`   | The name of the entity to create.                     |         |
-| `properties`   | `Struct`  | `false`  | A struct of properties to populate on the new entity. |         |
-| `ignoreExtras` | `Boolean` | `false`  | Not implemented; passing it throws.                   |         |
+| Argument     | Type     | Required | Description                                           | Default |
+| ------------ | -------- | -------- | ----------------------------------------------------- | ------- |
+| `entityName` | `String` | `true`   | The name of the entity to create.                     |         |
+| `properties` | `Struct` | `false`  | A struct of properties to populate on the new entity. |         |
 
 ## Examples
 
@@ -43,7 +42,16 @@ var myEntity = entityNew( "Auto", {
 
 ### Extra Keys
 
-Every key in `properties` is set on the new entity. Keys that are not properties of the entity are set too, without an error.
+Only keys that match a declared property of the entity (or of a parent class) are set, in any case. Other keys are
+skipped, without an error:
+
+```java
+// name is set, notAProperty is skipped
+var user = entityNew( "User", { name : "Ana", notAProperty : 1 } );
+```
+
+Code written for Adobe ColdFusion that passes a third `ignoreExtras` argument keeps working: the argument is accepted and
+ignored.
 
 ### The `postNew` Event
 

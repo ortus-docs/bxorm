@@ -103,7 +103,7 @@ This generates an `.orm.xml` file alongside each entity class file found under `
 | `--path PATH`         | **Required** (repeatable). Relative path to a directory of entity files to scan. Pass it multiple times to scan more than one directory.                          |
 | `--mapping NAME:PATH` | Registers a BoxLang module/directory mapping (equivalent to a runtime mapping) before scanning, so entity paths that reference it resolve correctly. Repeatable.  |
 | `--failFast`          | Abort mapping generation on the first entity that fails to parse. Without this flag, unparseable entities are skipped (equivalent to `ignoreParseErrors = true`). |
-| `--debug`             | Accepted, but currently has no effect.                                                                                                                            |
+| `--debug`             | Print the ORM's debug logging (entity scanning and mapping generation details) while the command runs.                                                            |
 
 ### Example
 

@@ -155,6 +155,21 @@ Tools can listen to ORM activity without reaching into Hibernate:
 
 See [Observability](../usage/observability.md).
 
+## Second-Level Cache on BoxCache
+
+The second-level cache now runs on BoxLang's own BoxCache. Every cache region is a BoxLang cache: tune all of them or each
+one with `cacheConfig`, keep using an old `ehcache.xml` (it is read and mapped), put a region on a cache you define in
+`boxlang.json` (any BoxLang provider, including distributed ones), and cache collections with `cacheUse`:
+
+```js
+this.ormSettings = {
+    secondaryCacheEnabled : true,
+    cacheConfig           : { maxObjects : 1000, regions : { "countries" : { defaultTimeout : 0 } } }
+};
+```
+
+See [Caching](../usage/caching.md).
+
 ## Errors and Diagnostics
 
 Every error bx-orm raises is now an `orm.*` typed exception with a message in BoxLang terms, a fix in `detail`, and "Did you mean" suggestions for misspelled entity and property names:
@@ -171,4 +186,5 @@ Startup checks catch duplicate entity names and unknown `ormtype` values, and `o
 
 ## Fixes
 
-2.0.0 also fixes a long list of 1.x issues, among them optimistic-locking `version` columns, `text` columns mapping to `TEXT`, `binary` properties, inverse one-to-many without `fkcolumn`, millisecond date precision, `ormFlush( datasource )`, and the `cacheable`, `cacheName` and `timeout` query options. See the [2.x release notes](2x.md) for the complete list.
+2.0.0 also fixes a long list of 1.x issues, among them optimistic-locking `version` columns, `text` columns mapping to `TEXT`, `binary` properties, inverse one-to-many without `fkcolumn`, millisecond date precision, `ormFlush( datasource )`, the `cacheable`, `cacheName` and `timeout` query options, and the `sqlScript` setting. `native` ids use a sequence again on
+PostgreSQL and Oracle, as in 1.x. See the [2.x release notes](2x.md) for the complete list.

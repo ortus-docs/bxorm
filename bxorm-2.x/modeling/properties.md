@@ -250,7 +250,6 @@ property name="totalPosts"
 
 These property annotations are read, but have no effect in bx-orm 2.0:
 
-* `cacheUse`, `cacheName` and `cacheInclude`: only entity-level caching is supported. See [Caching](../usage/caching.md).
 * `foreignKey` and `foreignKeyName`: the foreign key constraint name is not applied.
 * `readOnly`: a property cannot be made read-only. Use `insert="false"` and `update="false"` instead.
 
