@@ -104,3 +104,24 @@ The legacy CFML/Lucee generator name `seqhilo` is **not** a recognized built-in 
 {% hint style="info" %}
 See the [Hibernate 3.3 Mapping Reference Documentation](https://docs.jboss.org/hibernate/core/3.3/reference/en/html/mapping.html#mapping-declaration-id-generator) for more information on these and other generator types.
 {% endhint %}
+
+## Unsaved Value
+
+Hibernate decides whether `entitySave()` inserts or updates an entity by looking at its id. If the id equals the property's **unsaved value**, the entity is new and gets inserted; any other id means it already exists and gets updated.
+
+bx-orm sets this for you:
+
+* Generated ids (any generator except `assigned`) use `null`: an entity with no id yet is new.
+* Assigned ids, and ids with a `default`, keep Hibernate's own rule: it reads the id's starting value from a new instance of the entity.
+
+Set `unsavedValue` yourself when an id is never null before its first save. For example, an assigned numeric id that starts at `0`:
+
+```js
+property name         = "id"
+         fieldtype    = "id"
+         ormtype      = "integer"
+         generator    = "assigned"
+         unsavedValue = "0";
+```
+
+Besides a literal id value, Hibernate accepts `null`, `any` (always insert), `none` (always update) and `undefined` (check the database).

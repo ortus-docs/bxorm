@@ -230,7 +230,7 @@ See [Modeling Relationships](relationships.md) for more details on modeling an O
 | `cacheUse`      | `string`  | Define a cache type to use for this property. One of `read-only`, `nonstrict-read-write`, `read-write`, or `transactional`.                            |
 | `cacheName`     | `string`  | Set the name of the cache to use for this property.                                                                                                    |
 | `cacheInclude`  | `string`  | Set to `non-lazy` to exclude this property from the secondary cache entry when lazy-loaded. Defaults to `all`.                                         |
-| `unSavedValue`  | `string`  | Set a value to populate into this column on newly instantiated entities.                                                                               |
+| `unSavedValue`  | `string`  | On the id property: the id value that marks a new (unsaved) entity. See [Unsaved Value](identifiers.md#unsaved-value).                                 |
 | `autoTimestamp` | `string`  | Set the property to the current time on insert (`create`) or on every insert and update (`update`). See [Automatic Timestamps](#automatic-timestamps). |
 
 ## Formula Property
