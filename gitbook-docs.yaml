@@ -4,15 +4,14 @@ site:
   structure:
     - type: space
       key: space-1
-      title: BXORM 1.x
+      title: v1.x
       path: bxorm-1.x
       default: true
       content:
         directory: ./bxorm-1.x
     - type: space
       key: space-2
-      title: BXORM 2.x
+      title: v2.x
       path: bxorm-2.x
-      draft: true
       content:
         directory: ./bxorm-2.x
