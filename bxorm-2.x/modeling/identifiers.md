@@ -106,10 +106,13 @@ See the [Hibernate 7.4 User Guide](https://docs.hibernate.org/orm/7.4/userguide/
 
 Hibernate decides whether `entitySave()` inserts or updates an entity by looking at its id. If the id equals the property's **unsaved value**, the entity is new and gets inserted; any other id means it already exists and gets updated.
 
-bx-orm sets this for you:
+bx-orm sets this for you, to the value a new entity's id starts with:
 
-* Generated ids (any generator except `assigned`) use `null`: an entity with no id yet is new.
-* Assigned ids, and ids with a `default`, keep Hibernate's own rule: it reads the id's starting value from a new instance of the entity.
+* An id with a `default` uses that default, including an empty one: `default=""` on a uuid id means an id of `""` is new.
+* Any other id, generated or `assigned`, uses `null`: an entity with no id yet is new.
+* A `version` property uses `null`, or `undefined` when it has a `default` (then the id decides).
+
+Because bx-orm always declares the unsaved value, the ORM never creates an entity while it starts. Your entity's `init()` only runs when your code creates the entity, so an `init()` that needs the application (for example one that reads `application.wirebox`) is safe.
 
 Set `unsavedValue` yourself when an id is never null before its first save. For example, an assigned numeric id that starts at `0`:
 
