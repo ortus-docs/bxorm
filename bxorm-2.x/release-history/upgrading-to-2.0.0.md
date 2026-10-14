@@ -95,7 +95,7 @@ Criteria `asStruct()` returns date values as ISO 8601 strings (`2024-03-05T10:20
 
 ### 8. `useDBForMapping` Now Does Something
 
-In 1.x `useDBForMapping` was ignored. In 2.0.0, `useDBForMapping : true` reads your tables at startup to fill in untyped property types and missing ids. It is off by default. **Check it if** your settings set it to `true`: remove it, or keep it on purpose. See [Using the Database for Mapping](../getting-started/configuration/README.md#using-the-database-for-mapping).
+In 1.x `useDBForMapping` did nothing. In 2.0.0, `useDBForMapping : true` makes the ORM look at your database tables at startup (JDBC metadata, not mapping files) to find the type of properties without an `ormtype` and the id of entities without one, as Adobe ColdFusion does. It is off by default, which matches 1.x: untyped properties map as `string`, and an entity without an id uses its `id` property. **Check it if** your settings set it to `true`: remove it, or keep it on purpose. See [Using the Database for Mapping](../getting-started/configuration/README.md#using-the-database-for-mapping).
 
 ### 9. Entity `where` Is Now Applied
 
