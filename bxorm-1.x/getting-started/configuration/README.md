@@ -52,7 +52,7 @@ The full list of available properties you can use to configure the ORM are the f
 | `secondaryCacheEnabled` | `false`                  | Enables the secondary cache. See [Caching](../../usage/caching.md).                                                                                                                                                                                         |
 | `ignoreParseErrors`     | `false`                  | Ignores classes with compile-time errors when `true`; otherwise throws exceptions.                                                                                                                                                                          |
 | `sqlScript`             |                          | Path to a SQL script executed after ORM initialization.                                                                                                                                                                                                     |
-| `useDBForMapping`       | `true`                   | Inspects the database for missing mapping information, including column types, primary keys, and foreign keys.                                                                                                                                              |
+| `useDBForMapping`       | `false`                  | Accepted but has no effect in 1.x: the database is never inspected. Untyped properties map as `string`, and an entity without an id uses its `id` property.                                                                                                 |
 
 ## Dialects
 
