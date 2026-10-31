@@ -76,9 +76,19 @@ A `trust` boot fails closed. It refuses to start, naming what changed, when:
 * The manifest belongs to another application (for example one copied or renamed by hand).
 * A key ORM setting changed since the cache was written: dialect, datasource, naming strategy, application name, `dbcreate`, `quoteIdentifiers` or `entityPaths`.
 * The bx-orm version changed.
-* An entity source file changed since the cache was written.
+* An entity source file changed since the cache was written. Sources are recorded as BoxLang paths (`/models/Task.cfc`), so this check works wherever the application is deployed, not only where the cache was built.
 
-`trust` mode does no discovery, so a newly added entity file is not picked up. Boot once with `auto` after changing entities to refresh the cache, then deploy the `.bxorm/` folder with your application.
+`trust` mode does no discovery, so a newly added entity file is not picked up. Refresh the cache after changing entities, then deploy the `.bxorm/` folder with your application.
+
+#### Building the Cache at Build Time
+
+You do not need to boot the application to build the cache. [`module:orm generate`](../reference/cli-tools.md#generate) writes it from the command line, with no server, no database and no application start, so a Docker build or a CI step can produce a `trust`-ready image:
+
+```bash
+boxlang --bx-config runtime/boxlang.json module:orm generate
+```
+
+It reads your `Application.bx` settings the way the server does (pass the server's `boxlang.json` so its mappings and datasources are loaded) and writes the manifest and the facade jar. Then run the application with `ormManifest : "trust"`.
 
 By default the `.bxorm/` folder lives in the application root. `ormManifestLocation` moves it: a relative path resolves against the application root, an absolute path is used as is, and the folder is always named `.bxorm`.
 
@@ -100,7 +110,7 @@ The `{app}` part is the application's `this.name` run through BoxLang's [`slugif
 
 The gain grows with the number of entities: the work `trust` removes scales with your entity count. Hibernate's own `SessionFactory` build (below) still runs in every mode.
 
-Use the [`bxorm` CLI](../reference/cli-tools.md#bxorm-boot-cache-cli) to inspect, validate or clear the cache.
+Use the [`bxorm` CLI](../reference/cli-tools.md#bxorm-boot-cache-cli) to build, inspect, validate or clear the cache.
 
 ### SessionFactory Build
 

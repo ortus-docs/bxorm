@@ -28,7 +28,7 @@ this.ormSettings = {
 };
 ```
 
-The new [`bxorm` CLI](../reference/cli-tools.md#bxorm-boot-cache-cli) (`boxlang module:orm info`) inspects, validates and clears the cache. See [Boot Cache](../getting-started/performance.md#boot-cache).
+The new [`bxorm` CLI](../reference/cli-tools.md#bxorm-boot-cache-cli) builds the cache without starting your application (`boxlang module:orm generate`, for Docker and CI builds), and inspects, validates and clears it. See [Boot Cache](../getting-started/performance.md#boot-cache).
 
 * `ormManifestLocation` moves the `.bxorm/` folder. A relative path resolves against the application root.
 * Several applications can share one `.bxorm/` folder. Each application's files carry its name (`manifest-{app}.json`), and the CLI picks one with `--app=<name>`.
