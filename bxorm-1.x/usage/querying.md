@@ -58,6 +58,35 @@ HQL `UPDATE` and `DELETE` statements are executed directly against the database 
 var rowsUpdated = ORMExecuteQuery( hql: "UPDATE Auto SET discontinued = true WHERE make = :make", params: { make: "Yugo" } );
 ```
 
+## HQL in the Query Component and queryExecute()
+
+{% hint style="info" %}
+Available from bx-orm 1.7.3.
+{% endhint %}
+
+`<bx:query>` (`<cfquery>` in CFML templates) and `queryExecute()` run HQL when you set `dbtype="hql"`. They return the same result as [ORMExecuteQuery](../reference/built-in-functions/ormexecutequery.md): an array of entities, or an array of rows for a projection. They do not return a query object.
+
+```html
+<bx:query name="toyotas" dbtype="hql">
+    FROM Auto WHERE make = <bx:queryparam value="#form.make#" sqltype="varchar">
+</bx:query>
+```
+
+```js
+var toyotas = queryExecute(
+    "FROM Auto WHERE make = :make",
+    { make: "Toyota" },
+    { dbtype: "hql" }
+);
+```
+
+- `<bx:queryparam>` (`<cfqueryparam>`) in the body binds a positional parameter. With a `sqltype` (`cfsqltype`) the value is cast first, so an id that arrives as a string from a form matches an integer property. `list="true"` binds a list for `IN ( ... )`.
+- `params` binds named (struct) or positional (array) parameters, as in `ORMExecuteQuery()`.
+- `ormoptions` takes the [query options](#options), such as `maxResults`, `offset`, `readOnly` and `unique`. `maxrows`, `timeout` and `datasource` apply too.
+- `result` gets a struct with `sql` (the HQL), `recordCount`, `executionTime` and `cached`.
+
+Without `dbtype="hql"`, the query component and `queryExecute()` run SQL as usual.
+
 ## Filter-Based Queries
 
 For simple equality lookups, skip HQL entirely and use [EntityLoad](../reference/built-in-functions/entityload.md) with a struct of filter criteria:
