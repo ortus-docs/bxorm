@@ -3,6 +3,7 @@
 * [Introduction](README.md)
   * [About This Book](readme/about-this-book.md)
 * [Release History](release-history/README.md)
+  * [What's New in 1.7.3](release-history/whats-new-1.7.3.md)
   * [1.x](release-history/1x.md)
 
 ## Getting Started
