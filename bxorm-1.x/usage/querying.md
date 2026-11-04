@@ -38,6 +38,8 @@ ORMExecuteQuery(
 );
 ```
 
+From 1.7.3, each value is converted to the type of the property it is compared with, so a string from a form or URL (`"1"`) or a decimal binds to an integer property. Whole-number types only take whole numbers, and a value that cannot be converted (`"abc"` for an integer) still fails. See [Typed Values from Forms and URLs](../release-history/whats-new-1.7.3.md#typed-values-from-forms-and-urls).
+
 ### Options
 
 Pass a struct of options to control pagination, caching, and result shape:
@@ -102,7 +104,7 @@ var toyota = entityLoad( "Auto", { make: "Toyota" }, true );
 var page = entityLoad( "Auto", { make: "Toyota" }, "model asc", { offset: 0, maxResults: 25 } );
 ```
 
-Every key in the filter struct must be a valid persistent property name on the entity; each key/value pair is combined with the others using `AND` equality. This only supports equality checks - reach for HQL as soon as you need `LIKE`, ranges, joins, or `OR` logic.
+Every key in the filter struct must be a valid persistent property name on the entity; each key/value pair is combined with the others using `AND` equality. From 1.7.3, filter values are converted to each property's type, so `{ id: url.id }` works when `url.id` is a string. This only supports equality checks - reach for HQL as soon as you need `LIKE`, ranges, joins, or `OR` logic.
 
 [EntityLoadByExample](../reference/built-in-functions/entityloadbyexample.md) works the same way, but takes a sample entity instance instead of a struct:
 
