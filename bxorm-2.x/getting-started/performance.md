@@ -78,6 +78,8 @@ A `trust` boot fails closed. It refuses to start, naming what changed, when:
 * The bx-orm version changed.
 * An entity source file changed since the cache was written. Sources are recorded as BoxLang paths (`/models/Task.cfc`), so this check works wherever the application is deployed, not only where the cache was built.
 
+A `trust` boot gives your application the same entities as an `off` or `auto` boot. Discovery adds normalized values to each entity class's metadata (`entityName`, `table`, default `fieldtype` and `ormType`, and so on), and code reads them back, such as ColdBox's `populate()` when it resolves a relationship. So a `trust` boot loads each entity class and writes the cached metadata onto it: `getClassMetadata()` and `getMetadata()` return the same values in every mode. In a fresh container this compiles the entity classes at startup, which otherwise happens on each entity's first use: about 2 ms per entity (0.35 seconds for 150 entities, loaded in parallel with `enableThreadedMapping`).
+
 `trust` mode does no discovery, so a newly added entity file is not picked up. Refresh the cache after changing entities, then deploy the `.bxorm/` folder with your application.
 
 #### Building the Cache at Build Time
@@ -130,6 +132,8 @@ These are median boot times in seconds, measured on synthetic models (entities w
 | -------- | ----- | ------ | ------- | ------------ |
 | 25       | 5.23  | 5.10   | 3.86    | 3.13         |
 | 250      | 13.48 | 14.14  | 7.12    | 8.46         |
+
+The `trust` times were measured before a `trust` boot loaded the entity classes (see [Boot Cache](#boot-cache)). On a cold class cache that adds about 2 ms per entity.
 
 * On a large model, `trust` cuts boot time by about a third to a half. At 250 entities a `trust` boot is faster than a bx-orm 1.7.1 boot.
 * Small applications (10 to 25 entities) boot about 1.5 to 2 seconds slower than 1.7.1, in every mode. This is a fixed cost per JVM: Hibernate 7 and its libraries load more Java classes. The boot cache cannot remove it.
