@@ -1,0 +1,25 @@
+# BxORM
+
+> The ORM framework for BoxLang. Map BoxLang classes to tables and work with rows as objects: static helpers, fluent criteria, automatic type conversion, readable errors and a boot cache, all on Hibernate 7.
+
+## Pages
+
+- [BxORM](https://bxorm.boxlang.io/index.md) ([HTML](https://bxorm.boxlang.io/index.html))
+- [Building with AI](https://bxorm.boxlang.io/course/16-building-with-ai.md) ([HTML](https://bxorm.boxlang.io/course/16-building-with-ai/index.html))
+- [BxORM with cborm](https://bxorm.boxlang.io/course/15-cborm.md) ([HTML](https://bxorm.boxlang.io/course/15-cborm/index.html))
+- [Coming from CFML](https://bxorm.boxlang.io/course/17-coming-from-cfml.md) ([HTML](https://bxorm.boxlang.io/course/17-coming-from-cfml/index.html))
+- [Criteria queries](https://bxorm.boxlang.io/course/07-criteria.md) ([HTML](https://bxorm.boxlang.io/course/07-criteria/index.html))
+- [Errors and observability](https://bxorm.boxlang.io/course/11-errors-observability.md) ([HTML](https://bxorm.boxlang.io/course/11-errors-observability/index.html))
+- [Events, soft delete and timestamps](https://bxorm.boxlang.io/course/10-events-soft-delete.md) ([HTML](https://bxorm.boxlang.io/course/10-events-soft-delete/index.html))
+- [HQL, structs and queries](https://bxorm.boxlang.io/course/08-hql-structs-queries.md) ([HTML](https://bxorm.boxlang.io/course/08-hql-structs-queries/index.html))
+- [Inheritance](https://bxorm.boxlang.io/course/13-inheritance.md) ([HTML](https://bxorm.boxlang.io/course/13-inheritance/index.html))
+- [Install and configure](https://bxorm.boxlang.io/course/02-install-and-configure.md) ([HTML](https://bxorm.boxlang.io/course/02-install-and-configure/index.html))
+- [Learn BxORM](https://bxorm.boxlang.io/course/index.md) ([HTML](https://bxorm.boxlang.io/course/index.html))
+- [Relationships](https://bxorm.boxlang.io/course/06-relationships.md) ([HTML](https://bxorm.boxlang.io/course/06-relationships/index.html))
+- [Save, load and delete](https://bxorm.boxlang.io/course/04-save-load-delete.md) ([HTML](https://bxorm.boxlang.io/course/04-save-load-delete/index.html))
+- [Ship it](https://bxorm.boxlang.io/course/12-ship-it.md) ([HTML](https://bxorm.boxlang.io/course/12-ship-it/index.html))
+- [Static helpers](https://bxorm.boxlang.io/course/05-static-helpers.md) ([HTML](https://bxorm.boxlang.io/course/05-static-helpers/index.html))
+- [Testing ORM code](https://bxorm.boxlang.io/course/14-testing.md) ([HTML](https://bxorm.boxlang.io/course/14-testing/index.html))
+- [Transactions and the session](https://bxorm.boxlang.io/course/09-transactions.md) ([HTML](https://bxorm.boxlang.io/course/09-transactions/index.html))
+- [Welcome to BxORM](https://bxorm.boxlang.io/course/01-welcome.md) ([HTML](https://bxorm.boxlang.io/course/01-welcome/index.html))
+- [Your first entity](https://bxorm.boxlang.io/course/03-first-entity.md) ([HTML](https://bxorm.boxlang.io/course/03-first-entity/index.html))

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url><loc>https://bxorm.boxlang.io/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/16-building-with-ai/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/15-cborm/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/17-coming-from-cfml/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/07-criteria/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/11-errors-observability/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/10-events-soft-delete/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/08-hql-structs-queries/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/13-inheritance/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/02-install-and-configure/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/06-relationships/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/04-save-load-delete/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/12-ship-it/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/05-static-helpers/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/14-testing/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/09-transactions/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/01-welcome/index.html</loc></url>
+	<url><loc>https://bxorm.boxlang.io/course/03-first-entity/index.html</loc></url>
+</urlset>
