@@ -231,7 +231,7 @@ users = <span class="f">ormExecuteQuery</span>( <span class="s">"from user where
         <div class="mg"><b>Load</b><div><code>get()</code><code>getOrFail()</code><code>getAll()</code><code>read()</code><code>getReference()</code></div></div>
         <div class="mg"><b>Find</b><div><code>findWhere()</code><code>findAllWhere()</code><code>first()</code><code>exists()</code><code>count()</code><code>list()</code></div></div>
         <div class="mg"><b>Create and update</b><div><code>new()</code><code>firstOrNew()</code><code>firstOrCreate()</code><code>updateWhere()</code></div></div>
-        <div class="mg del"><b>Delete</b><div><code>deleteWhere()</code><code>criteria().deleteAll()</code><code>entityDelete( entity )</code></div><small><code>deleteWhere()</code> runs one <code>DELETE</code> and refuses an empty filter. <code>entityDelete()</code> fires events and honors soft delete.</small></div>
+        <div class="mg"><b>Delete</b><div><code>deleteWhere()</code><code>criteria().deleteAll()</code><code>entityDelete( entity )</code></div><small><code>deleteWhere()</code> runs one <code>DELETE</code> and refuses an empty filter. <code>entityDelete()</code> fires events and honors soft delete.</small></div>
         <div class="mg"><b>Query</b><div><code>criteria()</code><code>executeQuery()</code></div></div>
       </div>
     </div>
@@ -400,8 +400,8 @@ users = <span class="f">ormExecuteQuery</span>( <span class="s">"from user where
             <button data-t="lens3">Walkthrough</button>
           </div>
         </div>
-        <div id="lens1"><img src="#variables.basePath#assets/bxlens/console-orm.png" alt="The BxLens ORM page: statements, flushes and failures per datasource, and Hibernate statistics"></div>
-        <div id="lens2" hidden><img src="#variables.basePath#assets/bxlens/queries.png" alt="The BxLens Queries panel with a flagged N+1 group"></div>
+        <div id="lens1"><img data-bxsites-lightbox src="#variables.basePath#assets/bxlens/console-orm.png" alt="The BxLens ORM page: statements, flushes and failures per datasource, and Hibernate statistics"></div>
+        <div id="lens2" hidden><img data-bxsites-lightbox src="#variables.basePath#assets/bxlens/queries.png" alt="The BxLens Queries panel with a flagged N+1 group"></div>
         <div id="lens3" hidden><video controls playsinline preload="none" poster="https://bxlens.boxlang.io/assets/videos/walkthrough-bar.jpg"><source src="https://bxlens.boxlang.io/assets/videos/walkthrough-bar.mp4" type="video/mp4"></video></div>
         <figcaption>Screens from <a href="https://bxlens.boxlang.io" style="color:var(--accent)">bxlens.boxlang.io</a>. ORM statements appear in the Queries panel the same way, labelled ORM.</figcaption>
       </div>
@@ -645,6 +645,9 @@ json  = <span class="f">entityToStruct</span>( ann );
 </footer>
 
 <script src="#themeAssetUrl( 'home.js' )#" defer></script>
+<bx:if variables.siteConfig.imageGallery ?: false>
+<script src="#moduleAssetUrl( 'image-gallery-init.js' )#" defer></script>
+</bx:if>
 </body>
 </html>
 </bx:output>
