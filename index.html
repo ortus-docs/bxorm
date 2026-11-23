@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/theme/home.e1ae4a7a.css">
+<link rel="stylesheet" href="/assets/theme/home.988774ed.css">
 <script type="application/ld+json">
 {
 	"@context": "https://schema.org",
@@ -223,7 +223,7 @@ users = <span class="f">ormExecuteQuery</span>( <span class="s">"from user where
         <div class="mg"><b>Load</b><div><code>get()</code><code>getOrFail()</code><code>getAll()</code><code>read()</code><code>getReference()</code></div></div>
         <div class="mg"><b>Find</b><div><code>findWhere()</code><code>findAllWhere()</code><code>first()</code><code>exists()</code><code>count()</code><code>list()</code></div></div>
         <div class="mg"><b>Create and update</b><div><code>new()</code><code>firstOrNew()</code><code>firstOrCreate()</code><code>updateWhere()</code></div></div>
-        <div class="mg del"><b>Delete</b><div><code>deleteWhere()</code><code>criteria().deleteAll()</code><code>entityDelete( entity )</code></div><small><code>deleteWhere()</code> runs one <code>DELETE</code> and refuses an empty filter. <code>entityDelete()</code> fires events and honors soft delete.</small></div>
+        <div class="mg"><b>Delete</b><div><code>deleteWhere()</code><code>criteria().deleteAll()</code><code>entityDelete( entity )</code></div><small><code>deleteWhere()</code> runs one <code>DELETE</code> and refuses an empty filter. <code>entityDelete()</code> fires events and honors soft delete.</small></div>
         <div class="mg"><b>Query</b><div><code>criteria()</code><code>executeQuery()</code></div></div>
       </div>
     </div>
@@ -392,8 +392,8 @@ users = <span class="f">ormExecuteQuery</span>( <span class="s">"from user where
             <button data-t="lens3">Walkthrough</button>
           </div>
         </div>
-        <div id="lens1"><img src="/assets/bxlens/console-orm.png" alt="The BxLens ORM page: statements, flushes and failures per datasource, and Hibernate statistics"></div>
-        <div id="lens2" hidden><img src="/assets/bxlens/queries.png" alt="The BxLens Queries panel with a flagged N+1 group"></div>
+        <div id="lens1"><img data-bxsites-lightbox src="/assets/bxlens/console-orm.png" alt="The BxLens ORM page: statements, flushes and failures per datasource, and Hibernate statistics"></div>
+        <div id="lens2" hidden><img data-bxsites-lightbox src="/assets/bxlens/queries.png" alt="The BxLens Queries panel with a flagged N+1 group"></div>
         <div id="lens3" hidden><video controls playsinline preload="none" poster="https://bxlens.boxlang.io/assets/videos/walkthrough-bar.jpg"><source src="https://bxlens.boxlang.io/assets/videos/walkthrough-bar.mp4" type="video/mp4"></video></div>
         <figcaption>Screens from <a href="https://bxlens.boxlang.io" style="color:var(--accent)">bxlens.boxlang.io</a>. ORM statements appear in the Queries panel the same way, labelled ORM.</figcaption>
       </div>
@@ -459,23 +459,13 @@ users = <span class="f">ormExecuteQuery</span>( <span class="s">"from user where
       <div class="stage">
         <div class="stage-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
           <div class="tabs">
-            <button class="on" data-t="k1">npx skills</button>
+            <button class="on" data-t="k4">ColdBox CLI</button>
+            <button data-t="k1">npx skills</button>
             <button data-t="k2">Claude Code</button>
             <button data-t="k3">Codex</button>
-            <button data-t="k4">ColdBox CLI</button>
           </div>
         </div>
-<pre class="code" id="k1"><span class="c"># all seven BxORM skills</span>
-npx skills add ortus-boxlang/skills/boxlang-modules/bx-orm
-
-<span class="c"># or just one</span>
-npx skills add ortus-boxlang/skills/boxlang-modules/bx-orm/bx-orm-criteria</pre>
-<pre class="code" id="k2" hidden><span class="c"># every BoxLang skill, plus the BxORM docs MCP server</span>
-claude plugin marketplace add ortus-boxlang/skills
-claude plugin install boxlang-agent-skills@boxlang-agent-skills</pre>
-<pre class="code" id="k3" hidden>codex plugin marketplace add ortus-boxlang/skills
-codex plugin add boxlang-agent-skills@boxlang-agent-skills</pre>
-<pre class="code" id="k4" hidden><span class="c"># ColdBox app: guidelines, agent files and docs MCP servers</span>
+<pre class="code" id="k4"><span class="c"># ColdBox app: guidelines, agent files and docs MCP servers</span>
 coldbox ai install agent=claude,copilot
 
 <span class="c"># pick the bx-orm-* skills from the registry</span>
@@ -489,6 +479,16 @@ coldbox ai skills install coldbox/skills/modules/cborm
 
 <span class="c"># BxORM docs MCP server</span>
 coldbox ai mcp add name=bxorm url=https://bxorm.ortusbooks.com/~gitbook/mcp</pre>
+<pre class="code" id="k1" hidden><span class="c"># all seven BxORM skills</span>
+npx skills add ortus-boxlang/skills/boxlang-modules/bx-orm
+
+<span class="c"># or just one</span>
+npx skills add ortus-boxlang/skills/boxlang-modules/bx-orm/bx-orm-criteria</pre>
+<pre class="code" id="k2" hidden><span class="c"># every BoxLang skill, plus the BxORM docs MCP server</span>
+claude plugin marketplace add ortus-boxlang/skills
+claude plugin install boxlang-agent-skills@boxlang-agent-skills</pre>
+<pre class="code" id="k3" hidden>codex plugin marketplace add ortus-boxlang/skills
+codex plugin add boxlang-agent-skills@boxlang-agent-skills</pre>
       </div>
       <div class="stage">
         <div class="stage-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="file">Then just ask</span></div>
@@ -628,15 +628,56 @@ json  = <span class="f">entityToStruct</span>( ann );
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <span>© Ortus Solutions, Corp · BxORM is open source, Apache 2.0</span>
-    <div class="spacer"></div>
-    <div class="social"><a href="https://github.com/ortus-boxlang/bx-orm" aria-label="GitHub"><i class="ph-duotone ph-github-logo"></i></a><a href="https://x.com/TryBoxLang" aria-label="X"><i class="ph-duotone ph-x-logo"></i></a><a href="https://www.youtube.com/@OrtusSolutions" aria-label="YouTube"><i class="ph-duotone ph-youtube-logo"></i></a><a href="https://www.linkedin.com/company/tryboxlang" aria-label="LinkedIn"><i class="ph-duotone ph-linkedin-logo"></i></a><a href="https://bsky.app/profile/boxlang.bsky.social" aria-label="Bluesky"><i class="ph-duotone ph-butterfly"></i></a><a href="https://www.ortussolutions.com/community/slack" aria-label="Slack"><i class="ph-duotone ph-slack-logo"></i></a></div>
+<footer class="bxh-footer">
+  <div class="wrap footer-top">
+    <div class="footer-brand">
+      <a class="brand" href="/"><img src="/assets/bxorm-logo.png" alt="">BxORM</a>
+      <p>The ORM framework for BoxLang: your tables as BoxLang classes, on Hibernate 7.</p>
+      <div class="social-row"><a href="https://github.com/ortus-boxlang/bx-orm" target="_blank" rel="noopener noreferrer" aria-label="BxORM on GitHub" title="BxORM on GitHub"><i class="ph-duotone ph-github-logo"></i></a><a href="https://x.com/TryBoxLang" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" title="X (Twitter)"><i class="ph-duotone ph-x-logo"></i></a><a href="https://www.youtube.com/@OrtusSolutions" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><i class="ph-duotone ph-youtube-logo"></i></a><a href="https://www.linkedin.com/company/tryboxlang" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><i class="ph-duotone ph-linkedin-logo"></i></a><a href="https://bsky.app/profile/boxlang.bsky.social" target="_blank" rel="noopener noreferrer" aria-label="Bluesky" title="Bluesky"><i class="ph-duotone ph-butterfly"></i></a><a href="https://www.ortussolutions.com/community/slack" target="_blank" rel="noopener noreferrer" aria-label="Slack Community" title="Slack Community"><i class="ph-duotone ph-slack-logo"></i></a></div>
+      <div class="madeby"><span>Developed by</span> Ortus Solutions</div>
+    </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <a href="/course/">Course</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/quick-start" target="_blank" rel="noopener noreferrer">Quick Start</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/installation" target="_blank" rel="noopener noreferrer">Installation</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/release-history/whats-new-2.0.0" target="_blank" rel="noopener noreferrer">What's new in 2.0</a>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/configuration" target="_blank" rel="noopener noreferrer">Configuration</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/criteria" target="_blank" rel="noopener noreferrer">Criteria queries</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/reference/cli-tools" target="_blank" rel="noopener noreferrer">CLI tools</a>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <a href="https://github.com/ortus-boxlang/bx-orm" target="_blank" rel="noopener noreferrer">Source code</a>
+        <a href="https://forgebox.io/view/bx-orm" target="_blank" rel="noopener noreferrer">ForgeBox</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/release-history" target="_blank" rel="noopener noreferrer">Release history</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/release-history/upgrading-to-2.0.0" target="_blank" rel="noopener noreferrer">Upgrading to 2.0</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="https://www.ortussolutions.com/community/slack" target="_blank" rel="noopener noreferrer">Slack</a>
+        <a href="https://community.ortussolutions.com" target="_blank" rel="noopener noreferrer">Forums</a>
+        <a href="https://github.com/ortus-boxlang/bx-orm/issues" target="_blank" rel="noopener noreferrer">Report an issue</a>
+        <a href="https://www.ortussolutions.com/services" target="_blank" rel="noopener noreferrer">Consulting</a>
+      </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>&copy; 2026 Ortus Solutions, Corp</span>
+    <div class="footlinks">
+      <a class="footverse" href="https://www.bible.com/bible/59/JHN.14.6.ESV" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#10084;&#65039;</span> He is the truth and the life</a>
+      <a class="poweredby" href="https://boxlang.io" target="_blank" rel="noopener noreferrer">Part of the <b>BoxLang</b> ecosystem</a>
+    </div>
   </div>
 </footer>
 
-<script src="/assets/theme/home.4bc48d6e.js" defer></script>
+<script src="/assets/theme/home.c8a80304.js" defer></script>
+
+<script src="/assets/image-gallery-init.63219523.js" defer></script>
+
 </body>
 </html>
 

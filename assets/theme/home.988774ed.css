@@ -72,8 +72,12 @@ nav.main a:hover{color:var(--text)}
 .dot{width:10px;height:10px;border-radius:50%;background:#ff5f56}.dot:nth-child(2){background:#ffbd2e}.dot:nth-child(3){background:#27c93f}
 .stage-bar .file{margin-left:8px;font-family:"JetBrains Mono",monospace}
 .tabs{display:flex;gap:4px;margin-left:14px}
-.tabs button{border:0;background:transparent;color:var(--muted);font:inherit;font-family:"JetBrains Mono",monospace;font-size:.76rem;padding:5px 10px;border-radius:7px;cursor:pointer}
+.tabs button{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;color:var(--muted);font:inherit;font-family:"JetBrains Mono",monospace;font-size:.76rem;padding:5px 10px;border-radius:7px;cursor:pointer;transition:background .15s,color .15s}
+.tabs button::before{content:"";width:7px;height:7px;border-radius:50%;flex:none;border:1.5px solid currentColor;opacity:.45;transition:.15s}
+.tabs button:hover{background:var(--surface-2);color:var(--text)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .tabs button.on{background:var(--surface-2);color:var(--text)}
+.tabs button.on::before{border-color:var(--accent);background:var(--accent);opacity:1;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
 pre.code{margin:0;padding:18px 20px;background:var(--code-bg);color:var(--code-text);font-size:.8rem;line-height:1.75;overflow:auto}
 pre.code[hidden]{display:none}
 .k{color:#7aa2ff}.f{color:#2ee66b}.s{color:#ffd479}.n{color:#ff9e64}.c{color:#5f8577}.e{color:#ff8a80}
@@ -237,17 +241,34 @@ section{padding:84px 0}
 .eco{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .eco a{border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:18px;display:flex;gap:14px;align-items:center;transition:.15s}
 .eco a:hover{border-color:rgba(46,230,107,.5);transform:translateY(-2px)}
-.eco .logo{width:44px;height:44px;flex:none}
-.eco .logo svg{width:100%;height:100%}
+.eco .logo{width:44px;height:44px;flex:none;overflow:hidden}
+.eco .logo img,.eco .logo svg{display:block;width:100%;height:100%;object-fit:contain}
 .eco b{display:block;font-size:.95rem}
 .eco span{color:var(--muted);font-size:.82rem;line-height:1.4;display:block}
 .cta{border:1px solid rgba(46,230,107,.35);border-radius:22px;padding:52px 48px;text-align:center;background:radial-gradient(600px 240px at 50% 0%,rgba(46,230,107,.14),transparent 70%),var(--surface)}
 .cta h2{font-size:clamp(1.7rem,2.8vw,2.6rem);font-weight:600}
 .cta p{color:var(--muted);margin:10px auto 24px;max-width:36em}
 .cta .actions{justify-content:center}
-footer{border-top:1px solid var(--border);margin-top:72px;padding:36px 0;color:var(--muted);font-size:.86rem}
-footer .wrap{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
-footer .social{display:flex;gap:14px;font-size:1.25rem}
+/* footer: same structure as the other BoxLang product sites */
+.bxh-footer{border-top:1px solid var(--border);margin-top:72px;color:var(--muted);font-size:.84rem}
+.footer-top{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:32px;padding-top:56px;padding-bottom:36px}
+.footer-brand .brand{color:var(--text)}
+.footer-brand p{color:var(--muted);font-size:.86rem;margin:12px 0 0;max-width:30ch;line-height:1.6}
+.footer-brand .madeby{margin-top:18px;font-size:.76rem;font-family:"JetBrains Mono",monospace;opacity:.8}
+.footer-col h4{font-family:"JetBrains Mono",monospace;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);opacity:.8;margin:0 0 14px}
+.footer-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:11px;transition:color .15s}
+.footer-col a:hover{color:var(--text)}
+.social-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.social-row a{width:32px;height:32px;border-radius:8px;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1rem;transition:.15s}
+.social-row a:hover{color:var(--text);border-color:var(--accent)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:22px;padding-bottom:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;align-items:center}
+.footlinks{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.footverse:hover{color:var(--text)}
+.poweredby{display:inline-flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;font-size:.78rem;padding-left:20px;border-left:1px solid var(--border)}
+.poweredby b{color:var(--text);font-weight:600}
+.poweredby:hover b{background:var(--grad-diag);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (max-width:880px){.footer-top{grid-template-columns:repeat(2,1fr)}.footer-brand{grid-column:1/-1}}
+@media (max-width:560px){.footer-top{grid-template-columns:1fr}.poweredby{padding-left:0;border-left:0}}
 
 @media (max-width:1000px){
   nav.main,.search{display:none}
@@ -290,8 +311,6 @@ footer .social{display:flex;gap:14px;font-size:1.25rem}
 .dblogos i{font-size:24px;color:var(--text)}
 .dbs .logo svg{width:22px;height:22px;fill:currentColor}
 /* v3: static groups */
-.mg.del{border-color:rgba(255,138,128,.3)}
-.mg.del code{border-color:rgba(255,138,128,.35);background:rgba(255,138,128,.06)}
 .mg small{display:block;color:var(--muted);font-size:.78rem;margin-top:8px}
 .mg small code{border:0!important;background:none!important;padding:0!important;font-size:.74rem;color:var(--accent)}
 /* v3: observability */
@@ -331,3 +350,74 @@ footer .social{display:flex;gap:14px;font-size:1.25rem}
 .course-head .meta i{color:var(--accent)}
 @media (max-width:1000px){.skills,.course{grid-template-columns:1fr 1fr}.howto{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:640px){.skills,.course{grid-template-columns:1fr}}
+
+/* Screenshots open in the bx-sites lightbox (imageGallery: true, data-bxsites-lightbox) */
+img[data-bxsites-lightbox]{cursor:zoom-in}
+
+/* bx-sites lightbox overlay, copied from the bootstrap theme (the homepage does not load the theme CSS) - deliberately theme-neutral
+   (a dark scrim over the whole viewport), not tied to any one theme's own
+   color variables. */
+.bxsites-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.bxsites-lightbox[hidden] {
+    display: none;
+}
+
+.bxsites-lightbox__image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.bxsites-lightbox__close,
+.bxsites-lightbox__prev,
+.bxsites-lightbox__next {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.bxsites-lightbox__close:hover,
+.bxsites-lightbox__prev:hover,
+.bxsites-lightbox__next:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.bxsites-lightbox__close {
+    top: 1rem;
+    right: 1rem;
+}
+
+.bxsites-lightbox__prev {
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.bxsites-lightbox__next {
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+}

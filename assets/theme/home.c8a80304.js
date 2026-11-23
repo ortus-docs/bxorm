@@ -15,6 +15,7 @@
 		b.addEventListener( "click", function () {
 			b.parentElement.querySelectorAll( "button" ).forEach( function ( x ) {
 				x.classList.toggle( "on", x === b );
+				x.setAttribute( "aria-selected", x === b ? "true" : "false" );
 				var panel = document.getElementById( x.dataset.t );
 				if ( panel ) panel.hidden = x !== b;
 			} );
