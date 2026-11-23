@@ -636,11 +636,49 @@ json  = <span class="f">entityToStruct</span>( ann );
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <span>© Ortus Solutions, Corp · BxORM is open source, Apache 2.0</span>
-    <div class="spacer"></div>
-    <div class="social"><a href="https://github.com/ortus-boxlang/bx-orm" aria-label="GitHub"><i class="ph-duotone ph-github-logo"></i></a><a href="https://x.com/TryBoxLang" aria-label="X"><i class="ph-duotone ph-x-logo"></i></a><a href="https://www.youtube.com/@OrtusSolutions" aria-label="YouTube"><i class="ph-duotone ph-youtube-logo"></i></a><a href="https://www.linkedin.com/company/tryboxlang" aria-label="LinkedIn"><i class="ph-duotone ph-linkedin-logo"></i></a><a href="https://bsky.app/profile/boxlang.bsky.social" aria-label="Bluesky"><i class="ph-duotone ph-butterfly"></i></a><a href="https://www.ortussolutions.com/community/slack" aria-label="Slack"><i class="ph-duotone ph-slack-logo"></i></a></div>
+<footer class="bxh-footer">
+  <div class="wrap footer-top">
+    <div class="footer-brand">
+      <a class="brand" href="#variables.basePath#"><img src="#variables.basePath#assets/bxorm-logo.png" alt="">BxORM</a>
+      <p>The ORM framework for BoxLang: your tables as BoxLang classes, on Hibernate 7.</p>
+      <div class="social-row"><a href="https://github.com/ortus-boxlang/bx-orm" target="_blank" rel="noopener noreferrer" aria-label="BxORM on GitHub" title="BxORM on GitHub"><i class="ph-duotone ph-github-logo"></i></a><a href="https://x.com/TryBoxLang" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" title="X (Twitter)"><i class="ph-duotone ph-x-logo"></i></a><a href="https://www.youtube.com/@OrtusSolutions" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><i class="ph-duotone ph-youtube-logo"></i></a><a href="https://www.linkedin.com/company/tryboxlang" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><i class="ph-duotone ph-linkedin-logo"></i></a><a href="https://bsky.app/profile/boxlang.bsky.social" target="_blank" rel="noopener noreferrer" aria-label="Bluesky" title="Bluesky"><i class="ph-duotone ph-butterfly"></i></a><a href="https://www.ortussolutions.com/community/slack" target="_blank" rel="noopener noreferrer" aria-label="Slack Community" title="Slack Community"><i class="ph-duotone ph-slack-logo"></i></a></div>
+      <div class="madeby"><span>Developed by</span> Ortus Solutions</div>
+    </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <a href="#variables.basePath#course/">Course</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/quick-start" target="_blank" rel="noopener noreferrer">Quick Start</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/installation" target="_blank" rel="noopener noreferrer">Installation</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/release-history/whats-new-2.0.0" target="_blank" rel="noopener noreferrer">What's new in 2.0</a>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/configuration" target="_blank" rel="noopener noreferrer">Configuration</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/criteria" target="_blank" rel="noopener noreferrer">Criteria queries</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/reference/cli-tools" target="_blank" rel="noopener noreferrer">CLI tools</a>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <a href="https://github.com/ortus-boxlang/bx-orm" target="_blank" rel="noopener noreferrer">Source code</a>
+        <a href="https://forgebox.io/view/bx-orm" target="_blank" rel="noopener noreferrer">ForgeBox</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/release-history" target="_blank" rel="noopener noreferrer">Release history</a>
+        <a href="https://bxorm.ortusbooks.com/bxorm-2.x/release-history/upgrading-to-2.0.0" target="_blank" rel="noopener noreferrer">Upgrading to 2.0</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="https://www.ortussolutions.com/community/slack" target="_blank" rel="noopener noreferrer">Slack</a>
+        <a href="https://community.ortussolutions.com" target="_blank" rel="noopener noreferrer">Forums</a>
+        <a href="https://github.com/ortus-boxlang/bx-orm/issues" target="_blank" rel="noopener noreferrer">Report an issue</a>
+        <a href="https://www.ortussolutions.com/services" target="_blank" rel="noopener noreferrer">Consulting</a>
+      </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>&copy; #year( now() )# Ortus Solutions, Corp</span>
+    <div class="footlinks">
+      <a class="footverse" href="https://www.bible.com/bible/59/JHN.14.6.ESV" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&##10084;&##65039;</span> He is the truth and the life</a>
+      <a class="poweredby" href="https://boxlang.io" target="_blank" rel="noopener noreferrer">Part of the <b>BoxLang</b> ecosystem</a>
+    </div>
   </div>
 </footer>
 
