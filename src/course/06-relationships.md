@@ -117,11 +117,11 @@ import blog.models.User;
 import blog.models.Tag;
 
 transaction {
-    ann  = User::findWhereOrFail( { email : "ann@example.com" } );
-    tag  = Tag::firstOrCreate( { name : "orm" } );
+    ann    = User::findWhereOrFail( { email : "ann@example.com" } );
+    ormTag = Tag::firstOrCreate( { name : "orm" } );
 
     post = entityNew( "Post", { title : "Relationships", author : ann } );
-    post.addTags( tag );
+    post.addTags( ormTag );
     ann.addPosts( post );
 
     // The cascade on User.posts saves the new post too

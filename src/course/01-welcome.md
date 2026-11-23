@@ -24,9 +24,9 @@ Hibernate on its own expects Java classes, XML mappings and a lot of casting. Bx
 Here is a taste. This loads a user, finds their published posts and turns them into JSON-ready structs:
 
 ```boxlang title="app.bxs"
-user  = User::getOrFail( 1 );
+ann   = User::getOrFail( 1 );
 posts = Post::criteria()
-    .isEq( "author", user )
+    .isEq( "author", ann )
     .isTrue( "published" )
     .order( "createdDate", "desc" )
     .list();

@@ -8,8 +8,8 @@ tags: [course]
 The functions from the last lesson all start with an entity name: `entityLoadByPK( "User", 1 )`. BxORM also adds **static helper methods** to every entity class at startup, so the same work reads like plain English:
 
 ```boxlang
-user  = User::get( 1 );
-ann   = User::findWhere( { email : "ann@example.com" } );
+ann   = User::get( 1 );
+bob   = User::findWhere( { email : "bob@example.com" } );
 total = User::count();
 ```
 
@@ -25,6 +25,8 @@ import blog.models.Tag;
 
 println( User::count() );
 ```
+
+One catch: a variable cannot have the same name as an import, and BoxLang names ignore case. After `import blog.models.Tag;`, write `boxlangTag = Tag::get( 1 )`, not `tag = Tag::get( 1 )`.
 
 ## Loading
 
@@ -79,7 +81,7 @@ if ( User::exists( { email : "bob@example.com" } ) ) {
 
 ```boxlang title="app.bxs"
 transaction {
-    tag = Tag::firstOrCreate( { name : "boxlang" } );
+    boxlangTag = Tag::firstOrCreate( { name : "boxlang" } );
 }
 ```
 
