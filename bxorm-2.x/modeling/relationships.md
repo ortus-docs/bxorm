@@ -136,7 +136,7 @@ On a collection (`one-to-many`, `many-to-many`) you work with the whole set thro
 property authors;
 ```
 
-`book.addAuthor( ann )` and `book.addAuthors( ann )` then do the same thing. See [Singular Method Names](#singular-method-names).
+The methods are then `hasAuthor()`, `addAuthor()` and `removeAuthor()`, and there is no `addAuthors()`. See [Singular Method Names](#singular-method-names).
 
 ### Lazy Loading
 
@@ -353,7 +353,7 @@ When you define a relationship property, a number of methods are automatically g
 | `add<PropertyName>( entity1 )`    | Add an entity instance to the relationship. Returns this entity, for chaining.                          | `one-to-many`, `many-to-many` |
 | `remove<PropertyName>( entity1 )` | Remove an entity instance from the relationship. Returns this entity, for chaining.                     | `one-to-many`, `many-to-many` |
 
-With a [`singularName`](#singular-method-names), the same methods also exist under the singular name: `hasPost()`, `addPost()` and `removePost()`.
+With a [`singularName`](#singular-method-names), the methods are named after it instead: `hasPost()`, `addPost()` and `removePost()`.
 
 These method signatures are as follows:
 
@@ -410,23 +410,21 @@ Set `singularName` to name the methods after one item: `addPost( post )` reads b
 property posts;
 ```
 
-This generates the singular methods, and keeps the ones named after the property, so both spellings work and act on the same collection:
+The methods are then named after the singular name only, as in Adobe ColdFusion and Lucee:
 
-| Singular       | Property name   |
-| -------------- | --------------- |
-| `hasPost()`    | `hasPosts()`    |
-| `addPost()`    | `addPosts()`    |
-| `removePost()` | `removePosts()` |
+| Without `singularName` | With `@singularName( "post" )` |
+| ---------------------- | ------------------------------ |
+| `hasPosts()`           | `hasPost()`                    |
+| `addPosts()`           | `addPost()`                    |
+| `removePosts()`        | `removePost()`                 |
+
+`hasPosts()`, `addPosts()` and `removePosts()` do not exist once `singularName` is set. The getter and setter keep the property name: `getPosts()`, `setPosts()`.
 
 ```js
-user.addPost( draft ).addPosts( published );
-user.hasPost( draft );    // true
-user.hasPosts();          // true: the collection is not empty
+user.addPost( draft ).addPost( published );
+user.hasPost( draft );    // true: the collection holds it
+user.hasPost();           // true: the collection is not empty
 user.removePost( draft );
 ```
 
 A method your entity declares itself is never replaced.
-
-{% hint style="info" %}
-The property-named methods exist alongside the singular ones in bx-orm builds later than `2.0.0-beta.8`. Earlier builds generate only the singular names.
-{% endhint %}
