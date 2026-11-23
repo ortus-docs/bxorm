@@ -7,7 +7,7 @@ description: Load an entity by id or filter, or return a new unsaved one
 Load an entity by id or filter, or return a new, unsaved one when none exists.
 
 * When an entity is found, it is returned as is. `properties` is ignored.
-* Otherwise a new entity is created and filled with the filter's values (or with the id, but only when the entity's id is assigned: no `generator`, or `generator="assigned"`), then with `properties`, which win.
+* Otherwise a new entity is created and filled with the filter's values (or with the id, but only when the entity's id is assigned: no `generator`, or `@generator( "assigned" )`), then with `properties`, which win.
 
 The new entity is not saved: call `entitySave()` when you want it stored, or use [EntityLoadOrSave](entityloadorsave.md). A filter must match at most one entity, otherwise an `orm.query.nonUnique` error is raised.
 

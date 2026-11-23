@@ -26,9 +26,15 @@ other BoxLang cache.
 2. Mark the entities to cache with `cacheUse`, and give each one a region name with `cacheName`:
 
     ```js
-    class persistent="true" cacheUse="read-write" cacheName="users" {
-        property name="id" fieldtype="id" generator="native";
-        property name="name";
+    @persistent
+    @cacheuse( "read-write" )
+    @cachename( "users" )
+    class {
+        @fieldtype( "id" )
+        @generator( "native" )
+        property id;
+
+        property name;
     }
     ```
 
@@ -71,9 +77,16 @@ entityLoadByPK( "User", 1 )
 Add `cacheUse`, and preferably `cacheName`, to the entity class:
 
 ```js
-class persistent="true" table="countries" cacheUse="read-only" cacheName="countries" {
-    property name="code" fieldtype="id" generator="assigned";
-    property name="name";
+@persistent
+@table( "countries" )
+@cacheuse( "read-only" )
+@cachename( "countries" )
+class {
+    @fieldtype( "id" )
+    @generator( "assigned" )
+    property code;
+
+    property name;
 }
 ```
 
@@ -86,10 +99,20 @@ Put `cacheUse` (and optionally `cacheName`) on a `one-to-many`, `many-to-many` o
 of its elements:
 
 ```js
-class persistent="true" cacheUse="read-write" cacheName="users" {
-    property name="id" fieldtype="id" generator="native";
-    property name="roles" fieldtype="many-to-many" cfc="Role" linktable="user_roles"
-             cacheUse="read-write" cacheName="userRoles";
+@persistent
+@cacheuse( "read-write" )
+@cachename( "users" )
+class {
+    @fieldtype( "id" )
+    @generator( "native" )
+    property id;
+
+    @fieldtype( "many-to-many" )
+    @cfc( "Role" )
+    @linktable( "user_roles" )
+    @cacheuse( "read-write" )
+    @cachename( "userRoles" )
+    property roles;
 }
 ```
 

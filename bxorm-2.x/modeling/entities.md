@@ -8,15 +8,48 @@ icon: cube
 A persistent entity is a boxlang class that is marked as a database entity via the `persistent` annotation upon the class definition:
 
 ```js
-class persistent="true"{
+@persistent
+class {
 
 }
 ```
 
+## Annotation Styles
+
+Entities are configured with BoxLang annotations, such as `@persistent` and `@table( "authors" )`. Each annotation goes on its own line before the class or property it configures:
+
+```js
+@persistent
+@table( "authors" )
+class {
+
+    @fieldtype( "id" )
+    @generator( "native" )
+    property id;
+
+    @unique
+    @notNull
+    property email;
+}
+```
+
+A switch annotation written without a value is on: `@persistent` is the same as `@persistent( true )`. Write `( false )` to turn it off, as in `@lazy( false )`. These are the switch annotations:
+
+* On a class: `persistent`, `readOnly`, `dynamicInsert`, `dynamicUpdate`, `mappedSuperClass` and `softDelete`. `softDelete` also takes `"active"` or `"timestamp"`, as in `@softDelete( "timestamp" )`.
+* On a property: `persistent`, `unique`, `notNull`, `insert`, `update`, `optimisticLock`, `inverse`, `constrained`, `missingRowIgnored` and `lazy`. `lazy` also takes `"extra"`, `"proxy"` or `"no-proxy"`.
+
+Switches without a value need a bx-orm build later than `2.0.0-beta.8`; on `2.0.0-beta.8` and earlier, write `@persistent( true )`.
+
+The CFML attribute form and doc-comment annotations still work and mean the same thing, so existing entities need no change. For example, `class persistent="true" table="authors" {` is the same class as the one above.
+
+## Entity Name and Table
+
 By default, the entity name will be the boxlang class file name - minus the file extension, of course. We can modify the entity name via the `entityname` annotation:
 
 ```js
-class persistent="true" entityname="Author" {
+@persistent
+@entityName( "Author" )
+class {
 
 }
 ```
@@ -31,7 +64,8 @@ class {
 ```
 
 ```js
-class entity="Author" {
+@entity( "Author" )
+class {
 
 }
 ```
@@ -41,25 +75,28 @@ With no value, the entity name is the class file name.
 And the table name via the `table` annotation:
 
 ```js
-class persistent="true" entityname="Author" table="authors" {
+@persistent
+@entityName( "Author" )
+@table( "authors" )
+class {
 
 }
 ```
 
 Here's the full list of available annotations for a persistent class:
 
-| Attribute             | Type      | Default | Description                                                                                                                                                            |
+| Annotation            | Type      | Default | Description                                                                                                                                                            |
 | --------------------- | --------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `persistent`          | `boolean` | `false` | Mark this class as an ORM entity                                                                                                                                       |
-| `entity`              | `string`  |         | Mark this class as an ORM entity, like `persistent="true"`. A value also sets the entity name, and wins over `entityname`.                                             |
+| `entity`              | `string`  |         | Mark this class as an ORM entity, like `@persistent`. A value also sets the entity name, and wins over `entityname`.                                                   |
 | `entityname`          | `string`  |         | Set a custom entity name which is different than the boxlang class name                                                                                                |
 | `table`               | `string`  |         | Specify the database table name                                                                                                                                        |
 | `schema`              | `string`  |         | Specify the database schema name.                                                                                                                                      |
 | `catalog`             | `string`  |         | Specify the database catalog name.                                                                                                                                     |
-| `dynamicinsert`       | `boolean` | `false` | Specifies whether INSERT SQL is generated at runtime. Only columns whose values are not null are included in the SQL.                                                  |
-| `dynamicupdate`       | `boolean` | `false` | Specifies whether UPDATE SQL is generated at runtime. Only columns whose values are not null are included in the SQL.                                                  |
+| `dynamicinsert`       | `boolean` | `false` | Generate the `INSERT` at runtime with only the columns that are not null.                                                                                              |
+| `dynamicupdate`       | `boolean` | `false` | Generate the `UPDATE` at runtime with only the columns that changed.                                                                                                   |
 | `readonly`            | `boolean` | `false` | Specify whether the table is read-only.                                                                                                                                |
-| `selectbeforeupdate`  | `boolean` |         | Specify whether Hibernate should perform an SQL `UPDATE` only when an object is actually modified.                                                                     |
+| `selectbeforeupdate`  | `boolean` |         | No effect: Hibernate 7 has no select-before-update. bx-orm logs a warning when it is set.                                                                              |
 | `optimisticlock`      | `string`  |         | Determines the locking strategy: `all`, `dirty`, `version`, or `none`.                                                                                                 |
 | `batchsize`           | `integer` |         | Number of records to retrieve at a single instance.                                                                                                                    |
 | `discriminatorColumn` | `string`  |         | Define the discriminator column used in inheritance mapping.                                                                                                           |
@@ -73,7 +110,7 @@ Here's the full list of available annotations for a persistent class:
 | `where`               | `string`  |         | A raw SQL condition added to every query and load of this entity. See [Filtering rows with `where`](#filtering-rows-with-where).                                       |
 | `defaultSort`         | `string`  |         | The order `entityLoad()` and `entityCriteria()` return rows in when no order is given, e.g. `lastName, firstName desc`. See [Default sort order](#default-sort-order). |
 | `softDelete`          | `string`  |         | Mark rows deleted instead of removing them: `true` (also `yes` or `deleted`), `active` or `timestamp`. See [Soft delete](#soft-delete).                                |
-| `softDeleteColumn`    | `string`  |         | The column `softDelete` uses. Defaults to `deleted` (`active` for `softDelete="active"`).                                                                              |
+| `softDeleteColumn`    | `string`  |         | The column `softDelete` uses. Defaults to `deleted` (`active` for `@softDelete( "active" )`).                                                                          |
 
 ## Sharing Properties with `mappedSuperClass`
 
@@ -81,15 +118,23 @@ Use `mappedSuperClass` when you want several entities to share a set of properti
 
 ```js
 // BaseEntity.bx - not persistent itself
-class mappedSuperClass="true" {
-    property name="createdDate" ormType="timestamp";
-    property name="modifiedDate" ormType="timestamp";
+@mappedSuperClass
+class {
+    @ormtype( "timestamp" )
+    property createdDate;
+
+    @ormtype( "timestamp" )
+    property modifiedDate;
 }
 
 // Author.bx
-class persistent="true" extends="BaseEntity" {
-    property name="authorID" fieldtype="id";
-    property name="name" ormType="string";
+@persistent
+class extends="BaseEntity" {
+    @fieldtype( "id" )
+    property authorID;
+
+    @ormtype( "string" )
+    property name;
     // createdDate and modifiedDate columns are added to the "Author" table
 }
 ```
@@ -101,10 +146,19 @@ This differs from `joinColumn`/`discriminatorValue` inheritance, where subclasse
 The `where` annotation adds a raw SQL condition (not HQL) to every query and load of the entity: `entityLoad()`, `entityLoadByPK()`, HQL and criteria queries. Rows that do not match are invisible to the ORM.
 
 ```js
-class persistent="true" table="notes" where="is_active = 1" {
-    property name="id" fieldtype="id" generator="increment";
-    property name="title";
-    property name="isActive" column="is_active" ormType="boolean";
+@persistent
+@table( "notes" )
+@where( "is_active = 1" )
+class {
+    @fieldtype( "id" )
+    @generator( "increment" )
+    property id;
+
+    property title;
+
+    @column( "is_active" )
+    @ormtype( "boolean" )
+    property isActive;
 }
 ```
 
@@ -119,10 +173,16 @@ Use column names, not property names, since the condition is SQL. In an inherita
 `defaultSort` sets the order rows come back in when the caller gives none. It is a comma-separated list of properties, each optionally followed by `asc` (the default) or `desc`:
 
 ```js
-class persistent="true" table="people" defaultSort="lastName, firstName desc" {
-    property name="id" fieldtype="id" generator="increment";
-    property name="firstName";
-    property name="lastName";
+@persistent
+@table( "people" )
+@defaultSort( "lastName, firstName desc" )
+class {
+    @fieldtype( "id" )
+    @generator( "increment" )
+    property id;
+
+    property firstName;
+    property lastName;
 }
 ```
 
@@ -144,9 +204,15 @@ entityCriteria( "Person" ).order( "id" ).list(); // an explicit order wins
 With `softDelete`, `entityDelete()` runs an `UPDATE` that marks the row deleted instead of a `DELETE`, and every load (`entityLoadByPK()`, `entityLoad()`, HQL, criteria queries and collections) skips deleted rows. This is Hibernate's `@SoftDelete`.
 
 ```js
-class persistent="true" table="notes" softDelete="true" {
-    property name="id" fieldtype="id" generator="increment";
-    property name="title";
+@persistent
+@table( "notes" )
+@softDelete
+class {
+    @fieldtype( "id" )
+    @generator( "increment" )
+    property id;
+
+    property title;
 }
 ```
 
@@ -166,7 +232,11 @@ Hibernate maps the column itself, so do not declare a property for it. Like any 
 `softDeleteColumn` renames the column:
 
 ```js
-class persistent="true" table="notes" softDelete="timestamp" softDeleteColumn="archived_at" {
+@persistent
+@table( "notes" )
+@softDelete( "timestamp" )
+@softDeleteColumn( "archived_at" )
+class {
     // ...
 }
 ```

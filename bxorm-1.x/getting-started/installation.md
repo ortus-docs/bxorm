@@ -18,12 +18,12 @@ You may need to install `bx-compat-cfml` as well for backwards-compatible ORM be
 box install bx-orm bx-compat-cfml
 ```
 
-### install-bx-module
+### bx-module
 
-For miniserver usage outside of CommandBox, use the `install-bx-module` CLI command:
+For the BoxLang runtime or MiniServer outside of CommandBox, use the `bx-module` command from the BoxLang installer:
 
 ```
-install-bx-module bx-orm
+bx-module install bx-orm
 ```
 
 Note that bx-orm currently only supports the web runtime.

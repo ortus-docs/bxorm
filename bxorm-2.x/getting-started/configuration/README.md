@@ -91,7 +91,7 @@ A name that is not letters, digits and underscores (starting with a letter or un
 `useDBForMapping` is for Adobe ColdFusion applications whose entities rely on the database to complete their mapping. It is `false` by default. With `useDBForMapping : true`, at startup the ORM reads each entity's existing table (JDBC metadata) and fills in:
 
 * The `ormtype` of every plain property that declares no `ormtype`, `sqltype` or BoxLang `type`, from its column's JDBC type.
-* For a root entity with no id property: `fieldtype="id"` on the properties mapped to the table's primary key columns.
+* For a root entity with no id property: `@fieldtype( "id" )` on the properties mapped to the table's primary key columns.
 
 | Column type                                 | `ormtype`     |
 | ------------------------------------------- | ------------- |
@@ -193,7 +193,7 @@ You'll need a SQLite JDBC driver (e.g. `org.xerial:sqlite-jdbc`) on your applica
 
 ### PostgreSQL
 
-With an explicit PostgreSQL `dialect`, bx-orm tells Hibernate to read generated keys from the JDBC driver, as auto-detection does. This keeps `generator="identity"` working on tables whose names are reserved words, such as `comment` or `user`. To override it, set `hibernate.jdbc.use_get_generated_keys` in `hibernateProperties`:
+With an explicit PostgreSQL `dialect`, bx-orm tells Hibernate to read generated keys from the JDBC driver, as auto-detection does. This keeps `@generator( "identity" )` working on tables whose names are reserved words, such as `comment` or `user`. To override it, set `hibernate.jdbc.use_get_generated_keys` in `hibernateProperties`:
 
 ```js
 this.ormSettings = {

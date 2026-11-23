@@ -87,14 +87,26 @@ The caller's `mappers` and `defaults` apply to the top-level entity. Associated 
 An entity describes its default struct with mementifier's `this.memento`:
 
 ```js
-class persistent="true" table="authors" {
-    property name="id" fieldtype="id" generator="increment";
-    property name="firstName";
-    property name="lastName";
-    property name="nickName";
-    property name="passwordHash";
-    property name="joined" ormType="timestamp";
-    property name="posts" fieldtype="one-to-many" cfc="Post" fkcolumn="author_id" inverse="true";
+@persistent
+@table( "authors" )
+class {
+    @fieldtype( "id" )
+    @generator( "increment" )
+    property id;
+
+    property firstName;
+    property lastName;
+    property nickName;
+    property passwordHash;
+
+    @ormtype( "timestamp" )
+    property joined;
+
+    @fieldtype( "one-to-many" )
+    @cfc( "Post" )
+    @fkcolumn( "author_id" )
+    @inverse
+    property posts;
 
     this.memento = {
         defaultIncludes : [ "id", "firstName", "lastName", "nickName", "fullName", "joined", "initials" ],
@@ -152,7 +164,7 @@ entityToStruct( author, { profile : "export" } );
 The output matches `entityToStruct()` for the same includes, getters included: when a property has a getter you wrote (such as `getEmail()` above), the row's plain values are copied into a scratch instance of the entity and the getter is called on it. The getter can read the entity's other plain properties; associations are not loaded there, so a getter that walks an association needs `entityToStruct()`. What cannot be read without an entity:
 
 * **Getter-only includes** (a getter that is not a property, such as `fullName`): one listed in the entity's `this.memento` defaults is left out; one you include yourself is an `orm.argument` error. Compute the key with a mapper instead, or use `entityToStruct()`.
-* **Value collections** (`fieldtype="collection"`) and **entities with a composite id** are `orm.argument` errors.
+* **Value collections** (`@fieldtype( "collection" )`) and **entities with a composite id** are `orm.argument` errors.
 
 ```js
 // by id: a struct, or null
