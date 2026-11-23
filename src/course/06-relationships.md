@@ -108,7 +108,7 @@ For each relationship, BxORM generates helpers on the entity:
 
 The name follows the property, so `Post.tags` gets `hasTags()`, `addTags()` and `removeTags()`.
 
-Prefer singular names for one item? Add `@singularName( "tag" )` to the property: you get `hasTag()`, `addTag()` and `removeTag()` as well, and the plural ones keep working.
+Prefer singular names for one item? Add `@singularName( "tag" )` to the property: the methods become `hasTag()`, `addTag()` and `removeTag()` (the plural ones are not generated then).
 
 ## Saving related entities
 
