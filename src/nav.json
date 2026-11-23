@@ -1,0 +1,33 @@
+[
+  {
+    "path": "index.md",
+    "icon": "phosphor-duotone:house"
+  },
+  {
+    "path": "course/index.md",
+    "children": [
+      "course/01-welcome.md",
+      "course/02-install-and-configure.md",
+      "course/03-first-entity.md",
+      "course/04-save-load-delete.md",
+      "course/05-static-helpers.md",
+      "course/06-relationships.md",
+      "course/07-criteria.md",
+      "course/08-hql-structs-queries.md",
+      "course/09-transactions.md",
+      "course/10-events-soft-delete.md",
+      "course/11-errors-observability.md",
+      "course/12-ship-it.md",
+      "course/13-inheritance.md",
+      "course/14-testing.md",
+      "course/15-cborm.md",
+      "course/16-building-with-ai.md",
+      "course/17-coming-from-cfml.md"
+    ]
+  },
+  {
+    "title": "Documentation",
+    "icon": "phosphor-duotone:book-open-text",
+    "path": "https://bxorm.ortusbooks.com/bxorm-2.x/"
+  }
+]
