@@ -9,7 +9,7 @@ Load an entity by id or filter, or create and save a new one when none exists.
 Works like [EntityLoadOrNew](entityloadornew.md), then saves the new entity with `entitySave()`. As with any save, the row is written when the session flushes (at the end of the `transaction{}`). A found entity is returned as is, and `properties` is ignored.
 
 {% hint style="warning" %}
-Two requests can both find nothing and both insert. Put a unique constraint on the filter's columns (for example `unique="true"` or `uniquekey`) so the database rejects the second insert.
+Two requests can both find nothing and both insert. Put a unique constraint on the filter's columns (for example `@unique` or `uniquekey`) so the database rejects the second insert.
 {% endhint %}
 
 ## Method Signature

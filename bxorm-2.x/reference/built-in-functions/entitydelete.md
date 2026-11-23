@@ -44,12 +44,11 @@ transaction {
 Note that this operation will also remove associated child entities depending on the `cascade` configuration in the entity property mapping. In this case, we wish a deletion of a blog post to also delete all associated comments:
 
 ```java
-property
-    name="comments"
-    cfc="Comment"
-    fieldtype="one-to-many"
-    inverse="true"
-    cascade="delete";
+@cfc( "Comment" )
+@fieldtype( "one-to-many" )
+@inverse
+@cascade( "delete" )
+property comments;
 ...
 entityDelete( entityLoadByPK( "blogPost", "779ccbb8-a444-11eb-ab6f-0290cc502ae3" ) );
 ```

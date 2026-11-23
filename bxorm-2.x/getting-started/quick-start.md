@@ -54,16 +54,32 @@ class {
 
 ## 3. Create an Entity
 
-An entity is a BoxLang class marked `persistent="true"`. Each property is a column. Create `models/User.bx`:
+An entity is a BoxLang class marked `@persistent`. Each property is a column. Create `models/User.bx`:
 
 ```js
-class persistent="true" table="users" defaultSort="lastName" {
+@persistent
+@table( "users" )
+@defaultSort( "lastName" )
+class {
 
-    property name="id"          fieldtype="id" generator="native" ormtype="integer";
-    property name="firstName"   ormtype="string";
-    property name="lastName"    ormtype="string";
-    property name="email"       ormtype="string" unique="true";
-    property name="createdDate" ormtype="timestamp" autoTimestamp="create";
+    @fieldtype( "id" )
+    @generator( "native" )
+    @ormtype( "integer" )
+    property id;
+
+    @ormtype( "string" )
+    property firstName;
+
+    @ormtype( "string" )
+    property lastName;
+
+    @ormtype( "string" )
+    @unique
+    property email;
+
+    @ormtype( "timestamp" )
+    @autoTimestamp( "create" )
+    property createdDate;
 
     function getFullName(){
         return getFirstName() & " " & getLastName();

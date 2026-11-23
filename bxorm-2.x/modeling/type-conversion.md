@@ -33,7 +33,7 @@ When bx-orm generates the Hibernate mapping XML for a property, it normalizes th
 Each converter's job is to translate a BoxLang dynamic value into the JDBC type Hibernate expects on the way into the database, and back into a BoxLang-friendly value on the way out - using BoxLang's own type casters (e.g. `DateTimeCaster`, so a `DateTime` object round-trips correctly regardless of what dynamic type was assigned to the property in memory).
 
 {% hint style="info" %}
-**Identifier and version properties skip converters.** A property with `fieldtype="id"` or `fieldtype="version"` is written using its plain Hibernate basic type, not one of the converters above. This keeps primary key and optimistic-locking columns on Hibernate's native type handling.
+**Identifier and version properties skip converters.** A property with `@fieldtype( "id" )` or `@fieldtype( "version" )` is written using its plain Hibernate basic type, not one of the converters above. This keeps primary key and optimistic-locking columns on Hibernate's native type handling.
 {% endhint %}
 
 ## Custom Converters

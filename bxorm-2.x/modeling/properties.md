@@ -5,25 +5,28 @@ icon: list
 
 # Properties
 
-Entity properties are how we map table columns to boxlang object values. You can specify an entity property by setting `persistent="true"` on any `property` inside a persistent boxlang class:
+Entity properties are how we map table columns to boxlang object values. You can specify an entity property by adding `@persistent` to any `property` inside a persistent boxlang class:
 
 ```js
-class persistent="true"{
-    property name="name" type="string" persistent="true";
+@persistent
+class {
+    @persistent
+    property string name;
 }
 ```
 
-By default, all properties inside a `persistent=true` class are assumed to be persistent as well. Thus, we can skip the `persistent=true` annotation for brevity:
+By default, all properties inside a `@persistent` class are assumed to be persistent as well. Thus, we can skip the `@persistent` annotation for brevity:
 
 ```js
-class persistent="true"{
-    property name="name" type="string";
+@persistent
+class {
+    property string name;
 }
 ```
 
 ## Common Property Annotations
 
-| Attribute    | Type      | Description                                                                                                                 |
+| Annotation   | Type      | Description                                                                                                                 |
 | ------------ | --------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `persistent` | `boolean` | Define this property as a persistent property. If `false`, this property will be completely ignored from an orm standpoint. |
 | `name`       | `string`  | Property name                                                                                                               |
@@ -34,10 +37,9 @@ class persistent="true"{
 Make sure you quote datetime `dbdefault` values to avoid invalid date errors in MySQL:
 
 ```js
-property
-    name     ="createdOn"
-    ormtype  ="datetime"
-    dbdefault="'2016-10-10'";
+@ormtype( "datetime" )
+@dbDefault( "'2016-10-10'" )
+property createdOn;
 ```
 
 ## Automatic Timestamps
@@ -45,10 +47,19 @@ property
 The `autoTimestamp` annotation fills a date property for you when the entity is written:
 
 ```js
-class persistent="true" {
-    property name="id" fieldtype="id" generator="increment";
-    property name="createdDate" ormType="timestamp" autoTimestamp="create";
-    property name="updatedDate" ormType="timestamp" autoTimestamp="update";
+@persistent
+class {
+    @fieldtype( "id" )
+    @generator( "increment" )
+    property id;
+
+    @ormtype( "timestamp" )
+    @autoTimestamp( "create" )
+    property createdDate;
+
+    @ormtype( "timestamp" )
+    @autoTimestamp( "update" )
+    property updatedDate;
 }
 ```
 
@@ -68,7 +79,7 @@ Bulk statements such as the criteria [`updateAll()`](../usage/criteria.md#bulk-u
 
 There are several "type" concepts and annotations you may need to use to keep the proper format when persisting or retrieving table data. While these may look similar, they are not equivalent.
 
-| Attribute   | Examples                     | Description                                                                            |
+| Annotation  | Examples                     | Description                                                                            |
 | ----------- | ---------------------------- | -------------------------------------------------------------------------------------- |
 | `type`      | `date`,`numeric`             | Boxlang data type                                                                      |
 | `fieldtype` | `column`,`id`, `one-to-many` | Denote a special type of field, like an identifier or relationship field.              |
@@ -80,10 +91,8 @@ There are several "type" concepts and annotations you may need to use to keep th
 The `fieldtype` attribute allows you to define the behavior and purpose of this property:
 
 ```js
-property
-    name="userID"
-    fieldtype="id"
-    type="string";
+@fieldtype( "id" )
+property string userID;
 ```
 
 There are several options for the `fieldtype` value:
@@ -125,24 +134,24 @@ See [Type Conversion](type-conversion.md) for exactly how each `ormType` value i
 
 ## Generator Annotations
 
-| Attribute   | Type               | Description                                                                                                                                                                                                                                           |
+| Annotation  | Type               | Description                                                                                                                                                                                                                                           |
 | ----------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `generator` | `string`           | One of the built-in generators: `assigned`, `foreign`, `guid`, `identity`, `increment`, `native`, `select`, `sequence`, `sequence-identity`, `uuid`, `uuid2`. Any other value is treated as a fully-qualified Java class name for a custom generator. |
 | `params`    | `struct`, `string` | Generator parameters, as a struct or a JSON string: `'{ "table" : "uuid_table", "column" : "uuid_value_column" }'`                                                                                                                                    |
-| `sequence`  | `string`           | Specify the database sequence key name to use for value generation. Use with `generator="sequence"`                                                                                                                                                   |
-| `selectkey` | `string`           | Only used with `generator=select`. Specify the select key to use when selecting sequence values from the database.                                                                                                                                    |
-| `property`  | `string`           | Only used with `generator="foreign"`. The property whose related entity provides the id.                                                                                                                                                              |
+| `sequence`  | `string`           | Specify the database sequence key name to use for value generation. Use with `@generator( "sequence" )`                                                                                                                                               |
+| `selectkey` | `string`           | Only used with `@generator( "select" )`. Specify the select key to use when selecting sequence values from the database.                                                                                                                              |
+| `property`  | `string`           | Only used with `@generator( "foreign" )`. The property whose related entity provides the id.                                                                                                                                                          |
 | `generated` | `string`           | Only applies on an id property, where it is passed to the generator as a parameter. One of `always`, `insert`, `never`.                                                                                                                               |
 
 ```js
-property name      = "userID"
-         fieldtype = "id"
-         generator = "sequence"
-         sequence  = "userIDGenerator";
+@fieldtype( "id" )
+@generator( "sequence" )
+@sequence( "userIDGenerator" )
+property userID;
 ```
 
 {% hint style="warning" %}
-The legacy CFML/Lucee generator name `seqhilo` is **not** a recognized built-in generator in bx-orm. Use `generator="sequence"` instead. See [Identifiers](identifiers.md) for the full list of built-in generators.
+The legacy CFML/Lucee generator name `seqhilo` is **not** a recognized built-in generator in bx-orm. Use `@generator( "sequence" )` instead. See [Identifiers](identifiers.md) for the full list of built-in generators.
 {% endhint %}
 
 {% hint style="info" %}
@@ -151,7 +160,7 @@ See [Identifiers and Generators](identifiers.md#common-generator-types) for more
 
 ## Validation
 
-| Attribute        | Type      | Description                                                                                                                                                                     |
+| Annotation       | Type      | Description                                                                                                                                                                     |
 | ---------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `notnull`        | `boolean` | Specify a not-null constraint.                                                                                                                                                  |
 | `insert`         | `boolean` | Allow inserting values to new rows.                                                                                                                                             |
@@ -163,9 +172,9 @@ See [Identifiers and Generators](identifiers.md#common-generator-types) for more
 
 ## Collection Modifiers
 
-These property annotations are used when setting `fieldtype="collection"` and `collectiontype` is either `struct` or `map`.
+These property annotations are used when setting `@fieldtype( "collection" )` and `collectiontype` is either `struct` or `map`.
 
-| Attribute          | Type     | Description                                                                                                           |
+| Annotation         | Type     | Description                                                                                                           |
 | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------- |
 | `structkeycolumn`  | `string` | Specify the column name to use as the key in the collection struct.                                                   |
 | `structkeytype`    | `string` | Specify the ORM type of the key column.                                                                               |
@@ -174,19 +183,19 @@ These property annotations are used when setting `fieldtype="collection"` and `c
 | `elementtype`      | `string` | Specify the value type of the collection values.                                                                      |
 
 ```js
-property name            = "yearlyEarnings"
-         class           = "Earnings"
-         fieldtype       = "collection"
-         collectiontype  = "struct"
-         structkeycolumn = "year"
-         structkeytype   = "integer"
-         elementcolumn   = "totalEarnings"
-         elementtype     = "bigdecimal";
+@cfc( "Earnings" )
+@fieldtype( "collection" )
+@collectiontype( "struct" )
+@structKeyColumn( "year" )
+@structkeytype( "integer" )
+@elementColumn( "totalEarnings" )
+@elementType( "bigdecimal" )
+property yearlyEarnings;
 ```
 
 ## Relationship Modifiers
 
-| Attribute           | Type                | Description                                                                                                                                                                                                                    |
+| Annotation          | Type                | Description                                                                                                                                                                                                                    |
 | ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `table`             | `string`            | Define the table where the foreign items are stored.                                                                                                                                                                           |
 | `lazy`              | `boolean`, `string` | Define a lazy association retrieval type. One of `true`, `false`, `proxy`, `no-proxy` or `extra` (same as `true`).                                                                                                             |
@@ -208,12 +217,12 @@ property name            = "yearlyEarnings"
 | `singularname`      | `string`            | Singular name to use when generating accessor methods for the relationship: `addPost()`, `removePost()`                                                                                                                        |
 
 ```js
-property name         = "posts"
-         singularName = "post"
-         fieldtype    = "one-to-many"
-         class        = "Post"
-         lazy         = "true"
-         fkcolumn     = "author_id";
+@singularName( "post" )
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@lazy
+@fkcolumn( "author_id" )
+property posts;
 ```
 
 {% hint style="info" %}
@@ -222,7 +231,7 @@ See [Modeling Relationships](relationships.md) for more details on modeling an O
 
 ## Other
 
-| Attribute          | Type      | Description                                                                                                                                                                               |
+| Annotation         | Type      | Description                                                                                                                                                                               |
 | ------------------ | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `scale`            | `integer` | Decimal scale                                                                                                                                                                             |
 | `precision`        | `integer` | Decimal precision                                                                                                                                                                         |
@@ -237,13 +246,13 @@ See [Modeling Relationships](relationships.md) for more details on modeling an O
 ## Formula Property
 
 ```js
-property name="totalPosts"
-    ormType="integer"
-    formula="(
-        SELECT COUNT(*)
-        FROM posts
-        WHERE posts.FK_user = id
-    )";
+@ormtype( "integer" )
+@formula( "(
+    SELECT COUNT(*)
+    FROM posts
+    WHERE posts.FK_user = id
+)" )
+property totalPosts;
 ```
 
 ## Unsupported Attributes
@@ -251,7 +260,7 @@ property name="totalPosts"
 These property annotations are read, but have no effect in bx-orm 2.0:
 
 * `foreignKey` and `foreignKeyName`: the foreign key constraint name is not applied.
-* `readOnly`: a property cannot be made read-only. Use `insert="false"` and `update="false"` instead.
+* `readOnly`: a property cannot be made read-only. Use `@insert( false )` and `@update( false )` instead.
 
 `joinColumn` is not read on a property. Use `fkcolumn` to name the foreign key column.
 

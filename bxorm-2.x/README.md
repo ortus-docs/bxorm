@@ -15,11 +15,16 @@ The [BoxLang ORM module](https://github.com/ortus-boxlang/bx-orm) allows your Bo
 application to integrate with the powerful [Hibernate ORM](https://hibernate.org/orm/). With Hibernate, you can interact with your database records in an object oriented fashion, using a BoxLang class to denote each record and simple getters and setters for each field value:
 
 ```js
-class entityName="Auto" persistent="true" {
+@persistent
+@entityName( "Auto" )
+class {
 
-	property name="id" type="string" fieldtype="id" ormtype="string";
-	property name="make" type="string";
-	property name="model" type="string";
+	@fieldtype( "id" )
+	@ormtype( "string" )
+	property string id;
+
+	property string make;
+	property string model;
 
     function preInsert( entity ){
         writeLog( "Inserting new Auto: #getMake()# #getModel()#" );

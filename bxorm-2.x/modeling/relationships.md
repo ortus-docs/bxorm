@@ -12,18 +12,18 @@ Every relationship property must define the state of the relationship. In each c
 A one to one relationship couples a single row on the left side to a single row on the right side:
 
 ```js
-property name      = "Address"
-         fieldtype = "one-to-one"
-         class     = "Address";
+@fieldtype( "one-to-one" )
+@cfc( "Address" )
+property Address;
 ```
 
-One to one relationships can be seen as simply extending the entity with additional information. Since there is no possibility of multiple records per entity instance, it may be worthwhile to set `lazy=false` to fetch the related entity along with any entity load:
+One to one relationships can be seen as simply extending the entity with additional information. Since there is no possibility of multiple records per entity instance, it may be worthwhile to set `@lazy( false )` to fetch the related entity along with any entity load:
 
 ```js
-property name      = "Address"
-         fieldtype = "one-to-one"
-         class     = "Address"
-         lazy      = "false";
+@fieldtype( "one-to-one" )
+@cfc( "Address" )
+@lazy( false )
+property Address;
 ```
 
 This one-to-one relationship can be visualized as follows:
@@ -35,35 +35,37 @@ This one-to-one relationship can be visualized as follows:
 The `constrained` attribute is specific to `one-to-one` relationships. When set to `true`, it declares that the owning entity's primary key has a foreign-key constraint pointing to the associated entity's primary key. In other words, the associated record must exist:
 
 ```js
-property name        = "userProfile"
-         fieldtype   = "one-to-one"
-         class       = "UserProfile"
-         constrained = "true";
+@fieldtype( "one-to-one" )
+@cfc( "UserProfile" )
+@constrained
+property userProfile;
 ```
 
-Use `constrained=true` when the `UserProfile` table's primary key is also a foreign key back to the `User` table (a shared-primary-key one-to-one). Without it, Hibernate treats the association as a simple reference with no FK constraint generated in the schema.
+Use `@constrained` when the `UserProfile` table's primary key is also a foreign key back to the `User` table (a shared-primary-key one-to-one). Without it, Hibernate treats the association as a simple reference with no FK constraint generated in the schema.
 
 ## One To Many
 
 A one to many relationship couples a single row on the left side (the "one") to multiple rows on the right side (the "many"):
 
 ```js
-class entityName="User" persistent="true"{
-    property name      = "posts"
-             fieldtype = "one-to-many"
-             class     = "Post"
-             fkcolumn  = "author_id";
+@persistent
+@entityName( "User" )
+class {
+    @fieldtype( "one-to-many" )
+    @cfc( "Post" )
+    @fkcolumn( "author_id" )
+    property posts;
 }
 ```
 
-You'll normally want to set `lazy="true"` to (for example) avoid fetching every Post on a User:
+You'll normally want to set `@lazy` to (for example) avoid fetching every Post on a User:
 
 ```js
-property name      = "posts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         lazy      = "true"
-         fkcolumn  = "author_id";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@lazy
+@fkcolumn( "author_id" )
+property posts;
 ```
 
 <img src="../.gitbook/assets/entity-relationship-one-to-many.png" alt="One user writes many Posts, an entity relationship diagram" style="max-width: 600px">
@@ -73,10 +75,10 @@ property name      = "posts"
 A many to one relationship couples multiple rows on the left side (the "many") to a single row on the right side( the "one"):
 
 ```js
-property name      = "Authors"
-         fieldtype = "many-to-one"
-         class     = "User"
-         fkcolumn  = "author_id";
+@fieldtype( "many-to-one" )
+@cfc( "User" )
+@fkcolumn( "author_id" )
+property Authors;
 ```
 
 Thus, a single Post can have only one Author... but an Author (or a User, really) can have many Posts.
@@ -89,33 +91,33 @@ A many to many relationship allows each entity to relate to multiple rows on the
 
 ```js
 // Author.bx
-property name      = "books"
-         fieldtype = "many-to-many"
-         class     = "Book"
-         linktable = "author_books_link";
+@fieldtype( "many-to-many" )
+@cfc( "Book" )
+@linktable( "author_books_link" )
+property books;
 ```
 
 The `linktable` attribute is required on a `many-to-many` property to set the location for storing join records. You can further alter the storage location via `linkschema` and `linkcatalog`:
 
 ```js
-property name        = "authors"
-         fieldtype   = "many-to-many"
-         class       = "Author";
-         linkschema  = "blog"
-         linkcatalog = "dbo";
+@fieldtype( "many-to-many" )
+@cfc( "Author" )
+@linkschema( "blog" )
+@linkcatalog( "dbo" )
+property authors;
 ```
 
 <img src="../.gitbook/assets/entity-relationship-many-to-many.png" alt="Many Authors write Many Books, an entity relationship diagram" style="max-width: 600px">
 
 ### Singular Name
 
-On many\* relationships like `one-to-many`, `many-to-one`, etc., you'll be manipulating the full set of items via the property name: `hasAuthors()`, `setAuthors()`, etc. However, this plural terminology becomes weird when used on a single item addition or removal, such as `addAuthors( Author )`. For this reason, you can define a `singularName=STRING` attribute to clean up your entity manipulation:
+On many\* relationships like `one-to-many`, `many-to-one`, etc., you'll be manipulating the full set of items via the property name: `hasAuthors()`, `setAuthors()`, etc. However, this plural terminology becomes weird when used on a single item addition or removal, such as `addAuthors( Author )`. For this reason, you can define a `singularName` annotation to clean up your entity manipulation:
 
 ```js
-property name         = "Authors"
-         singularName = "Author"
-         fieldtype    = "many-to-one"
-         class        = "User";
+@singularName( "Author" )
+@fieldtype( "many-to-one" )
+@cfc( "User" )
+property Authors;
 ```
 
 ### Lazy Loading
@@ -134,47 +136,47 @@ The `lazy` attribute controls **when** Hibernate fetches the related data: immed
 Eager loading fetches the association together with the parent entity. This is most useful for to-one relationships where the related data is almost always needed:
 
 ```js
-property name      = "Address"
-         fieldtype = "one-to-one"
-         class     = "Address"
-         lazy      = "false";
+@fieldtype( "one-to-one" )
+@cfc( "Address" )
+@lazy( false )
+property Address;
 ```
 
-Avoid using `lazy=false` on to-many collections. Fetching large collections eagerly can make query results much larger.
+Avoid using `@lazy( false )` on to-many collections. Fetching large collections eagerly can make query results much larger.
 
 #### `lazy=true`: Lazy Loading
 
 Related data is not fetched until you first access it. A separate SQL query is issued at that point:
 
 ```js
-property name      = "posts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         lazy      = "true"
-         fkcolumn  = "author_id";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@lazy
+@fkcolumn( "author_id" )
+property posts;
 ```
 
-On a to-one relationship, `lazy=true` gives a lazy proxy, the same as `lazy=proxy`.
+On a to-one relationship, `@lazy` gives a lazy proxy, the same as `@lazy( "proxy" )`.
 
 #### `lazy=proxy`: Proxy-Based Lazy Loading
 
 Only valid on to-one relationships (`many-to-one`, `one-to-one`). Hibernate returns a proxy object in place of the real entity. The proxy holds the primary key so that identity checks work without hitting the database; the real entity is loaded only when you call a non-identifier getter:
 
 ```js
-property name      = "manufacturer"
-         fieldtype = "many-to-one"
-         class     = "Manufacturer"
-         fkcolumn  = "FK_manufacturer"
-         lazy      = "proxy";
+@fieldtype( "many-to-one" )
+@cfc( "Manufacturer" )
+@fkcolumn( "FK_manufacturer" )
+@lazy( "proxy" )
+property manufacturer;
 ```
 
 #### `lazy=extra`
 
-`lazy="extra"` is accepted for compatibility. It works the same as `lazy="true"`: Hibernate 7 has no extra-lazy collections, so `size()` or `contains()` load the whole collection.
+`@lazy( "extra" )` is accepted for compatibility. It works the same as `@lazy`: Hibernate 7 has no extra-lazy collections, so `size()` or `contains()` load the whole collection.
 
 #### `proxyLazyLoading` Application Setting
 
-`proxyLazyLoading` has no effect in bx-orm 2.0: on a to-one, `lazy=true`, `lazy=proxy` and `lazy=no-proxy` are all lazy proxies.
+`proxyLazyLoading` has no effect in bx-orm 2.0: on a to-one, `@lazy`, `@lazy( "proxy" )` and `@lazy( "no-proxy" )` are all lazy proxies.
 
 ### Cascade
 
@@ -197,16 +199,16 @@ The `cascade` attribute controls which persistence operations performed on the o
 You can combine multiple values as a comma-separated string:
 
 ```js
-property name      = "posts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         fkcolumn  = "author_id"
-         cascade   = "save-update,delete";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@fkcolumn( "author_id" )
+@cascade( "save-update,delete" )
+property posts;
 ```
 
-With `cascade="save-update,delete"`, calling `EntitySave( user )` will automatically persist any new or modified `Post` objects in the collection, and calling `EntityDelete( user )` will delete all of the user's posts first.
+With `@cascade( "save-update,delete" )`, calling `EntitySave( user )` will automatically persist any new or modified `Post` objects in the collection, and calling `EntityDelete( user )` will delete all of the user's posts first.
 
-> **Warning:** Use `cascade="all"` or `cascade="delete"` carefully on large collections. Deleting a `User` with thousands of posts will issue a DELETE for each one individually unless you configure bulk operations at the database level.
+> **Warning:** Use `@cascade( "all" )` or `@cascade( "delete" )` carefully on large collections. Deleting a `User` with thousands of posts will issue a DELETE for each one individually unless you configure bulk operations at the database level.
 
 ### Fetch Strategy
 
@@ -218,25 +220,25 @@ The `fetch` attribute controls *how* Hibernate retrieves the association when it
 | `join`   | Hibernate uses a SQL JOIN to load the association in the same query as the parent. |
 
 ```js
-property name      = "manufacturer"
-         fieldtype = "many-to-one"
-         class     = "Manufacturer"
-         fkcolumn  = "FK_manufacturer"
-         fetch     = "join";
+@fieldtype( "many-to-one" )
+@cfc( "Manufacturer" )
+@fkcolumn( "FK_manufacturer" )
+@fetch( "join" )
+property manufacturer;
 ```
 
-`fetch=join` forces eager loading regardless of the `lazy` setting and is most useful on to-one associations where the related data is almost always needed. Avoid it on to-many collections, as it can multiply the result-set rows.
+`@fetch( "join" )` forces eager loading regardless of the `lazy` setting and is most useful on to-one associations where the related data is almost always needed. Avoid it on to-many collections, as it can multiply the result-set rows.
 
 ### Ordering Collections (`orderBy`)
 
 The `orderBy` attribute applies a SQL `ORDER BY` clause whenever Hibernate loads a to-many collection. The value is a raw SQL fragment:
 
 ```js
-property name      = "posts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         fkcolumn  = "author_id"
-         orderBy   = "created_at DESC";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@fkcolumn( "author_id" )
+@orderBy( "created_at DESC" )
+property posts;
 ```
 
 The collection returned from `getPosts()` will always be sorted by `created_at` descending. This is applied at the database level, not in memory.
@@ -246,11 +248,11 @@ The collection returned from `getPosts()` will always be sorted by `created_at` 
 The `where` attribute applies a fixed SQL `WHERE` condition to a collection, restricting which rows are ever included. The value is a raw SQL fragment (not HQL):
 
 ```js
-property name      = "publishedPosts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         fkcolumn  = "author_id"
-         where     = "status = 'published'";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@fkcolumn( "author_id" )
+@where( "status = 'published'" )
+property publishedPosts;
 ```
 
 `getPublishedPosts()` will only ever return rows where `status = 'published'`. This is useful for modelling a filtered view of a collection without a separate entity query. `where` works on `one-to-many` and `many-to-many` collections.
@@ -261,46 +263,46 @@ To hide rows from every query and load of an entity, not just from one collectio
 
 When you model a relationship from both sides (e.g. `User` has `posts` and `Post` has `author`), only one side should "own" the foreign key and be responsible for writing it to the database. The other side is the **inverse** side and should be marked accordingly to avoid Hibernate attempting to update the join column twice.
 
-Use `inverse=true` to mark a collection as the non-owning side:
+Use `@inverse` to mark a collection as the non-owning side:
 
 ```js
 // User.bx: inverse side
-property name      = "posts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         fkcolumn  = "author_id"
-         inverse   = "true";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@fkcolumn( "author_id" )
+@inverse
+property posts;
 
 // Post.bx: owning side (holds the FK column)
-property name      = "author"
-         fieldtype = "many-to-one"
-         class     = "User"
-         fkcolumn  = "author_id";
+@fieldtype( "many-to-one" )
+@cfc( "User" )
+@fkcolumn( "author_id" )
+property author;
 ```
 
 Alternatively, use `mappedBy` on the collection to name the property on the child entity that owns the join:
 
 ```js
 // User.bx
-property name      = "posts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         mappedBy  = "author";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@mappedBy( "author" )
+property posts;
 ```
 
-Both `inverse=true` and `mappedBy` tell Hibernate the same thing: this collection side does not manage the foreign key. For `one-to-many` / `many-to-one` pairs, always mark the collection side as inverse (or use `mappedBy`). For `many-to-many`, pick one side.
+Both `@inverse` and `mappedBy` tell Hibernate the same thing: this collection side does not manage the foreign key. For `one-to-many` / `many-to-one` pairs, always mark the collection side as inverse (or use `mappedBy`). For `many-to-many`, pick one side.
 
 ### Batch Size (`batchsize`)
 
 The `batchsize` attribute overrides the global `defaultBatchSize` ORM setting for this specific collection, controlling how many collections Hibernate fetches in a single round-trip when multiple parent entities are loaded:
 
 ```js
-property name      = "posts"
-         fieldtype = "one-to-many"
-         class     = "Post"
-         fkcolumn  = "author_id"
-         lazy      = "true"
-         batchsize = "50";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@fkcolumn( "author_id" )
+@lazy
+@batchsize( 50 )
+property posts;
 ```
 
 If you load 100 `User` entities and then access each one's `posts`, Hibernate will fetch them in batches of 50 rather than issuing 100 individual SELECT queries.
@@ -313,12 +315,12 @@ With the second-level cache on, `cacheUse` (and optionally `cacheName`) on a `on
 property caches the collection across sessions:
 
 ```js
-property name      = "roles"
-         fieldtype = "many-to-many"
-         cfc       = "Role"
-         linktable = "user_roles"
-         cacheUse  = "read-write"
-         cacheName = "userRoles";
+@fieldtype( "many-to-many" )
+@cfc( "Role" )
+@linktable( "user_roles" )
+@cacheuse( "read-write" )
+@cachename( "userRoles" )
+property roles;
 ```
 
 The collection cache stores the ids of its elements, so cache the element entity too. See [Caching](../usage/caching.md#collections).
@@ -348,9 +350,9 @@ public component function removePosts( required any postItem );
 The following relationship definition defines a `Contact` property on a `User` entity:
 
 ```java
-property name="Contact"
-    fieldtype="one-to-one"
-    class="Contact";
+@fieldtype( "one-to-one" )
+@cfc( "Contact" )
+property Contact;
 ```
 
 Since this is a one-to-one relationship, *only the `hasContact()` method is generated*:
@@ -364,10 +366,10 @@ Use the property accessor methods `getContact()` and `setContact()` to access an
 The following relationship definition defines a `posts` property on a `User` entity:
 
 ```java
-property name="posts"
-    fieldtype="one-to-many"
-    class="Post"
-    lazy="true";
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@lazy
+property posts;
 ```
 
 Since this is a one-to-many relationship, the following methods are generated:
@@ -381,11 +383,11 @@ Since this is a one-to-many relationship, the following methods are generated:
 We can set a `singularName` attribute to change the `addPosts()` and `removePosts()` methods to `addPost()` and `removePost()`:
 
 ```java
-property name="posts"
-    singularName="post"
-    fieldtype="one-to-many"
-    class="Post"
-    lazy="true";
+@singularName( "post" )
+@fieldtype( "one-to-many" )
+@cfc( "Post" )
+@lazy
+property posts;
 ```
 
 This will generate the following methods:

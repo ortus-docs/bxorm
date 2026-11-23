@@ -153,7 +153,8 @@ A commit or rollback scoped to the nested block (with savepoints) needs BoxLang'
 To run code only once ORM writes are committed (and never for rolled-back ones), use the [`postCommit`](events.md#postcommit-after-the-commit) event. Inside `transaction{}` it fires for each written entity after BoxLang commits the transaction, when the transaction ends, in write order.
 
 ```js
-class persistent="true" {
+@persistent
+class {
 	function postCommit( entity, action ) {
 		// insert, update or delete: the row is committed
 	}

@@ -22,7 +22,7 @@ One row per entity, one column per **plain persistent property**:
 | Included                                                                  | Not included                                                              |
 | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | The id property                                                           | Relationships: `one-to-one`, `one-to-many`, `many-to-one`, `many-to-many` |
-| Column properties                                                         | Non-persistent properties (`persistent="false"`)                          |
+| Column properties                                                         | Non-persistent properties (`@persistent( false )`)                        |
 | Version and timestamp properties                                          |                                                                           |
 | Properties inherited from a persistent parent entity or mapped superclass |                                                                           |
 
@@ -33,12 +33,25 @@ One row per entity, one column per **plain persistent property**:
 Given this entity:
 
 ```js
-class persistent="true" entityName="Vehicle" {
-    property name="vin" fieldtype="id" generator="assigned";
-    property name="make";
-    property name="model";
-    property name="manufacturer" fieldtype="many-to-one" cfc="Manufacturer" fkcolumn="FK_manufacturer";
-    property name="features" fieldtype="many-to-many" cfc="Feature" linktable="vehicle_features";
+@persistent
+@entityName( "Vehicle" )
+class {
+    @fieldtype( "id" )
+    @generator( "assigned" )
+    property vin;
+
+    property make;
+    property model;
+
+    @fieldtype( "many-to-one" )
+    @cfc( "Manufacturer" )
+    @fkcolumn( "FK_manufacturer" )
+    property manufacturer;
+
+    @fieldtype( "many-to-many" )
+    @cfc( "Feature" )
+    @linktable( "vehicle_features" )
+    property features;
 }
 ```
 

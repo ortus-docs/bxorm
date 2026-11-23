@@ -7,16 +7,16 @@ icon: key
 
 # Identifiers
 
-Identifier properties are denoted via `fieldtype="id"`.
+Identifier properties are denoted via `@fieldtype( "id" )`.
 
-We highly recommend disabling updates on identifier properties via `update="false"`:
+We highly recommend disabling updates on identifier properties via `@update( false )`:
 
 ```js
-property name      = "id"
-         fieldtype = "id"
-         ormtype   = "string"
-         generator = "assigned"
-         update    = "false";
+@fieldtype( "id" )
+@ormtype( "string" )
+@generator( "assigned" )
+@update( false )
+property id;
 ```
 
 ## Common Generator Types
@@ -28,10 +28,10 @@ The Assigned generator is the default identifier generator type, and simply allo
 The application must set the id before the entity is saved.
 
 ```js
-property name      = "id"
-         fieldtype = "id"
-         generator = "assigned"
-         update    = "false";
+@fieldtype( "id" )
+@generator( "assigned" )
+@update( false )
+property id;
 ```
 
 Assigned generators will commonly use [a `preInsert()` event listener](../usage/events.md#entity-event-handler) to assign the identifer value:
@@ -49,11 +49,11 @@ A select generator will attempt to select the next identifier value from the spe
 Use it when a database trigger assigns the primary key. After the insert, Hibernate selects the row by a unique key and reads its primary key.
 
 ```js
-property name      = "userID"
-         fieldtype = "id"
-         generator = "select"
-         selectKey = "ssn"
-         update    = "false";
+@fieldtype( "id" )
+@generator( "select" )
+@selectKey( "ssn" )
+@update( false )
+property userID;
 ```
 
 ### UUID Generator
@@ -61,10 +61,10 @@ property name      = "userID"
 The UUID generator uses Hibernate's uuid generator under the hood. The id is a string of 32 hexadecimal characters, so use a string id column. `uuid2` and `guid` work the same way in bx-orm 2.0.
 
 ```js
-property name      = "userID"
-         fieldtype = "id"
-         generator = "uuid"
-         update    = "false";
+@fieldtype( "id" )
+@generator( "uuid" )
+@update( false )
+property userID;
 ```
 
 ### Increment Generator
@@ -74,10 +74,10 @@ The Increment generator uses a simple incrementing value to create identifiers. 
 The ids are numbers. They are unique only when no other process inserts rows into the same table, so do not use it in a cluster.
 
 ```js
-property name      = "userID"
-         fieldtype = "id"
-         generator = "increment"
-         update    = "false";
+@fieldtype( "id" )
+@generator( "increment" )
+@update( false )
+property userID;
 ```
 
 #### Other Valid Generator Types
@@ -95,7 +95,7 @@ There are several lesser-known identifier generator types, including:
 The full list of built-in generator names is: `assigned`, `foreign`, `guid`, `identity`, `increment`, `native`, `select`, `sequence`, `sequence-identity`, `uuid`, `uuid2`. Any other value is used as the fully-qualified Java class name of a custom generator. If no class with that name is on the classpath, the ORM does not start and raises an `orm.config` error.
 
 {% hint style="warning" %}
-The legacy CFML/Lucee generator name `seqhilo` is **not** a recognized built-in generator in bx-orm. Use `generator="sequence"` with a `sequence` attribute naming your database sequence instead.
+The legacy CFML/Lucee generator name `seqhilo` is **not** a recognized built-in generator in bx-orm. Use `@generator( "sequence" )` with a `sequence` attribute naming your database sequence instead.
 {% endhint %}
 
 {% hint style="info" %}
@@ -117,11 +117,11 @@ Because bx-orm always declares the unsaved value, the ORM never creates an entit
 Set `unsavedValue` yourself when an id is never null before its first save. For example, an assigned numeric id that starts at `0`:
 
 ```js
-property name         = "id"
-         fieldtype    = "id"
-         ormtype      = "integer"
-         generator    = "assigned"
-         unsavedValue = "0";
+@fieldtype( "id" )
+@ormtype( "integer" )
+@generator( "assigned" )
+@unsavedValue( 0 )
+property id;
 ```
 
 Besides a literal id value, Hibernate accepts `null`, `any` (always insert), `none` (always update) and `undefined` (check the database).

@@ -10,7 +10,7 @@ Modes:
 
 * `write` (default): an exclusive lock (`select ... for update`). Other transactions wait to lock or change the row.
 * `read`: a shared lock. Others can read and share-lock the row, nobody can change it.
-* `force`: an exclusive lock that also increments the entity's version. Versioned entities only (a `fieldtype="version"` or `"timestamp"` property); any other entity raises `orm.argument`.
+* `force`: an exclusive lock that also increments the entity's version. Versioned entities only (a `@fieldtype( "version" )` or `@fieldtype( "timestamp" )` property); any other entity raises `orm.argument`.
 
 The entity must be in the session (loaded in this request and not evicted), otherwise an `orm.transient` error is raised. `entityLock()` must run inside `transaction{}`, otherwise an `orm.argument` error ("needs a transaction") is raised. The lock is released when the transaction ends.
 
