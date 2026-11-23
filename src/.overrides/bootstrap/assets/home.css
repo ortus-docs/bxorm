@@ -72,8 +72,12 @@ nav.main a:hover{color:var(--text)}
 .dot{width:10px;height:10px;border-radius:50%;background:#ff5f56}.dot:nth-child(2){background:#ffbd2e}.dot:nth-child(3){background:#27c93f}
 .stage-bar .file{margin-left:8px;font-family:"JetBrains Mono",monospace}
 .tabs{display:flex;gap:4px;margin-left:14px}
-.tabs button{border:0;background:transparent;color:var(--muted);font:inherit;font-family:"JetBrains Mono",monospace;font-size:.76rem;padding:5px 10px;border-radius:7px;cursor:pointer}
+.tabs button{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;color:var(--muted);font:inherit;font-family:"JetBrains Mono",monospace;font-size:.76rem;padding:5px 10px;border-radius:7px;cursor:pointer;transition:background .15s,color .15s}
+.tabs button::before{content:"";width:7px;height:7px;border-radius:50%;flex:none;border:1.5px solid currentColor;opacity:.45;transition:.15s}
+.tabs button:hover{background:var(--surface-2);color:var(--text)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .tabs button.on{background:var(--surface-2);color:var(--text)}
+.tabs button.on::before{border-color:var(--accent);background:var(--accent);opacity:1;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
 pre.code{margin:0;padding:18px 20px;background:var(--code-bg);color:var(--code-text);font-size:.8rem;line-height:1.75;overflow:auto}
 pre.code[hidden]{display:none}
 .k{color:#7aa2ff}.f{color:#2ee66b}.s{color:#ffd479}.n{color:#ff9e64}.c{color:#5f8577}.e{color:#ff8a80}
