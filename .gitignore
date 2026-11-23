@@ -1,0 +1,9 @@
+### bx-sites build output ###
+site/
+.cache/
+
+### Agent skills: installed from skills-lock.json with `npx skills experimental_install` ###
+.agents/skills/
+.claude/skills/
+
+.DS_Store

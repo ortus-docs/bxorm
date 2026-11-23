@@ -83,6 +83,21 @@ property Authors;
 
 Thus, a single Post can have only one Author... but an Author (or a User, really) can have many Posts.
 
+### Database cascades (`onDelete`)
+
+When the database itself deletes the children of a deleted row (a foreign key with `ON DELETE CASCADE`), say so on the child's `many-to-one`:
+
+```js
+// Comment.bx
+@fieldtype( "many-to-one" )
+@cfc( "Post" )
+@fkcolumn( "postId" )
+@onDelete( "cascade" )
+property post;
+```
+
+`onDelete( "cascade" )` maps to Hibernate's `@OnDelete( action = CASCADE )`: the generated schema gets `ON DELETE CASCADE`, and deleting a post removes its loaded comments from the session instead of failing at flush. Use it when the parent has no ORM `cascade` and no collection back to the child. The default is `"noaction"`; any other value stops the ORM from starting with an `orm.config` error.
+
 <img src="../.gitbook/assets/entity-relationship-many-to-one.png" alt="Many Posts are written by one User, an entity relationship diagram" style="max-width: 600px">
 
 ## Many To Many
@@ -111,14 +126,17 @@ property authors;
 
 ### Singular Name
 
-On many\* relationships like `one-to-many`, `many-to-one`, etc., you'll be manipulating the full set of items via the property name: `hasAuthors()`, `setAuthors()`, etc. However, this plural terminology becomes weird when used on a single item addition or removal, such as `addAuthors( Author )`. For this reason, you can define a `singularName` annotation to clean up your entity manipulation:
+On a collection (`one-to-many`, `many-to-many`) you work with the whole set through the property name: `getAuthors()`, `setAuthors()`. Adding or removing one item reads oddly in the plural (`addAuthors( author )`), so `singularName` also names the generated methods after one item:
 
 ```js
-@singularName( "Author" )
-@fieldtype( "many-to-one" )
+@singularName( "author" )
+@fieldtype( "many-to-many" )
 @cfc( "User" )
-property Authors;
+@linktable( "book_authors" )
+property authors;
 ```
+
+`book.addAuthor( ann )` and `book.addAuthors( ann )` then do the same thing. See [Singular Method Names](#singular-method-names).
 
 ### Lazy Loading
 
@@ -329,11 +347,13 @@ The collection cache stores the ids of its elements, so cache the element entity
 
 When you define a relationship property, a number of methods are automatically generated in each relationship entity instance which allow you to access and manipulate the relationship data.
 
-| Method                            | Description                                          | Relationship types            |
-| --------------------------------- | ---------------------------------------------------- | ----------------------------- |
-| `has<PropertyName>()`             | Returns true if the relationship contains any items. | All                           |
-| `add<PropertyName>( entity1 )`    | Add an entity instance to the relationship.          | `one-to-many`, `many-to-many` |
-| `remove<PropertyName>( entity1 )` | Removes one or more entities from the relationship.  | `one-to-many`, `many-to-many` |
+| Method                            | Description                                                                                             | Relationship types            |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| `has<PropertyName>( [entity] )`   | With no argument, true when the relationship has any item. With an entity, true when it holds that one. | All                           |
+| `add<PropertyName>( entity1 )`    | Add an entity instance to the relationship. Returns this entity, for chaining.                          | `one-to-many`, `many-to-many` |
+| `remove<PropertyName>( entity1 )` | Remove an entity instance from the relationship. Returns this entity, for chaining.                     | `one-to-many`, `many-to-many` |
+
+With a [`singularName`](#singular-method-names), the same methods also exist under the singular name: `hasPost()`, `addPost()` and `removePost()`.
 
 These method signatures are as follows:
 
@@ -378,11 +398,11 @@ Since this is a one-to-many relationship, the following methods are generated:
 * `addPosts()`
 * `removePosts()`
 
-### Singular Name
+### Singular Method Names
 
-We can set a `singularName` attribute to change the `addPosts()` and `removePosts()` methods to `addPost()` and `removePost()`:
+Set `singularName` to name the methods after one item: `addPost( post )` reads better than `addPosts( post )`.
 
-```java
+```js
 @singularName( "post" )
 @fieldtype( "one-to-many" )
 @cfc( "Post" )
@@ -390,10 +410,23 @@ We can set a `singularName` attribute to change the `addPosts()` and `removePost
 property posts;
 ```
 
-This will generate the following methods:
+This generates the singular methods, and keeps the ones named after the property, so both spellings work and act on the same collection:
 
-* `hasPosts()`
-* `addPost()`
-* `removePost()`
+| Singular       | Property name   |
+| -------------- | --------------- |
+| `hasPost()`    | `hasPosts()`    |
+| `addPost()`    | `addPosts()`    |
+| `removePost()` | `removePosts()` |
 
-Note that the `hasPosts()` method remains plural since it checks for the existence of any posts in the relationship.
+```js
+user.addPost( draft ).addPosts( published );
+user.hasPost( draft );    // true
+user.hasPosts();          // true: the collection is not empty
+user.removePost( draft );
+```
+
+A method your entity declares itself is never replaced.
+
+{% hint style="info" %}
+The property-named methods exist alongside the singular ones in bx-orm builds later than `2.0.0-beta.8`. Earlier builds generate only the singular names.
+{% endhint %}

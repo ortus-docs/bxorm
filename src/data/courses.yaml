@@ -1,0 +1,21 @@
+learn-bxorm:
+  title: "Learn BxORM"
+  description: "Seventeen short lessons. Twelve take you from your first entity to a production boot, and five go further with inheritance, testing, cborm, AI and moving from CFML. Every lesson ends with code you can run."
+  lessons:
+    - course/01-welcome.md
+    - course/02-install-and-configure.md
+    - course/03-first-entity.md
+    - course/04-save-load-delete.md
+    - course/05-static-helpers.md
+    - course/06-relationships.md
+    - course/07-criteria.md
+    - course/08-hql-structs-queries.md
+    - course/09-transactions.md
+    - course/10-events-soft-delete.md
+    - course/11-errors-observability.md
+    - course/12-ship-it.md
+    - course/13-inheritance.md
+    - course/14-testing.md
+    - course/15-cborm.md
+    - course/16-building-with-ai.md
+    - course/17-coming-from-cfml.md

@@ -38,6 +38,8 @@ A switch annotation written without a value is on: `@persistent` is the same as 
 * On a class: `persistent`, `readOnly`, `dynamicInsert`, `dynamicUpdate`, `mappedSuperClass` and `softDelete`. `softDelete` also takes `"active"` or `"timestamp"`, as in `@softDelete( "timestamp" )`.
 * On a property: `persistent`, `unique`, `notNull`, `insert`, `update`, `optimisticLock`, `inverse`, `constrained`, `missingRowIgnored` and `lazy`. `lazy` also takes `"extra"`, `"proxy"` or `"no-proxy"`.
 
+bx-orm stores `true` for a valueless switch in the class metadata too, so `getClassMetadata()` and framework code that reads it see `true`.
+
 Switches without a value need a bx-orm build later than `2.0.0-beta.8`; on `2.0.0-beta.8` and earlier, write `@persistent( true )`.
 
 The CFML attribute form and doc-comment annotations still work and mean the same thing, so existing entities need no change. For example, `class persistent="true" table="authors" {` is the same class as the one above.
