@@ -44,3 +44,5 @@ social:
 footer: true
 lastUpdated: true
 pageActions: true
+# Click-to-enlarge lightbox for content images (and the homepage screenshots)
+imageGallery: true
