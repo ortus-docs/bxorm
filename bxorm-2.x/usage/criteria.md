@@ -152,6 +152,21 @@ c.joinTo( "manufacturer", "m", "left" );    // inner, left, right, full, or c.LE
 
 Right and full joins need database support (MySQL and MariaDB have no full join).
 
+A fourth argument, `withClause`, adds conditions to the join itself (its `on` clause) instead of the query's `where`. It takes a `c.restrictions` condition or a closure. On a left join, rows without a matching association are kept:
+
+```js
+// Search only the active version of each page
+c = entityCriteria( "Page" );
+c.joinTo( "versions", "v", c.INNER_JOIN, c.restrictions.isTrue( "v.isActive" ) )
+    .like( "v.content", "%boxlang%" );
+
+// The same with a closure, and the cborm named form
+c.leftJoin( "versions", "v", ( j ) => j.isTrue( "v.isActive" ) );
+c.createAlias( associationName = "versions", alias = "v", withClause = c.restrictions.isTrue( "v.isActive" ) );
+```
+
+On an entity with subclasses, the `class` pseudo-property compares the row's entity type, by discriminator value or entity name: `isEq( "class", "Entry" )`.
+
 ### `with{Association}()`
 
 `with{Association}()` makes an association the start of unqualified paths. With a closure it applies to the closure's conditions; without one it applies until `end()`. `createCriteria( association )` is the cborm form.
@@ -258,6 +273,21 @@ The cborm form, `withProjections()`, takes a struct or named arguments whose val
 
 ```js
 c.withProjections( groupProperty = "make", count = "vin:total", distinct = "model" );
+```
+
+`sqlProjection` adds a native SQL column, as a struct or an array of structs with `sql`, `alias` and an optional `property`:
+
+```js
+c.withProjections( sqlProjection = { sql : "SUM(hours)", alias : "totalHours", property : "hours" } );
+```
+
+The SQL in `sqlProjection` and `sql()` can use `{alias}.column`, and also the Hibernate 5 aliases cborm code wrote by hand: `this_.column` for the root entity and `<alias><n>_.column` for a joined alias.
+
+`resultTransformer()` takes the cborm constants: `c.ROOT_ENTITY` (the default), `c.DISTINCT_ROOT_ENTITY` (drop repeated root entities, as a join to a collection can produce), `c.ALIAS_TO_ENTITY_MAP` (one struct per row) and `c.PROJECTION`:
+
+```js
+c = entityCriteria( "Page" );
+pages = c.joinTo( "comments", "cm" ).resultTransformer( c.DISTINCT_ROOT_ENTITY ).list();
 ```
 
 With one projection, `list()` returns plain values; with several, one array per row, or one struct per row with `asStruct()`.

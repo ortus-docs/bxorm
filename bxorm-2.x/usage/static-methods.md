@@ -91,6 +91,18 @@ transaction {
 }
 ```
 
+## Calling Them by Name
+
+`User::get( 1 )` needs BoxLang to know which class `User` is. Inside the entity, a sibling class in the same folder, or code that already reaches the class by its path, that just works. Elsewhere, import the class first, by its mapping path:
+
+```js
+import models.User;       // or, through an application mapping: import blog.models.User;
+
+user = User::get( 1 );
+```
+
+A variable cannot have the same name as an import, and BoxLang names ignore case. After `import models.Tag;`, write `boxlangTag = Tag::firstOrCreate( { name : "boxlang" } )`, not `tag = ...`.
+
 ## Rules
 
 * **Your methods win.** A static method the entity declares itself is kept, never replaced.

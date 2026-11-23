@@ -18,6 +18,28 @@ class{
 }
 ```
 
+## Scripts and the CLI
+
+BoxLang runs a script with the `Application.bx` in its folder, so ORM code works in a `.bxs` file too:
+
+```bash
+cd myapp
+boxlang app.bxs
+```
+
+Relative `entityPaths` (`[ "models" ]`) and other relative paths are resolved against the folder you run the script from, so run it from the application folder. To run it from anywhere, map the application folder and use the mapping in `entityPaths`:
+
+```js
+class {
+    this.name = "blog";
+    this.mappings[ "/blog" ] = getDirectoryFromPath( getCurrentTemplatePath() );
+    this.ormEnabled  = true;
+    this.ormSettings = { entityPaths : [ "/blog/models" ] };
+}
+```
+
+To call [static entity methods](../../usage/static-methods.md) in a script, import the entity by the same path: `import blog.models.User;`, then `User::get( 1 )`.
+
 ## ORM Settings
 
 The full list of available properties you can use to configure the ORM are the following:
@@ -242,7 +264,7 @@ this.ormSettings = {
     // Whether to enable event handling
 	eventHandling        : true,
     // The event handler class to use
-	eventHandler         : "cborm.models.BxEventHandler",
+	eventHandler         : "cborm.models.EventHandler",
     // Whether to ignore parse errors
 	ignoreParseErrors     : true,
 	// TURN ON FOR Debugging if ORM mappings are not working.
