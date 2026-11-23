@@ -106,6 +106,6 @@ Relationships are not included. When the report needs related data, use a criter
 
 ## Learn more
 
-- [Queries and HQL](https://bxorm.ortusbooks.com/bxorm-2.x/usage/querying)
-- [Entities as structs](https://bxorm.ortusbooks.com/bxorm-2.x/usage/structs)
-- [Entities as queries](https://bxorm.ortusbooks.com/bxorm-2.x/usage/queries)
+- [Queries and HQL](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/querying)
+- [Entities as structs](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/structs)
+- [Entities as queries](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/queries)

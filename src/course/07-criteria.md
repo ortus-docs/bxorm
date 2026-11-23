@@ -154,5 +154,5 @@ Like `deleteWhere()`, they skip entity events and cascades. Run them in a transa
 
 ## Learn more
 
-- [Criteria queries](https://bxorm.ortusbooks.com/bxorm-2.x/usage/criteria)
+- [Criteria queries](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/criteria)
 - [entityCriteria()](https://bxorm.ortusbooks.com/bxorm-2.x/reference/built-in-functions/entitycriteria)

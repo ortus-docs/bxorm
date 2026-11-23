@@ -24,10 +24,5 @@
       "course/16-building-with-ai.md",
       "course/17-coming-from-cfml.md"
     ]
-  },
-  {
-    "title": "Documentation",
-    "icon": "phosphor-duotone:book-open-text",
-    "path": "https://bxorm.ortusbooks.com/bxorm-2.x/"
   }
 ]

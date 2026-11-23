@@ -69,7 +69,7 @@
   <div class="wrap">
     <a class="brand" href="#variables.basePath#"><img src="#variables.basePath#assets/bxorm-logo.png" alt="">BxORM</a>
     <nav class="main">
-      <a href="https://bxorm.ortusbooks.com/bxorm-2.x/">Docs</a><a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/quick-start">Quick Start</a><a href="#variables.basePath#course/">Course</a><a href="https://bxorm.ortusbooks.com/bxorm-2.x/usage/criteria">Criteria</a><a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/performance##boot-cache">Boot Cache</a><a href="https://bxorm.ortusbooks.com/bxorm-2.x/release-history/whats-new-2.0.0">What's New</a>
+      <a href="https://bxorm.ortusbooks.com/bxorm-2.x/">Docs</a><a href="https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/quick-start">Quick Start</a><a href="#variables.basePath#course/">Course</a><a href="https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/criteria">Criteria</a><a href="https://bxorm.ortusbooks.com/bxorm-2.x/advanced/performance##boot-cache">Boot Cache</a><a href="https://bxorm.ortusbooks.com/bxorm-2.x/release-history/whats-new-2.0.0">What's New</a>
     </nav>
     <div class="spacer"></div>
     <a class="search" href="https://bxorm.ortusbooks.com/bxorm-2.x/"><i class="ph-duotone ph-magnifying-glass"></i>Search the docs</a>

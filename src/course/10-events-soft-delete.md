@@ -130,6 +130,6 @@ Deleted rows are still in the table, so an admin screen can list or restore them
 
 ## Learn more
 
-- [Events](https://bxorm.ortusbooks.com/bxorm-2.x/usage/events)
+- [Events](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/events)
 - [Soft delete](https://bxorm.ortusbooks.com/bxorm-2.x/modeling/entities#soft-delete)
 - [Automatic timestamps](https://bxorm.ortusbooks.com/bxorm-2.x/modeling/properties#automatic-timestamps)

@@ -117,5 +117,5 @@ report = ormReadOnly( () => entityLoad( "Post" ) );
 
 ## Learn more
 
-- [Transactions](https://bxorm.ortusbooks.com/bxorm-2.x/usage/transactions)
-- [Session management](https://bxorm.ortusbooks.com/bxorm-2.x/usage/session-management)
+- [Transactions](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/transactions)
+- [Session management](https://bxorm.ortusbooks.com/bxorm-2.x/advanced/session-management)

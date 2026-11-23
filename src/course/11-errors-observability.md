@@ -133,6 +133,6 @@ for ( row in rows ) {
 
 ## Learn more
 
-- [Errors and diagnostics](https://bxorm.ortusbooks.com/bxorm-2.x/usage/errors-and-diagnostics)
-- [Observability](https://bxorm.ortusbooks.com/bxorm-2.x/usage/observability)
+- [Errors and diagnostics](https://bxorm.ortusbooks.com/bxorm-2.x/advanced/errors-and-diagnostics)
+- [Observability](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/observability)
 - [ORM in BxLens](https://bxlens.boxlang.io/lensbar/orm/)

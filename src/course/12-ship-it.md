@@ -105,6 +105,6 @@ Now `entityLoadByPK( "Tag", 1 )` reads from the `tags` cache after the first loa
 
 ## Learn more
 
-- [Performance and the boot cache](https://bxorm.ortusbooks.com/bxorm-2.x/getting-started/performance)
+- [Performance and the boot cache](https://bxorm.ortusbooks.com/bxorm-2.x/advanced/performance)
 - [CLI tools](https://bxorm.ortusbooks.com/bxorm-2.x/reference/cli-tools)
-- [Caching](https://bxorm.ortusbooks.com/bxorm-2.x/usage/caching)
+- [Caching](https://bxorm.ortusbooks.com/bxorm-2.x/advanced/caching)

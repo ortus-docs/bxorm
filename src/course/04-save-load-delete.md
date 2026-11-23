@@ -113,6 +113,6 @@ With `logSQL : true` from lesson 2, each step prints its SQL. Watch for one `ins
 
 ## Learn more
 
-- [Working with entities](https://bxorm.ortusbooks.com/bxorm-2.x/usage/working-with-entities)
+- [Working with entities](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/working-with-entities)
 - [entityLoad()](https://bxorm.ortusbooks.com/bxorm-2.x/reference/built-in-functions/entityload)
 - [entitySave()](https://bxorm.ortusbooks.com/bxorm-2.x/reference/built-in-functions/entitysave)

@@ -122,5 +122,5 @@ BoxLang lets an instance call its class's static methods, so `ann.count()` works
 
 ## Learn more
 
-- [Static entity methods](https://bxorm.ortusbooks.com/bxorm-2.x/usage/static-methods)
-- [Working with entities](https://bxorm.ortusbooks.com/bxorm-2.x/usage/working-with-entities)
+- [Static entity methods](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/static-methods)
+- [Working with entities](https://bxorm.ortusbooks.com/bxorm-2.x/working-with-entities/working-with-entities)
