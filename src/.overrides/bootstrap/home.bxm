@@ -158,7 +158,6 @@ fords = Vehicle::<span class="f">criteria</span>()
 users = <span class="f">ormExecuteQuery</span>( <span class="s">"from user where firstname = ?"</span>, [ <span class="s">"Luis"</span> ] );</pre>
         <div class="stage-foot"><i class="ph-duotone ph-database"></i><span>Getters, setters and static methods are <b>generated</b> at startup</span></div>
       </div>
-      <div class="float f2"><i class="ph-duotone ph-chat-circle-text"></i><span>Did you mean <code>[firstName]</code>?</span></div>
     </div>
   </div>
 </div>

@@ -86,9 +86,6 @@ pre.code[hidden]{display:none}
 .float{position:absolute;display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid rgba(46,230,107,.4);background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:2}
 .float i{color:var(--accent)}
 .float.f1{top:-16px;right:24px}
-.float.f2{bottom:-22px;left:-18px;border-color:rgba(255,212,121,.45)}
-.float.f2 i{color:var(--warn)}
-.float code{font-size:.76rem}
 
 /* marquee */
 .marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:16px 0;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
@@ -281,7 +278,6 @@ section{padding:84px 0}
   @keyframes flowv{from{top:0;opacity:0}20%{opacity:1}80%{opacity:1}to{top:32px;opacity:0}}
   .cards{grid-template-columns:1fr 1fr}
   .eco{grid-template-columns:1fr 1fr}
-  .float.f2{left:8px}
 }
 @media (max-width:640px){
   .cards,.eco,.tiles{grid-template-columns:1fr}
