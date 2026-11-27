@@ -21,7 +21,135 @@ The transaction will automatically commit (persist) at the end of the transactio
 **One transaction for ORM and SQL:** ORM work inside `transaction{}` uses that transaction's JDBC connection. ORM writes and `queryExecute()` calls on the same datasource commit together and roll back together. BoxLang does the real commit or rollback.
 
 ORM sessions on other datasources are flushed on commit and cleared on rollback, but their SQL is not part of the transaction.
+
+SQL inside the transaction also sees the ORM writes made earlier in it. See [SQL and the ORM in one transaction](#sql-and-the-orm-in-one-transaction).
 {% endhint %}
+
+## SQL and the ORM in one transaction
+
+`entitySave()` and `entityDelete()` do not write to the database right away. The ORM keeps the change in its session (in memory) and writes it later, when the session is **flushed**. A flush sends the pending `INSERT`, `UPDATE` and `DELETE` statements. It does not commit them.
+
+Inside `transaction{}`, the ORM flushes its session before any query that runs on the transaction's datasource, so every query sees the ORM writes made earlier in the transaction. That covers ORM queries (`entityLoad()`, HQL, criteria) and SQL (`queryExecute()`, `bx:query`, and libraries built on them, such as qb). It works with `autoManageSession` on or off.
+
+{% hint style="info" %}
+Builds up to `2.0.0-beta.9` flushed only before ORM queries. SQL in the same transaction did not see unflushed ORM writes unless you called `ormFlush()` first.
+{% endhint %}
+
+### Save, then query with SQL
+
+```js
+transaction {
+    user = entityNew( "User", { name : "Ann" } );
+    entitySave( user );
+
+    // The ORM flushes the pending insert first, then the query runs: 1 row
+    found = queryExecute( "SELECT count(*) AS c FROM users WHERE name = 'Ann'" ).c;
+}
+```
+
+```
+transaction {                                   database (transaction connection)
+                                                ─────────────────────────────────
+   entitySave( user )      ──► session: user (pending)
+                                                (nothing yet)
+   queryExecute( ... )     ──► 1. flush        INSERT INTO users ...   (not committed)
+                               2. query        SELECT ...  →  1 row ✅
+}                          ──► commit          COMMIT  (now other connections see Ann)
+```
+
+The same goes for an update or a delete made with SQL after an ORM save, for example a qb bulk update after a cborm `save()`: the update finds the saved rows.
+
+### Roll back after a flush
+
+A flush is not a commit. The flushed rows only exist inside the transaction until BoxLang commits it, and a rollback removes them:
+
+```js
+transaction {
+    entitySave( entityNew( "User", { name : "Ann" } ) );
+    queryExecute( "SELECT count(*) AS c FROM users WHERE name = 'Ann'" ); // 1: flushed
+    transactionRollback();
+}
+// 0: the insert was rolled back
+queryExecute( "SELECT count(*) AS c FROM users WHERE name = 'Ann'" );
+```
+
+```
+entitySave( user )   ──► session: user (pending)
+queryExecute( ... )  ──► INSERT (not committed) ─► SELECT → 1 ✅
+                                                    other connections → 0
+transactionRollback  ──► ROLLBACK ─────────────────► everyone → 0
+```
+
+### Nested transaction blocks
+
+With BoxLang's default setting (`enableNestedTransactions=false`), a nested `transaction{}` is part of the outer transaction. BoxLang sends no event when the nested block ends, so nothing is flushed there. The next query flushes instead:
+
+```js
+transaction {
+    transaction {
+        entitySave( entityNew( "User", { name : "Ann" } ) );
+    }
+    // Flushed here, before the query: 1 row
+    queryExecute( "SELECT count(*) AS c FROM users WHERE name = 'Ann'" );
+}
+```
+
+```
+transaction {
+   transaction {
+      entitySave( user )   ──► session: user (pending)
+   }                       ──► (no event, nothing flushed)
+   queryExecute( ... )     ──► flush, then query → 1 row ✅
+}
+```
+
+With `enableNestedTransactions` on, the end of the nested block also flushes. See [Transaction Savepoint](#transaction-savepoint).
+
+### A query on another datasource
+
+Only the session of the transaction's datasource is flushed. A query on another datasource runs on its own connection, outside the transaction, so it does not see the transaction's writes, and the ORM session is not flushed for it:
+
+```
+transaction {                 (on datasource "main")
+   entitySave( user )         ──► "main" session: user (pending)
+   queryExecute( ..., { datasource : "reports" } )
+                              ──► no flush; runs on a separate "reports" connection
+}                             ──► flush and COMMIT on "main"
+```
+
+### Outside a transaction
+
+Outside `transaction{}`, a query does not flush the session, with `autoManageSession` on or off. Nothing reaches the database until you call `ormFlush()`, or the request ends with `flushAtRequestEnd` on:
+
+```js
+entitySave( entityNew( "User", { name : "Ann" } ) );
+queryExecute( "SELECT count(*) AS c FROM users WHERE name = 'Ann'" ); // 0: still pending
+
+ormFlush();
+queryExecute( "SELECT count(*) AS c FROM users WHERE name = 'Ann'" ); // 1
+```
+
+The ORM does not flush here because, outside a transaction, the flush would commit the writes on its own connection: work you meant to keep pending would be saved. To combine ORM writes and SQL safely, put them in one `transaction{}`.
+
+### SQL inside entity events
+
+SQL run from an entity event during a flush (`preInsert()`, `preUpdate()`, an event handler) does not start another flush. It sees the rows the current flush has written so far.
+
+### Errors appear at the query
+
+Because pending writes are flushed before the query, a write that fails (a duplicate key, a `NOT NULL` column) raises its error at that query, not at the end of the block. It is still inside the transaction, so the whole transaction rolls back as usual.
+
+### Does my query see the ORM writes?
+
+| Where the query runs                            | ORM query (`entityLoad()`, HQL, criteria) | SQL (`queryExecute()`, `bx:query`, qb) |
+| ----------------------------------------------- | ----------------------------------------- | -------------------------------------- |
+| Inside `transaction{}`, same datasource         | Yes                                       | Yes                                    |
+| Inside `transaction{}`, after a nested block    | Yes                                       | Yes                                    |
+| Outside a transaction (any `autoManageSession`) | No, call `ormFlush()` first               | No, call `ormFlush()` first            |
+
+### Performance
+
+A flush goes through every entity in the session to find changes, whether or not anything changed: about a microsecond per entity, per query. With a few dozen entities in the session that is nothing. If a transaction loads thousands of entities and then runs many queries, each query pays that cost. Keep the session small: run the SQL before loading many entities, or remove the entities you are done with (`ormEvictEntity()`, `ormClearSession()`).
 
 ## Transaction Rollback
 
@@ -193,7 +321,7 @@ When you only read entities (reports, exports), load them read-only. They are no
 
 ORM work rides the BoxLang transaction, so savepoints are BoxLang's. They only exist when BoxLang's experimental `enableNestedTransactions` runtime setting is on. With the default setting, you cannot roll back part of a transaction.
 
-When a nested `transaction` block ends, bx-orm flushes the ORM session for each datasource, so the nested block's changes reach the database before the outer transaction continues.
+With `enableNestedTransactions` on, when a nested `transaction` block ends, bx-orm flushes the ORM session for each datasource, so the nested block's changes reach the database before the outer transaction continues. With the default setting there is no such event, and the next query in the transaction flushes instead (see [Nested transaction blocks](#nested-transaction-blocks)).
 
 {% hint style="info" %}
 Looking for full ORM savepoint support? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).
