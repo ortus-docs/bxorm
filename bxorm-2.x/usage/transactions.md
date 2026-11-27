@@ -21,6 +21,8 @@ The transaction will automatically commit (persist) at the end of the transactio
 **One transaction for ORM and SQL:** ORM work inside `transaction{}` uses that transaction's JDBC connection. ORM writes and `queryExecute()` calls on the same datasource commit together and roll back together. BoxLang does the real commit or rollback.
 
 ORM sessions on other datasources are flushed on commit and cleared on rollback, but their SQL is not part of the transaction.
+
+Only sessions that ORM work in the same request or thread has opened take part. A transaction that runs only `queryExecute()` calls opens no ORM session, and a transaction where the ORM is not enabled (for example in a thread whose application settings lack `ormEnabled`) is left alone. Builds later than `2.0.0-beta.9` behave this way; earlier ones opened a session for every ORM datasource on each transaction and could fail with `orm.notEnabled`.
 {% endhint %}
 
 ## Transaction Rollback
@@ -193,7 +195,7 @@ When you only read entities (reports, exports), load them read-only. They are no
 
 ORM work rides the BoxLang transaction, so savepoints are BoxLang's. They only exist when BoxLang's experimental `enableNestedTransactions` runtime setting is on. With the default setting, you cannot roll back part of a transaction.
 
-When a nested `transaction` block ends, bx-orm flushes the ORM session for each datasource, so the nested block's changes reach the database before the outer transaction continues.
+When a nested `transaction` block ends, bx-orm flushes each open ORM session, so the nested block's changes reach the database before the outer transaction continues.
 
 {% hint style="info" %}
 Looking for full ORM savepoint support? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).

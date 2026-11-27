@@ -58,6 +58,8 @@ Everything expensive - entity discovery, XML mapping generation, and Hibernate b
 
 Where `ORMApp` is application-scoped, `ORMContext` is scoped to a single request or thread context. It holds the actual Hibernate `Session` objects your code reads and writes through, one per datasource, opened lazily the first time that datasource is touched.
 
+A `transaction` block never opens a session itself: it flushes, clears and completes only the sessions that are already open. A transaction that runs only native queries costs the ORM nothing.
+
 {% hint style="warning" %}
 Because a Hibernate `Session` is tied to a single request or thread context, spawning parallel threads (e.g. `array.each(..., true)`) gives each thread its **own** `ORMContext` and its own Hibernate sessions. An entity created with `entityNew()` inside a parallel thread is attached to that thread's session, not the request's - loading, saving, or querying it from the parent request won't see it until it's been persisted and reloaded through the request's own session.
 {% endhint %}
