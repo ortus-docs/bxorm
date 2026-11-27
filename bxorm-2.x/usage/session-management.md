@@ -66,8 +66,8 @@ Because a Hibernate `Session` is tied to a single request or thread context, spa
 
 When a session is opened, its flush mode depends on `autoManageSession`:
 
-* `autoManageSession = false` (the default): the session is opened in `FlushMode.MANUAL`. Nothing is written to the database until you explicitly call `ormFlush()` or commit a `transaction` block. See [Transactions](transactions.md).
-* `autoManageSession = true`: Hibernate manages flushing automatically (e.g. before query execution), which is generally discouraged - see the `autoManageSession` setting in [Configuration](../getting-started/configuration/README.md).
+* `autoManageSession = false` (the default): the session is opened in `FlushMode.MANUAL`. Outside a transaction, nothing is written to the database until you explicitly call `ormFlush()`. Inside a `transaction` block, the session is also flushed before each query on the transaction's datasource (ORM queries and SQL alike) and when the block commits. See [SQL and the ORM in one transaction](transactions.md#sql-and-the-orm-in-one-transaction).
+* `autoManageSession = true`: the session is opened in `FlushMode.AUTO`, a `transaction` block also flushes pending work when it begins, and `flushAtRequestEnd` flushes at the end of the request. Outside a transaction, queries still do not flush first. This mode is generally discouraged - see the `autoManageSession` setting in [Configuration](../getting-started/configuration/README.md).
 
 At the end of the request or thread (or explicitly via `ormCloseSession()`/`ormCloseAllSessions()`), the `ORMContext` is torn down: any active transaction on each open session is committed, then the session is closed. If `flushAtRequestEnd` and `autoManageSession` are both enabled, sessions are flushed first.
 
