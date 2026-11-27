@@ -22,6 +22,8 @@ The transaction will automatically commit (persist) at the end of the transactio
 
 ORM sessions on other datasources are flushed on commit and cleared on rollback, but their SQL is not part of the transaction.
 
+Only sessions that ORM work in the same request or thread has opened take part. A transaction that runs only `queryExecute()` calls opens no ORM session, and a transaction where the ORM is not enabled (for example in a thread whose application settings lack `ormEnabled`) is left alone. Builds later than `2.0.0-beta.9` behave this way; earlier ones opened a session for every ORM datasource on each transaction and could fail with `orm.notEnabled`.
+
 SQL inside the transaction also sees the ORM writes made earlier in it. See [SQL and the ORM in one transaction](#sql-and-the-orm-in-one-transaction).
 {% endhint %}
 
@@ -321,7 +323,7 @@ When you only read entities (reports, exports), load them read-only. They are no
 
 ORM work rides the BoxLang transaction, so savepoints are BoxLang's. They only exist when BoxLang's experimental `enableNestedTransactions` runtime setting is on. With the default setting, you cannot roll back part of a transaction.
 
-With `enableNestedTransactions` on, when a nested `transaction` block ends, bx-orm flushes the ORM session for each datasource, so the nested block's changes reach the database before the outer transaction continues. With the default setting there is no such event, and the next query in the transaction flushes instead (see [Nested transaction blocks](#nested-transaction-blocks)).
+With `enableNestedTransactions` on, when a nested `transaction` block ends, bx-orm flushes each open ORM session, so the nested block's changes reach the database before the outer transaction continues. With the default setting there is no such event, and the next query in the transaction flushes instead (see [Nested transaction blocks](#nested-transaction-blocks)).
 
 {% hint style="info" %}
 Looking for full ORM savepoint support? [Contact our Support team to consider sponsoring this feature](https://boxlang.io/plans).
